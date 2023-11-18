@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cdbootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cdbootstrap/css/cdb.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/cdbootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cdbootstrap/js/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cdbootstrap/js/cdb.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   
+    <link href="https://db.onlinewebfonts.com/c/2aeca327ae0e8ba04bf305f13cb1d589?family=Ravie" rel="stylesheet">
+    <title><% -title %></title>
+    
+  </head>
+  <body>
+    <div class="first">
+        <P class="text-center align-content-center text-white fw-light bg-success">Check home Page<a href="/">Go to Home</a></P>
+    </div>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-light bg-light">
+      <div class="container-fluid d-flex">
+        <a class="navbar-brand justify-content-center" style="font-family: Ravie; color: #014122;" >Drip</a>
+        <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
+
+    <!-- SIDEBAR -->
+    <div class="offcanvas offcanvas-start w-auto" tabindex="-1" id="offcanvas" data-bs-keyboard="false" data-bs-backdrop="false">
+      <div class="offcanvas-header">
+          <h6 class="offcanvas-title d-none d-sm-block" id="offcanvas">MAIN MENU</h6>
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body px-0">
+          <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-start" id="menu">
+              <li class="nav-item">
+                  <a href="#" class="nav-link text-truncate">
+                   </i><span class="ms-1 d-none d-sm-inline text-dark fw-bold">MANAGEMENT</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="#submenu1" data-bs-toggle="collapse" class="nav-link text-truncate">
+                    <i class="fa-solid fa-cart-shopping"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Order Management</span> </a>
+              </li>
+              <li>
+                  <a href="/admin/user" class="nav-link text-truncate">
+                    <i class="fa-solid fa-users"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Customers</span></a>
+              </li>
+              <li>
+                <a href="#" class="nav-link text-truncate">
+                    <i class="fa-solid fa-tag"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  CouponCode</span></a>
+              </li>
+              <li>
+                <a href="#" class="nav-link text-truncate">
+                    <i class="fa-solid fa-folder-tree"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Catagories</span></a>
+              </li>
+              <li>
+                <a href="#" class="nav-link text-truncate">
+                    <i class="fa-solid fa-money-check-dollar"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Transaction</span></a>
+              </li>
+
+              <div class="offcanvas-header">
+                <h6 class="offcanvas-title d-none d-sm-block text-dark fw-bold" id="offcanvas">PRODUCTS</h6>
+              </div>
+
+              <li>
+                <a href="#" class="nav-link text-truncate">
+                    <i class="fa-solid fa-plus"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Add Products</span></a>
+              </li>
+              <li>
+                <a href="/admin/product" class="nav-link text-truncate">
+                    <i class="fa-solid fa-bars-progress"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Product Management</span></a>
+              </li>
+
+              <div class="offcanvas-header">
+                <h6 class="offcanvas-title d-none d-sm-block text-dark fw-bold" id="offcanvas">ADMIN</h6>
+              </div>
+
+              <li>
+                <a href="#" class="nav-link text-truncate">
+                    <i class="fa-solid fa-plus"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Add Brand</span></a>
+              </li>
+              <li>
+                <a href="#" class="nav-link text-truncate">
+                    <i class="fa-solid fa-image"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Add Banner</span></a>
+              </li>
+              
+              <li>
+                  <a href="/admin/logout" class="nav-link text-truncate">
+                    <i class="fa-solid fa-right-from-bracket text-danger"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">Logout</span></a>
+              </li>
+          </ul>
+      </div>
+  </div>
