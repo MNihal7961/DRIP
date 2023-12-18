@@ -10,91 +10,76 @@
   <!-- Bootstrap CSS v5.2.1 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-
+  <link rel="stylesheet" href="/userLogin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
-
-  <style>
-    .gradient-custom-2 {
-      background-color: #63a91f;
-      background-image: linear-gradient(314deg, #63a91f 0%, #1a512e 74%);
-    }
-
-    @media (min-width: 768px) {
-      .gradient-form {
-        height: 100vh !important;
-      }
-    }
-
-    @media (min-width: 769px) {
-      .gradient-custom-2 {
-        border-top-right-radius: .3rem;
-        border-bottom-right-radius: .3rem;
-      }
-    }
-  </style>
-  <section class="h-100 gradient-form" >
-    <div class="container py-5 h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-xl-10">
-          <div class="card rounded-3 text-black">
-            <div class="row g-0">
-              <div class="col-lg-6">
-                <div class="card-body p-md-5 mx-md-4">
-
-                  <div class="text-center">
-                    <img
-                      src="data:image/png;base64,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"
-                      style="width: 185px;" alt="logo">
-                    <h4 class="mt-1 mb-5 pb-1">We are The <span
-                        style="font-family: 'Ravie'; color: #014122;">DRIP</span> Team</h4>
-                  </div>
-
-                  <form method="post" action="/user/login">
-                    <p>Please login to your account</p>
-
-                    <div class="form-outline mb-4">
-                      <input required type="email" id="form2Example11" class="form-control"
-                        placeholder="Enter email address" name="email" />
-                      <label class="form-label" for="form2Example11">Email</label>
-                    </div>
-
-                    <div class="form-outline mb-4">
-                      <input required type="password" placeholder="Enter password" id="form2Example22" class="form-control" name="password"/>
-                      <label class="form-label" for="form2Example22" >Password</label>
-                    </div>
-
-                    <div class="text-center pt-1 mb-5 pb-1">
-                      <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit">Log
-                        in</button>
-                      <a class="text-muted" href="#!">Forgot password?</a>
-                    </div>
-
-                    <div class="d-flex align-items-center justify-content-center pb-4">
-                      <p class="mb-0 me-2">Don't have an account?</p>
-                      <a href="/user/signup" class="text-decoration-none text-primary">Create Account</a>
-                    </div>
-
-                  </form>
-
-                </div>
+  <nav class="navbar navbar-expand-lg bg-white border-bottom "
+  style="height: 100px; font-family: 'Ravie', sans-serif; font-weight:bold; font-size: 24px; color: #014122;">
+  <div class="container-fluid d-flex justify-content-center align-items-center h-100 mt-2">
+      <h1 class="mt-2">Drip</h1>
+  </div>
+</nav>
+  <div class="min-vh-100 d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-7 mx-auto">
+          <div class="shadow-lg">
+            <div class="d-flex align-items-center">
+              <div class="d-none d-md-block d-lg-block">
+                <img src="/images/login.png" class="objectFit" />
               </div>
-              <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
-                <div class="text-white px-3 py-4 p-md-5 mx-md-4">
-                  <h4 class="mb-4">We are more than just a STORE</h4>
-                  <p class="small mb-0">Introducing Drip, an exquisite collection of exclusive footwear that personifies
-                    sheer elegance and unrivaled sophistication. Crafted for the discerning gentlemen and ladies, these
-                    shoes are the epitome of luxury and style. Impeccable in every detail, Drip offers a seamless fusion
-                    of comfort, durability, and timeless design.</p>
+              <div class="p-4" id="formPanel">
+                <div class="text-center mb-5">
+                  <h1 class="customHeading h3 text-uppercase">Login</h1>
                 </div>
+                <form action="/user/login" method="post" id="userLogin">
+                  <div class="custom-form-group">
+                    <label class="text-uppercase" for="email">Email</label>
+                    <input type="text" id="email" class="pb-1" name="email" /><span class="pb-1"><i
+                        class="fas fa-envelope"></i></span>
+                    <span id="email_error" class="text-danger"></span>
+                  </div>
+                  <div class="custom-form-group mt-3">
+                    <label class="text-uppercase" for="password">Password</label>
+                    <input type="password" id="password" class="pb-1" name="password" /><span class="pb-1"><i
+                        id="eyeIcon" class="fas fa-eye-slash" onclick="togglePassword()"></i></span>
+                    <span id="password_error" class="text-danger"></span>
+                  </div>
+                  <div class="mt-3">
+                    <a class="customa" href="/user/signup">Don't have account?,<br>Create account</a>
+                  </div>
+                  <div class="mt-5">
+                    <button class="w-100 p-2 d-block custom-btn">Login</button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+  <div class="blockcode">
+    <footer class="page-footer shadow">
+        <div class="container-fluid d-flex flex-wrap justify-content-between align-items-center py-4">
+            <div class="text-center text-lg-start mb-3 mb-lg-0">
+                <a href="/" class="d-flex align-items-center p-0 text-dark text-decoration-none">
+                    <span class="ms-4 h5 mb-0 font-weight-bold" style="font-family: 'Ravie', sans-serif;color: #014122;">Drip</span>
+                </a>
+                <small class="ms-lg-2">&copy; <span style="font-family: 'Ravie';color: #014122;">Drip</span>, 2023. All rights reserved.</small>
+            </div>
+            <div class="text-center">
+                <a href="#" class="text-decoration-none me-3 me-lg-2"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="text-decoration-none me-3 me-lg-2"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="text-decoration-none me-3 me-lg-2"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </footer>
+</div>
   <!-- Bootstrap JavaScript Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
     integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
@@ -103,6 +88,53 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
     </script>
+  <script>
+    const email = document.getElementById('email')
+    const password = document.getElementById('password')
+    const form = document.getElementById('userLogin')
+
+    const email_error = document.getElementById('email_error')
+    const password_error = document.getElementById('password_error')
+
+    function togglePassword() {
+    const passwordField = document.getElementById('password');
+    const eyeIcon = document.getElementById('eyeIcon');
+
+    if (passwordField.type === 'password') {
+      passwordField.type = 'text';
+      eyeIcon.classList.remove('fa-eye-slash');
+      eyeIcon.classList.add('fa-eye');
+    } else {
+      passwordField.type = 'password';
+      eyeIcon.classList.remove('fa-eye');
+      eyeIcon.classList.add('fa-eye-slash');
+    }
+  }
+
+    form.addEventListener('submit', (e) => {
+
+      let email_check = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/
+
+      if (!email.value.match(email_check)) {
+        e.preventDefault()
+        email_error.innerHTML = "Enter a valid email"
+      } else {
+        email_error.innerHTML = ""
+      }
+
+      if (password.value.length >= 20) {
+        password_error.innerHTML = "password can't be more than twenty charecter"
+      } else if (password.value === "password") {
+        password_error.innerHTML = "Not a valid password"
+      } else if (password.value.length === 0 || password.value == null) {
+        password_error.innerHTML = "Please fill it"
+      } else {
+        password_error.innerHTML = ""
+      }
+
+
+    })
+  </script>
 </body>
 
 </html>

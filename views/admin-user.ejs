@@ -30,12 +30,12 @@
                           </td>
                           <td
                             class="<%= data.status ? 'text-success fw-bold' : 'text-danger fw-bold' %> table-white text-center">
-                            <% if (data.status) { %>
-                              <% value='active' ; %>
-                                <% } else { %>
-                                  <% value='inactive' ; %>
-                                    <% } %>
-                                      <%= value %>
+                              <% if (data.status) { %>
+                              <% value='active'; %>
+                              <% } else { %>
+                              <% value='inactive'; %>
+                              <% } %>
+                              <%= value %>
                           </td>
                           <td>
                             <% if (data.status) { %>

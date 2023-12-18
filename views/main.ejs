@@ -1,268 +1,216 @@
-<%- include('../partials/user-head.ejs') %>
-<%- include('../partials/user-nav.ejs') %>
-        <!-- banner -->
-        <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active" data-bs-interval="10000">
-                    <img src="https://sneakerplug.co.in/cdn/shop/files/IMG_1314_1512x.jpg?v=1697684073"
-                        class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item" data-bs-interval="2000">
-                    <img src="https://sneakerplug.co.in/cdn/shop/files/IMG_1437_1512x.jpg?v=1698560195"
-                        class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="https://sneakerplug.co.in/cdn/shop/files/IMG_1482_1512x.jpg?v=1699016107"
-                        class="d-block w-100" alt="...">
-                </div>
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Drip</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/iconify/2.0.0/iconify.min.js"
+        integrity="sha512-lYMiwcB608+RcqJmP93CMe7b4i9G9QK1RbixsNu4PzMRJMsqr/bUrkXUuFzCNsRUo3IXNUr5hz98lINURv5CNA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        body {
+            background-color: whitesmoke;
+        }
+
+        .card {
+            border: none;
+
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .card:before {
+
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background-color: #63a91f;
+            transform: scaleY(1);
+            transition: all 0.5s;
+            transform-origin: bottom
+        }
+
+        .card:after {
+
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background-color: #014122;
+            transform: scaleY(0);
+            transition: all 0.5s;
+            transform-origin: bottom
+        }
+
+        .card:hover::after {
+            transform: scaleY(1);
+        }
+
+
+        .fonts {
+            font-size: 11px;
+        }
+
+        .social-list {
+            display: flex;
+            list-style: none;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .social-list li {
+            padding: 10px;
+            color: #014122;
+            font-size: 19px;
+        }
+
+
+        .buttons button:nth-child(1) {
+            border: 1px solid #014122 !important;
+            color: #014122;
+            height: 40px;
+        }
+
+        .buttons button:nth-child(1):hover {
+            border: 1px solid #014122 !important;
+            color: #fff;
+            height: 40px;
+            background-color: #014122;
+        }
+
+        .buttons button:nth-child(2) {
+            border: 1px solid #014122 !important;
+            background-color: #014122;
+            color: #fff;
+            height: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class=" navbar navbar-light w-100 h-25 p-2 border-bottom justify-content-sm-center  bg-black text-white ">
+        <div class="navbar navbar-light border-bottom d-flex justify-content-around bg-white fixed-top "
+            style="height:80px">
+            <div style="font-family: 'Ravie'; color: #014122;"><h3>Drip</h3>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
-                data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
-                data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
         </div>
-        <!-- banner -->
+    </div>
 
-        <!-- brand -->
-        <section style="background-color: #014122;">
-            <div class="container-fluid p-0" >
-              <div class="row  d-flex justify-content-between align-items-cenetr m-0 p-0">
-                <div class="col-sm-12 col-md-12 col-lg-2 py-4 text-center border-top border-white ">
-                  <a href="" class="text-white text-decoration-none brand-font">NIKE</a>
-                </div>
-                <div class="col-sm-12 col-md-12 col-lg-2 py-4 text-center border-top border-white ">
-                  <a href="" class="text-white text-decoration-none brand-font">ADIDAS</a>
-                </div>
-                <div class="col-sm-12 col-md-12 col-lg-2 py-4 text-center border-top border-white ">
-                  <a href="" class="text-white text-decoration-none brand-font">NB</a>
-                </div>
-                <div class="col-sm-12 col-md-12 col-lg-2 py-4 text-center border-top border-white ">
-                  <a href="" class="text-white text-decoration-none brand-font">ASICS</a>
-                </div>
-                <div class="col-sm-12 col-md-12 col-lg-2 py-4 text-center border-top border-white ">
-                  <a href="" class="text-white text-decoration-none brand-font">CROCS</a>
-                </div>
-              </div>
-            </div>
-          </section>
-        <!-- brand -->
+    <div class="container" style="margin-top: 100px;">
 
-        <!-- blackfridaysale -->
-        <h2 class="text-center my-3 fw-500" style="color: #014122;">Black Friday Sale</h1>
-            <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative">
-                <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
-                    <div class="col hp " style="border: 1px solid #014122;">
-                        <div class="card h-100 shadow-sm">
-                            <a href="#">
-                                <img src="https://m.media-amazon.com/images/I/81gK08T6tYL._AC_SL1500_.jpg"
-                                    class="card-img-top" alt="product.title" />
-                            </a>
-    
-                            <div class="label-top shadow-sm">
-                                <a class="text-white" href="#">asus</a>
-                            </div>
-                            <div class="card-body">
-                                <div class="clearfix mb-3">
-                                    <span class="float-start badge rounded-pill bg-success">1.245$</span>
-    
-                                    <span class="float-end"><a href="#"
-                                            class="small text-muted text-uppercase aff-link">reviews</a></span>
-                                </div>
-                                <h5 class="card-title">
-                                    <a target="_blank" href="#">ASUS TUF FX505DT Gaming Laptop- 15.6", 120Hz Full HD, AMD
-                                        Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB
-                                        Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
-                                </h5>
-    
-                                <div class="d-grid gap-2 my-4">
-    
-                                    <a href="#" class="btn btn-warning bold-btn">add to cart</a>
-    
-                                </div>
-                                <div class="clearfix mb-1">
-    
-                                    <span class="float-start"><a href="#"><i class="fas fa-question-circle"></i></a></span>
-    
-                                    <span class="float-end">
-                                        <i class="far fa-heart" style="cursor: pointer"></i>
-    
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
+        <div class="row d-flex justify-content-center">
+
+            <div class="col-md-7">
+
+                <div class="card p-3 py-4">
+
+                    <div class="text-center">
+                        <img src="data:image/png;base64,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"
+                            width="100" class="rounded-circle">
                     </div>
-                </div>
-            </div>
 
-            <div class=" d-flex justify-content-center  align-items-cenetr">
-                <form action="" method="post">
-                    <button class="btn rounded-pill  border-success text-success text-center px-5">View All</button>
-                </form>
-            </div>
-         <hr>   
-        <!-- blackfridaysale -->
+                    <div class="text-center mt-3">
+                        <h4 class="mt-1 mb-5 pb-1">We are The <span
+                                style="font-family: 'Ravie'; color: #014122;">DRIP</span> Team</h4>
 
-        <!-- topselling -->
-        <h2 class="text-center my-3 fw-500" style="color: #014122;">Top Selling</h1>
-            <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative">
-                <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
-                    <div class="col hp " style="border: 1px solid #014122;">
-                        <div class="card h-100 shadow-sm">
-                            <a href="#">
-                                <img src="https://m.media-amazon.com/images/I/81gK08T6tYL._AC_SL1500_.jpg"
-                                    class="card-img-top" alt="product.title" />
-                            </a>
-    
-                            <div class="label-top shadow-sm">
-                                <a class="text-white" href="#">asus</a>
-                            </div>
-                            <div class="card-body">
-                                <div class="clearfix mb-3">
-                                    <span class="float-start badge rounded-pill bg-success">1.245$</span>
-    
-                                    <span class="float-end"><a href="#"
-                                            class="small text-muted text-uppercase aff-link">reviews</a></span>
-                                </div>
-                                <h5 class="card-title">
-                                    <a target="_blank" href="#">ASUS TUF FX505DT Gaming Laptop- 15.6", 120Hz Full HD, AMD
-                                        Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB
-                                        Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
-                                </h5>
-    
-                                <div class="d-grid gap-2 my-4">
-    
-                                    <a href="#" class="btn btn-warning bold-btn">add to cart</a>
-    
-                                </div>
-                                <div class="clearfix mb-1">
-    
-                                    <span class="float-start"><a href="#"><i class="fas fa-question-circle"></i></a></span>
-    
-                                    <span class="float-end">
-                                        <i class="far fa-heart" style="cursor: pointer"></i>
-    
-                                    </span>
-                                </div>
-                            </div>
+                        <div class="px-4 mt-1">
+                            <p class="fonts">Introducing Drip, an exquisite collection of exclusive
+                                footwear that personifies
+                                sheer elegance and unrivaled sophistication. Crafted for the discerning
+                                gentlemen and ladies, these
+                                shoes are the epitome of luxury and style. Impeccable in every detail, Drip
+                                offers a seamless fusion
+                                of comfort, durability, and timeless design. </p>
+
                         </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class=" d-flex justify-content-center  align-items-cenetr">
-                <form action="" method="post">
-                    <button class="btn rounded-pill  border-success text-success text-center px-5">View All</button>
-                </form>
-            </div>
-         <hr>   
-         <!-- topselling -->
+                        <ul class="social-list">
+                            <li><i class="fa-brands fa-facebook-f"></i></li>
+                            <li><i class="fa-brands fa-google-plus-g"></i></li>
+                            <li><i class="fa-brands fa-instagram"></i></li>
+                            <li><i class="fa-brands fa-x-twitter"></i></li>
+                            <li><i class="fa-solid fa-envelope"></i></li>
+                            <li><i class="fa-brands fa-youtube"></i></li>
+                        </ul>
 
-         <!-- newdrop -->
-         <h2 class="text-center my-3 fw-500" style="color: #014122;">New Drop</h1>
-            <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative">
-                <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
-                    <div class="col hp " style="border: 1px solid #014122;">
-                        <div class="card h-100 shadow-sm">
-                            <a href="#">
-                                <img src="https://m.media-amazon.com/images/I/81gK08T6tYL._AC_SL1500_.jpg"
-                                    class="card-img-top" alt="product.title" />
-                            </a>
-    
-                            <div class="label-top shadow-sm">
-                                <a class="text-white" href="#">asus</a>
-                            </div>
-                            <div class="card-body">
-                                <div class="clearfix mb-3">
-                                    <span class="float-start badge rounded-pill bg-success">1.245$</span>
-    
-                                    <span class="float-end"><a href="#"
-                                            class="small text-muted text-uppercase aff-link">reviews</a></span>
-                                </div>
-                                <h5 class="card-title">
-                                    <a target="_blank" href="#">ASUS TUF FX505DT Gaming Laptop- 15.6", 120Hz Full HD, AMD
-                                        Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB
-                                        Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
-                                </h5>
-    
-                                <div class="d-grid gap-2 my-4">
-    
-                                    <a href="#" class="btn btn-warning bold-btn">add to cart</a>
-    
-                                </div>
-                                <div class="clearfix mb-1">
-    
-                                    <span class="float-start"><a href="#"><i class="fas fa-question-circle"></i></a></span>
-    
-                                    <span class="float-end">
-                                        <i class="far fa-heart" style="cursor: pointer"></i>
-    
-                                    </span>
-                                </div>
-                            </div>
+                        <div class="buttons">
+                            <a href="/user/signup" class="btn btn-outline-success px-4">Signup</a>
+                            <a href="/user/login" class="btn btn-outline-success px-4">Login</a>
+                            <a href="/admin/login" class="btn btn-success px-4 ms-3">Admin Login</a>
                         </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class=" d-flex justify-content-center  align-items-cenetr">
-                <form action="" method="post">
-                    <button class="btn rounded-pill  border-success text-success text-center px-5">View All</button>
-                </form>
-            </div>
-         <hr>   
-         <!-- newdrop -->
-      
-        
-            <!-- card -->
-        <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative">
-            <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
-                <div class="col hp " style="border: 1px solid #014122;">
-                    <div class="card h-100 shadow-sm">
-                        <a href="#">
-                            <img src="https://m.media-amazon.com/images/I/81gK08T6tYL._AC_SL1500_.jpg"
-                                class="card-img-top" alt="product.title" />
-                        </a>
-
-                        <div class="label-top shadow-sm">
-                            <a class="text-white" href="#">asus</a>
-                        </div>
-                        <div class="card-body">
-                            <div class="clearfix mb-3">
-                                <span class="float-start badge rounded-pill bg-success">1.245$</span>
-
-                                <span class="float-end"><a href="#"
-                                        class="small text-muted text-uppercase aff-link">reviews</a></span>
-                            </div>
-                            <h5 class="card-title">
-                                <a target="_blank" href="#">ASUS TUF FX505DT Gaming Laptop- 15.6", 120Hz Full HD, AMD
-                                    Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB
-                                    Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
-                            </h5>
-
-                            <div class="d-grid gap-2 my-4">
-
-                                <a href="#" class="btn btn-warning bold-btn">add to cart</a>
-
-                            </div>
-                            <div class="clearfix mb-1">
-
-                                <span class="float-start"><a href="#"><i class="fas fa-question-circle"></i></a></span>
-
-                                <span class="float-end">
-                                    <i class="far fa-heart" style="cursor: pointer"></i>
-
-                                </span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- card -->
-        <%- include('../partials/user-foot.ejs') %>
+    </div>
+
+    <footer class="text-center text-white mt-5" style="background-color: #018141;">
+        <!-- Grid container -->
+        <div class="container p-4 pb-0">
+            <!-- Section: Social media -->
+            <section class="mb-4">
+
+                <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><iconify-icon
+                        icon="simple-icons:nike"></iconify-icon></a>
+
+
+                <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><iconify-icon
+                        icon="gg:adidas"></iconify-icon></a>
+
+
+                <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><iconify-icon
+                        icon="simple-icons:puma"></iconify-icon></a>
+
+
+                <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><iconify-icon
+                        icon="simple-icons:thenorthface"></iconify-icon></a>
+
+
+                <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><iconify-icon
+                        icon="simple-icons:jordan"></iconify-icon></a>
+
+                <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><iconify-icon
+                        icon="simple-icons:zara"></iconify-icon></a>
+            </section>
+            <!-- Section: Social media -->
+        </div>
+        <!-- Grid container -->
+
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color:#014122;">
+            © 2023 Copyright:
+            <a class="text-white" href="#">Drip.com</a>
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+        </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+        </script>
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+</body>
+
+</html>

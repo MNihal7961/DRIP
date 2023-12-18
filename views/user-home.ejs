@@ -1,5 +1,5 @@
 <%- include('../partials/user-head.ejs') %>
-<%- include('../partials/user-nav.ejs') %>
+    <%- include('../partials/user-nav.ejs') %>
         <!-- banner -->
         <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
@@ -31,238 +31,192 @@
 
         <!-- brand -->
         <section style="background-color: #014122;">
-            <div class="container-fluid p-0" >
-              <div class="row  d-flex justify-content-between align-items-cenetr m-0 p-0">
-                <div class="col-sm-12 col-md-12 col-lg-2 py-4 text-center border-top border-white ">
-                  <a href="" class="text-white text-decoration-none brand-font">NIKE</a>
+            <div class="container-fluid p-0">
+                <div class="row  d-flex justify-content-between align-items-cenetr m-0 p-0">
+                    <div class="col-sm-12 col-md-12 col-lg-2 py-4 text-center border-top border-white ">
+                        <a href="" class="text-white text-decoration-none brand-font">NIKE</a>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-2 py-4 text-center border-top border-white ">
+                        <a href="" class="text-white text-decoration-none brand-font">ADIDAS</a>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-2 py-4 text-center border-top border-white ">
+                        <a href="" class="text-white text-decoration-none brand-font">NB</a>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-2 py-4 text-center border-top border-white ">
+                        <a href="" class="text-white text-decoration-none brand-font">ASICS</a>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-2 py-4 text-center border-top border-white ">
+                        <a href="" class="text-white text-decoration-none brand-font">CROCS</a>
+                    </div>
                 </div>
-                <div class="col-sm-12 col-md-12 col-lg-2 py-4 text-center border-top border-white ">
-                  <a href="" class="text-white text-decoration-none brand-font">ADIDAS</a>
-                </div>
-                <div class="col-sm-12 col-md-12 col-lg-2 py-4 text-center border-top border-white ">
-                  <a href="" class="text-white text-decoration-none brand-font">NB</a>
-                </div>
-                <div class="col-sm-12 col-md-12 col-lg-2 py-4 text-center border-top border-white ">
-                  <a href="" class="text-white text-decoration-none brand-font">ASICS</a>
-                </div>
-                <div class="col-sm-12 col-md-12 col-lg-2 py-4 text-center border-top border-white ">
-                  <a href="" class="text-white text-decoration-none brand-font">CROCS</a>
-                </div>
-              </div>
             </div>
-          </section>
+        </section>
         <!-- brand -->
 
         <!-- blackfridaysale -->
-        <h2 class="text-center my-3 fw-500" style="color: #014122;">Black Friday Sale</h1>
-            <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative">
-                <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
-                    <div class="col hp " style="border: 1px solid #014122;">
-                        <div class="card h-100 shadow-sm">
-                            <a href="#">
-                                <img src="https://m.media-amazon.com/images/I/81gK08T6tYL._AC_SL1500_.jpg"
-                                    class="card-img-top" alt="product.title" />
-                            </a>
-    
-                            <div class="label-top shadow-sm">
-                                <a class="text-white" href="#">asus</a>
-                            </div>
-                            <div class="card-body">
-                                <div class="clearfix mb-3">
-                                    <span class="float-start badge rounded-pill bg-success">1.245$</span>
-    
-                                    <span class="float-end"><a href="#"
-                                            class="small text-muted text-uppercase aff-link">reviews</a></span>
-                                </div>
-                                <h5 class="card-title">
-                                    <a target="_blank" href="#">ASUS TUF FX505DT Gaming Laptop- 15.6", 120Hz Full HD, AMD
-                                        Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB
-                                        Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
-                                </h5>
-    
-                                <div class="d-grid gap-2 my-4">
-    
-                                    <a href="#" class="btn btn-warning bold-btn">add to cart</a>
-    
-                                </div>
-                                <div class="clearfix mb-1">
-    
-                                    <span class="float-start"><a href="#"><i class="fas fa-question-circle"></i></a></span>
-    
-                                    <span class="float-end">
-                                        <i class="far fa-heart" style="cursor: pointer"></i>
-    
-                                    </span>
-                                </div>
-                            </div>
+        <section>
+            <div class="py-3 py-md-5 ">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-4">
+                            <h2 class="text-center my-3 fw-500" style="color: #014122;">Black Friday Sale</h1>
                         </div>
+
+                        <div class="row custom-a">
+                            <% productData.forEach((data)=> { %>
+
+                                <!-- Card 1 -->
+                                <div class="col d-flex justify-content-around flex-wrap col-lg-3">
+
+                                    <!-- Your Card Content -->
+                                    <div class="custom-card-container ms-5 mt-5">
+                                        <a href="#" class="custom-icon-heart"><i class="fa-regular fa-heart"></i></a>
+                                        <a href=" /user/product/details/<%-data.id%>">
+                                            <img class="card-img-top" src="/<%=data.images[0]%>" alt="Card image cap" height="190px" width="210px">
+                                        </a>
+                                        <div class="custom-additional-info ">
+                                            <a href=" /user/product/details/<%-data.id%>">
+                                                <p>
+                                                    <%=data.title%>
+                                                </p>
+                                            </a>
+                                            <p class="custom-p">₹ <%=data.mrp%> | 5.0 <i class="fa-solid fa-star"
+                                                        style="color: #F5D426;"></i></p>
+    
+                                        </div>
+                                    </div>
+
+                                    <!-- Your Additional Info Content -->
+                                    
+                                </div>
+
+
+                                <% }) %>
+                        </div>
+
                     </div>
                 </div>
             </div>
-
             <div class=" d-flex justify-content-center  align-items-cenetr">
-                <form action="" method="post">
-                    <button class="btn rounded-pill  border-success text-success text-center px-5">View All</button>
+                <form>
+                    <a href="/user/black-friday-sale" class="btn rounded-pill  border-success text-success text-center px-5">View All</a>
                 </form>
             </div>
-         <hr>   
+            <hr>
+        </section>
         <!-- blackfridaysale -->
 
         <!-- topselling -->
-        <h2 class="text-center my-3 fw-500" style="color: #014122;">Top Selling</h1>
-            <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative">
-                <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
-                    <div class="col hp " style="border: 1px solid #014122;">
-                        <div class="card h-100 shadow-sm">
-                            <a href="#">
-                                <img src="https://m.media-amazon.com/images/I/81gK08T6tYL._AC_SL1500_.jpg"
-                                    class="card-img-top" alt="product.title" />
-                            </a>
-    
-                            <div class="label-top shadow-sm">
-                                <a class="text-white" href="#">asus</a>
-                            </div>
-                            <div class="card-body">
-                                <div class="clearfix mb-3">
-                                    <span class="float-start badge rounded-pill bg-success">1.245$</span>
-    
-                                    <span class="float-end"><a href="#"
-                                            class="small text-muted text-uppercase aff-link">reviews</a></span>
-                                </div>
-                                <h5 class="card-title">
-                                    <a target="_blank" href="#">ASUS TUF FX505DT Gaming Laptop- 15.6", 120Hz Full HD, AMD
-                                        Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB
-                                        Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
-                                </h5>
-    
-                                <div class="d-grid gap-2 my-4">
-    
-                                    <a href="#" class="btn btn-warning bold-btn">add to cart</a>
-    
-                                </div>
-                                <div class="clearfix mb-1">
-    
-                                    <span class="float-start"><a href="#"><i class="fas fa-question-circle"></i></a></span>
-    
-                                    <span class="float-end">
-                                        <i class="far fa-heart" style="cursor: pointer"></i>
-    
-                                    </span>
-                                </div>
-                            </div>
+        <section>
+            <div class="py-3 py-md-5 ">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-4">
+                            <h2 class="text-center my-3 fw-500" style="color: #014122;">Top Selling</h1>
                         </div>
+
+                        <div class="row custom-a">
+                            <% productData1.forEach((data)=> { %>
+
+                                <!-- Card 1 -->
+                                <div class="col d-flex justify-content-around flex-wrap col-lg-3">
+
+                                    <!-- Your Card Content -->
+                                    <div class="custom-card-container ms-5 mt-5">
+                                        <a href="#" class="custom-icon-heart"><i class="fa-regular fa-heart"></i></a>
+                                        <a href=" /user/product/details/<%-data.id%>">
+                                            <img class="card-img-top" src="/<%=data.images[0]%>" alt="Card image cap" height="190px" width="210px">
+                                        </a>
+                                        <div class="custom-additional-info ">
+                                            <a href=" /user/product/details/<%-data.id%>">
+                                                <p>
+                                                    <%=data.title%>
+                                                </p>
+                                            </a>
+                                            <p class="custom-p">₹ <%=data.mrp%> | 5.0 <i class="fa-solid fa-star"
+                                                        style="color: #F5D426;"></i></p>
+    
+                                        </div>
+                                    </div>
+
+                                    <!-- Your Additional Info Content -->
+                                    
+                                </div>
+
+
+                                <% }) %>
+                        </div>
+
                     </div>
                 </div>
             </div>
-
             <div class=" d-flex justify-content-center  align-items-cenetr">
                 <form action="" method="post">
                     <button class="btn rounded-pill  border-success text-success text-center px-5">View All</button>
                 </form>
             </div>
-         <hr>   
-         <!-- topselling -->
+            <hr>
+        </section>
+            <!-- topselling -->
 
-         <!-- newdrop -->
-         <h2 class="text-center my-3 fw-500" style="color: #014122;">New Drop</h1>
-            <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative">
-                <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
-                    <div class="col hp " style="border: 1px solid #014122;">
-                        <div class="card h-100 shadow-sm">
-                            <a href="#">
-                                <img src="https://m.media-amazon.com/images/I/81gK08T6tYL._AC_SL1500_.jpg"
-                                    class="card-img-top" alt="product.title" />
-                            </a>
-    
-                            <div class="label-top shadow-sm">
-                                <a class="text-white" href="#">asus</a>
+            <!-- newdrop -->
+            <section>
+                <div class="py-3 py-md-5 ">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-4">
+                                <h2 class="text-center my-3 fw-500" style="color: #014122;">New Drops</h1>
                             </div>
-                            <div class="card-body">
-                                <div class="clearfix mb-3">
-                                    <span class="float-start badge rounded-pill bg-success">1.245$</span>
     
-                                    <span class="float-end"><a href="#"
-                                            class="small text-muted text-uppercase aff-link">reviews</a></span>
-                                </div>
-                                <h5 class="card-title">
-                                    <a target="_blank" href="#">ASUS TUF FX505DT Gaming Laptop- 15.6", 120Hz Full HD, AMD
-                                        Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB
-                                        Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
-                                </h5>
+                            <div class="row custom-a">
+                                <% productData2.forEach((data)=> { %>
     
-                                <div class="d-grid gap-2 my-4">
+                                    <!-- Card 1 -->
+                                    <div class="col d-flex justify-content-around flex-wrap col-lg-3">
     
-                                    <a href="#" class="btn btn-warning bold-btn">add to cart</a>
-    
-                                </div>
-                                <div class="clearfix mb-1">
-    
-                                    <span class="float-start"><a href="#"><i class="fas fa-question-circle"></i></a></span>
-    
-                                    <span class="float-end">
-                                        <i class="far fa-heart" style="cursor: pointer"></i>
-    
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class=" d-flex justify-content-center  align-items-cenetr">
-                <form action="" method="post">
-                    <button class="btn rounded-pill  border-success text-success text-center px-5">View All</button>
-                </form>
-            </div>
-         <hr>   
-         <!-- newdrop -->
-      
+                                        <!-- Your Card Content -->
+                                        <div class="custom-card-container ms-5 mt-5">
+                                            <a href="#" class="custom-icon-heart"><i class="fa-regular fa-heart"></i></a>
+                                            <a href=" /user/product/details/<%-data.id%>">
+                                                <img class="card-img-top" src="/<%=data.images[0]%>" alt="Card image cap" height="190px" width="210px">
+                                            </a>
+                                            <div class="custom-additional-info ">
+                                                <a href=" /user/product/details/<%-data.id%>">
+                                                    <p>
+                                                        <%=data.title%>
+                                                    </p>
+                                                </a>
+                                                <p class="custom-p">₹ <%=data.mrp%> | 5.0 <i class="fa-solid fa-star"
+                                                            style="color: #F5D426;"></i></p>
         
-            <!-- card -->
-        <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative">
-            <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
-                <div class="col hp " style="border: 1px solid #014122;">
-                    <div class="card h-100 shadow-sm">
-                        <a href="#">
-                            <img src="https://m.media-amazon.com/images/I/81gK08T6tYL._AC_SL1500_.jpg"
-                                class="card-img-top" alt="product.title" />
-                        </a>
-
-                        <div class="label-top shadow-sm">
-                            <a class="text-white" href="#">asus</a>
-                        </div>
-                        <div class="card-body">
-                            <div class="clearfix mb-3">
-                                <span class="float-start badge rounded-pill bg-success">1.245$</span>
-
-                                <span class="float-end"><a href="#"
-                                        class="small text-muted text-uppercase aff-link">reviews</a></span>
+                                            </div>
+                                        </div>
+    
+                                        <!-- Your Additional Info Content -->
+                                        
+                                    </div>
+    
+    
+                                    <% }) %>
                             </div>
-                            <h5 class="card-title">
-                                <a target="_blank" href="#">ASUS TUF FX505DT Gaming Laptop- 15.6", 120Hz Full HD, AMD
-                                    Ryzen 5 R5-3550H Processor, GeForce GTX 1650 Graphics, 8GB DDR4, 256GB PCIe SSD, RGB
-                                    Keyboard, Windows 10 64-bit - FX505DT-AH51</a>
-                            </h5>
-
-                            <div class="d-grid gap-2 my-4">
-
-                                <a href="#" class="btn btn-warning bold-btn">add to cart</a>
-
-                            </div>
-                            <div class="clearfix mb-1">
-
-                                <span class="float-start"><a href="#"><i class="fas fa-question-circle"></i></a></span>
-
-                                <span class="float-end">
-                                    <i class="far fa-heart" style="cursor: pointer"></i>
-
-                                </span>
-                            </div>
+    
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <!-- card -->
-<%- include('../partials/user-foot.ejs') %>
+                <div class=" d-flex justify-content-center  align-items-cenetr">
+                    <form action="" method="post">
+                        <button class="btn rounded-pill  border-success text-success text-center px-5">View All</button>
+                    </form>
+                </div>
+                <hr>
+            </section>
+                <!-- newdrop -->
+
+
+                <!-- card -->
+                <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative">
+                    <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
+                    </div>
+                </div>
+                <!-- card -->
+                <%- include('../partials/user-foot.ejs') %>

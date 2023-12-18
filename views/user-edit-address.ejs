@@ -1,0 +1,95 @@
+<%- include('../partials/user-head.ejs') %>
+    <%- include('../partials/user-nav.ejs') %>
+
+        <style>
+            .btn-color {
+                background-color: #014122;
+                color: #fff;
+
+            }
+
+            .profile-image-pic {
+                height: 200px;
+                width: 200px;
+                object-fit: cover;
+            }
+
+            .cardbody-color {
+                background-color: #eee;
+            }
+
+            a {
+                text-decoration: none;
+            }
+        </style>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <h2 class="text-center text-dark mt-5">Edit Address</h2>
+                    <div class="text-center mb-5 text-dark">For Faster Delivery</div>
+                    <div class="card my-5">
+
+                        <form class="card-body cardbody-color p-lg-5" method="post" action="/user/edit/address/<%-addressField._id%>">
+
+                            <div class="text-center">
+                                <img src="data:image/png;base64,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"
+                                    class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3" width="200px"
+                                    alt="profile">
+                            </div>
+
+                            <div class="mb-3">
+                                <input   required type="text" class="form-control" 
+                                    name="firstname" placeholder="First Name" value="<%=addressField.fname%>" >
+                            </div>
+
+                            <div class="mb-3">
+                                <input required type="text" class="form-control" placeholder="Last Name"
+                                    name="lastname" value="<%=addressField.lname%>" >
+                            </div>
+
+                            <div class="mb-3">
+                                <input required type="text" class="form-control" placeholder="Street" name="street" value="<%=addressField.street%>">
+                            </div>
+
+                            <div class="mb-3">
+                                <input required type="text" class="form-control" placeholder="Building Name"
+                                    name="building" value="<%=addressField.buildingName%>">
+                            </div>
+
+                            <div class="mb-3">
+                                <input required type="text" class="form-control" placeholder="City" name="city" value="<%=addressField.city%>">
+                            </div>
+
+                            <div class="mb-3">
+                                <input required type="text" class="form-control" placeholder="State" name="state" value="<%=addressField.state%>">
+                              </div>
+
+                            <div class="mb-3">
+                                <input required type="number" class="form-control" placeholder="Pincode" name="pincode" value="<%=addressField.pincode%>">
+                            </div>
+
+                            <div class="mb-3">
+                                <input required type="number" class="form-control" placeholder="Phone Number"
+                                    name="mobile" value="<%=addressField.mobile%>">
+                            </div>
+
+                            <div class="mb-3">
+                                <input required type="email" class="form-control" placeholder="Email Address"
+                                    name="email" value="<%=addressField.email%>">
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-color px-5 mb-5 w-100"
+                                    onclick="return confirm('Are you sure you want to update address?')">Update Address</button>
+                                   
+                            </div>
+
+                            <a href="/user/address/book" class="float-end btn btn-primary">Back to Address Book</a>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <%- include('../partials/user-foot.ejs') %>

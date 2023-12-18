@@ -1,0 +1,374 @@
+<%- include('../partials/admin-head.ejs') %>
+
+    <div class="container-fluid">
+        <div class="row">
+            <h3 class="mt-3 text-center fw-normal">Order Details</h3>
+            <div class="col min-vh-100 p-4">
+                <!-- toggler -->
+                <button class="btn float-end btn btn-success " data-bs-toggle="offcanvas" data-bs-target="#offcanvas"
+                    role="button">MENU</button>
+                <table class="table table-responsive mt-5 table-hover table-bordered">
+                    <thead class="table-dark">
+                        <tr class="text-center">
+                            <th>No</th>
+                            <th>Date</th>
+                            <th>BuyerName</th>
+                            <th>Product</th>
+                            <th>Item</th>
+                            <th>Size</th>
+                            <th>Price</th>
+                            <th>Qty</th>
+                            <th>Payment</th>
+                            <th>Total-Qty</th>
+                            <th>TotalPrice</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% let i = 0; %>
+                        <% orderData.forEach((order)=> { %>
+                           
+                                <tr class="text-start">
+                                    <td>
+                                       <strong> <%=++i%></strong>
+                                    </td>
+                                    <td>
+                                        <strong><%=order.orderedAt%></strong>
+                                    </td>
+                                    <td>
+                                        <strong><%=order.buyerName%></strong>
+                                    </td>
+                                    <td>                                     
+                                        <% productData[i - 1].forEach((element) => { %>
+                                             <img src="/<%-element.productImage[0]%>" style="width: 50px; height: 50px;">
+                                        <% }) %>                                          
+                                    </td>
+                                    <td>
+                                        <% productData[i - 1].forEach((element) => { %>
+                                            <strong><%=element.productsName%></strong> <br>
+                                        <% }) %>
+                                    </td>
+                                    <td>
+                                        <% productData[i - 1].forEach((element) => { %>
+                                            <strong><%=element.size%></strong> <br>
+                                        <% }) %>
+                                    </td>
+                                    <td>
+                                        <% productData[i - 1].forEach((element) => { %>
+                                            <strong>₹<%=element.productsPrice%></strong> <br>
+                                        <% }) %>
+                                    </td>
+                                    <td>
+                                        <% productData[i - 1].forEach((element) => { %>
+                                            <strong><%=element.quantity%></strong><small class="text-muted">nos</small> <br>
+                                        <% }) %>
+                                    </td>
+                                    <td>
+                                        <strong><%=order.paymentMethod%></strong>
+                                    </td>
+                                    <td>
+                                        <strong><%=order.totalQuantity%></strong><small class="text-muted">nos</small>
+                                    </td>
+                                    <td>
+                                        <strong>₹ <%=order.totalPrice%></strong>
+                                    </td>
+                                    <td class="<% if (order.orderStatus === 'Pending') { %>
+                                                                            text-warning
+                                                                        <% } else if (order.orderStatus === 'Processing') { %>
+                                                                            text-info
+                                                                        <% } else if (order.orderStatus === 'Placed') { %>
+                                                                            text-primary
+                                                                        <% } else if (order.orderStatus === 'Shipped') { %>
+                                                                            text-secondory
+                                                                        <% } else if (order.orderStatus === 'Delivered') { %>
+                                                                            text-success
+                                                                        <% } else if (order.orderStatus === 'Returned') { %>
+                                                                            text-warning
+                                                                        <% } else if (order.orderStatus === 'Cancelled') { %>
+                                                                            text-danger
+                                                                        <% } %>">
+                                        
+                                       <i class="fas fa-check-circle fa-shake"></i><strong> <%= order.orderStatus %></strong>
+                                        
+                                    </td>
+                    
+                                    <td>
+                                        <% if (order.orderStatus === 'Delivered') { %>
+                                            <strong class="text-success">Order Delivered</strong>
+                                        <% } else if (order.orderStatus === 'Cancelled') { %>
+                                            <strong class="text-danger">User canceled the order</strong>
+                                        <% } else { %>
+                                            <div class="dropdown">
+                                                <button class="btn btn-primary dropdown-toggle" type="button"
+                                                    id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Change Order Status
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <% if (order.orderStatus=="Pending" ) { %>
+                                                        <li value="Processing">
+                                                            <a class="dropdown-item"
+                                                                onclick="orderProcess('<%-order._id%>','Processing')">
+                                                                <i class="fas fa-spinner text-success"></i>
+                                                                Processing
+                                                            </a>
+                                                        </li>
+                                                    <% } %>
+                                                    <% if (order.orderStatus=="Processing" ) { %>
+                                                        <li value="Placed">
+                                                            <a class="dropdown-item"
+                                                                onclick="orderPlace('<%-order._id%>','Placed')">
+                                                                <i class="fas fa-shopping-basket text-success"></i>
+                                                                Placed
+                                                            </a>
+                                                        </li>
+                                                    <% } %>
+                                                    <% if (order.orderStatus=="Placed" ) { %>
+                                                        <li value="Shipped" aria-disabled="true">
+                                                            <a class="dropdown-item"
+                                                                onclick="orderShip('<%-order._id%>','Shipped')">
+                                                                <i class="fa-solid fa-truck text-success"></i>
+                                                                Shipped
+                                                            </a>
+                                                        </li>
+                                                    <% } %>
+                                                    <% if (order.orderStatus=="Shipped" ) { %>
+                                                        <li value="Delivered"
+                                                            onclick="orderDelivery('<%-order._id%>','Delivered')">
+                                                            <a class="dropdown-item">
+                                                                <i class="fas fa-check-circle text-success fw-bold"></i>
+                                                                Delivered
+                                                            </a>
+                                                        </li>
+                                                    <% } %>
+                                                    <!-- Add any other status change options here -->
+                                                    <!-- ... -->
+                                                </ul>
+                                            </div>
+                                        <% } %>
+                                    </td>
+                                    
+                                </tr>
+                                <% }) %>
+                                  
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <script>
+        function orderProcess(orderId, status) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you want to update the order status?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, update it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/admin/order/process/' + orderId,
+                        data: {
+                            orderId: orderId,
+                            status: status
+                        },
+                        success: (response) => {
+                            if (response.updateStatus) {
+                                location.reload()
+                            }
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: 'Order status updated successfully.',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error updating order status:', error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: 'Failed to update order status.',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        function orderPlace(orderId, status) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you want to update the order placement?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, update it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/admin/order/place/' + orderId,
+                        data: {
+                            orderId: orderId,
+                            status: status
+                        },
+                        success: (response) => {
+                            if (response.updateStatus) {
+                                location.reload()
+                            }
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: 'Order placement updated successfully.',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error updating order placement:', error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: 'Failed to update order placement.',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        function orderShip(orderId, status) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you want to update the order order as shipped?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, update it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/admin/order/ship/' + orderId,
+                        data: {
+                            orderId: orderId,
+                            status: status
+                        },
+                        success: (response) => {
+                            if (response.updateStatus) {
+                                location.reload()
+                            }
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: 'Order shipped updated successfully.',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error updating order shipped:', error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: 'Failed to update order shipment.',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        function orderDelivery(orderId, status) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you want to update the order order as Delivered?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, update it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/admin/order/delivery/' + orderId,
+                        data: {
+                            orderId: orderId,
+                            status: status
+                        },
+                        success: (response) => {
+                            if (response.updateStatus) {
+                                location.reload()
+                            }
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: 'Order delivered updated successfully.',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error updating order shipped:', error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: 'Failed to update order deliverd.',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+
+    <script>
+        // Define a function to determine the CSS class based on order status
+function getStatusColor(status) {
+    switch (status) {
+        case 'Pending':
+            return 'text-warning'; // CSS class for Pending status (e.g., text-warning)
+        case 'Processing':
+            return 'text-info'; // CSS class for Processing status (e.g., text-info)
+        case 'Placed':
+            return 'text-primary'; // CSS class for Placed status (e.g., text-primary)
+        case 'Shipped':
+            return 'text-success'; // CSS class for Shipped status (e.g., text-success)
+        case 'Delivered':
+            return 'text-secondary'; // CSS class for Delivered status (e.g., text-secondary)
+        case 'Returned':
+            return 'text-danger'; // CSS class for Returned status (e.g., text-danger)
+        case 'Cancelled':
+            return 'text-muted'; // CSS class for Cancelled status (e.g., text-muted)
+        default:
+            return ''; // Default CSS class if status doesn't match
+    }
+}
+
+    </script>
+
+    <%- include('../partials/admin-foot.ejs') %>

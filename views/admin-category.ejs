@@ -1,0 +1,201 @@
+<%- include('../partials/admin-head.ejs') %>
+
+    <div class="container-fluid">
+        <div class="row">
+            <h3 class="mt-3 text-center fw-normal">CATEGORY DETAILS</h3>
+            <div class="col min-vh-100 p-4">
+                <!-- toggler -->
+                <button class="btn float-end btn btn-success" data-bs-toggle="offcanvas" data-bs-target="#offcanvas"
+                    role="button">MENU</button>
+                <form action="/admin/add/category" method="get" id="addCategoryForm">
+                    <button class="btn float-end btn btn-primary" type="submit" id="addCategoryBtn">Add
+                        Category</button>
+                </form>
+                <table class="table table-responsive mt-5 table-hover table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>No</th>
+                            <th>Name</th>
+                            <th>Created</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% categoryData.forEach((data)=> { %>
+                            <tr>
+                                <th>
+                                    <%=++i%>
+                                </th>
+                                <td>
+                                    <%=data.category%>
+                                </td>
+                                <td>
+                                    <%=data.createdDate%>
+                                </td>
+                                <td
+                                    class="<%= data.status ? 'text-success fw-bold' : 'text-danger fw-bold' %> table-white">
+                                    <% if (data.status) { %>
+                                        <% value='Available' ; %>
+                                            <% } else { %>
+                                                <% value='Not Available' ; %>
+                                                    <% } %>
+                                                        <%= value %>
+                                </td>
+                                <td>
+                                    <% if (data.status) { %>
+                                        <!-- If user is active, provide option to block -->
+                                        <form action="/admin/category/disable/<%- data._id %>" method="POST"
+                                            data-category="<%=data.category%>">
+                                            <button type="submit"
+                                                class="text-white font-size btn btn-danger px-3 py-0 disableBtn">Disable</button>
+                                        </form>
+                                        <% } else { %>
+                                            <!-- If user is inactive, provide option to unblock -->
+                                            <form action="/admin/category/enable/<%- data._id %>" method="post"
+                                                data-category="<%=data.category%>">
+                                                <button type="submit"
+                                                    class="text-white font-size btn btn-success px-3 py-0 enableBtn">Enable</button>
+                                            </form>
+                                            <% } %>
+                                </td>
+                                <td>
+                                    <a class="text-white font-size btn btn-warning px-3 py-0 editBtn"
+                                        href="/admin/edit/category/<%-data._id%>">Edit</a>
+                                </td>
+                                <td>
+                                    <form action="/admin/category/delete/<%-data.id %>" method="POST">
+                                        <button type="submit"
+                                            class="text-white font-size btn btn-danger px-3 py-0 deleteBtn">Delete</button>
+                                    </form>
+                                </td>
+
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/admin-foot.ejs') %>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script>
+            const addCategoryForm = document.getElementById('addCategoryForm');
+            const addCategoryBtn = document.getElementById('addCategoryBtn');
+
+            addCategoryBtn.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                Swal.fire({
+                    title: 'Are you sure you want to add a category?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, add it!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        addCategoryForm.submit();
+                    }
+                });
+            });
+
+            // Disable button SweetAlert confirmation
+            document.querySelectorAll('.disableBtn').forEach(btn => {
+                btn.addEventListener('click', function (event) {
+                    event.preventDefault();
+
+                    const form = this.closest('form');
+                    const categoryName = form.getAttribute('data-category');
+
+                    Swal.fire({
+                        title: `Are you sure you want to disable ${categoryName}?`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Yes, disable it!',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                });
+            });
+
+            // Enable button SweetAlert confirmation
+            document.querySelectorAll('.enableBtn').forEach(btn => {
+                btn.addEventListener('click', function (event) {
+                    event.preventDefault();
+
+                    const form = this.closest('form');
+                    const categoryName = form.getAttribute('data-category');
+
+                    Swal.fire({
+                        title: `Are you sure you want to enable ${categoryName}?`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, enable it!',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                });
+            });
+
+            document.querySelectorAll('.editBtn').forEach(btn => {
+                btn.addEventListener('click', function (event) {
+                    event.preventDefault();
+
+                    const editLink = this.getAttribute('href'); // Get the URL from the anchor tag
+
+                    Swal.fire({
+                        title: 'Are you sure you want to edit?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, edit it!',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = editLink; // Redirect to the edit URL
+                        }
+                    });
+                });
+            });
+
+            document.querySelectorAll('.deleteBtn').forEach(btn => {
+                btn.addEventListener('click', function (event) {
+                    event.preventDefault();
+
+                    const form = this.closest('form');
+
+                    Swal.fire({
+                        title: 'Are you sure you want to delete?',
+                        text: 'This action cannot be undone!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                });
+            });
+
+
+        </script>

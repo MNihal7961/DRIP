@@ -5,7 +5,6 @@ const category_schema= new mongoose.Schema({
     category:{
         type:String,
         required:true,
-        unique:true
     },
     createdDate:{
         type:Date,
@@ -13,7 +12,7 @@ const category_schema= new mongoose.Schema({
     },
     status:{
         type:Boolean,
-        default:true
+        default:true 
     }
 })
 

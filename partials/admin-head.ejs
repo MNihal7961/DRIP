@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/iconify/2.0.0/iconify.min.js" integrity="sha512-lYMiwcB608+RcqJmP93CMe7b4i9G9QK1RbixsNu4PzMRJMsqr/bUrkXUuFzCNsRUo3IXNUr5hz98lINURv5CNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cdbootstrap/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cdbootstrap/css/cdb.min.css"/>
@@ -47,9 +49,10 @@
                   </a>
               </li>
               <li>
-                  <a href="#submenu1" data-bs-toggle="collapse" class="nav-link text-truncate">
-                    <i class="fa-solid fa-cart-shopping"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Order Management</span> </a>
-              </li>
+                <a href="/admin/order" class="nav-link text-truncate">
+                  <i class="fa-solid fa-cart-flatbed"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Orders</span></a>
+            </li>
+             
               <li>
                   <a href="/admin/user" class="nav-link text-truncate">
                     <i class="fa-solid fa-users"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Customers</span></a>
@@ -59,12 +62,24 @@
                     <i class="fa-solid fa-tag"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  CouponCode</span></a>
               </li>
               <li>
-                <a href="#" class="nav-link text-truncate">
+                <a href="/admin/brand" class="nav-link text-truncate">
+                    <i class="fa-solid fa-plus-circle"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Brands</span></a>
+              </li>
+              <li>
+                <a href="/admin/category" class="nav-link text-truncate">
                     <i class="fa-solid fa-folder-tree"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Catagories</span></a>
               </li>
               <li>
                 <a href="#" class="nav-link text-truncate">
                     <i class="fa-solid fa-money-check-dollar"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Transaction</span></a>
+              </li>
+              <li>
+                <a href="/admin/shipping" class="nav-link text-truncate">
+                    <i class="fa-solid fa-truck"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Shipping</span></a>
+              </li>
+              <li>
+                <a href="/admin/payment" class="nav-link text-truncate">
+                    <i class="fa-solid fa-money-check-dollar"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Payment</span></a>
               </li>
 
               <div class="offcanvas-header">
@@ -83,11 +98,6 @@
               <div class="offcanvas-header">
                 <h6 class="offcanvas-title d-none d-sm-block text-dark fw-bold" id="offcanvas">ADMIN</h6>
               </div>
-
-              <li>
-                <a href="#" class="nav-link text-truncate">
-                    <i class="fa-solid fa-plus"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Add Brand</span></a>
-              </li>
               <li>
                 <a href="#" class="nav-link text-truncate">
                     <i class="fa-solid fa-image"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Add Banner</span></a>

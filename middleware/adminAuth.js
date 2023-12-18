@@ -1,5 +1,5 @@
 const authMiddleware = (req, res, next) => {
-    if (req.session.admin) {
+    if (req.session.adminlogged) {
       // Admin is authenticated
       next();
     } else {

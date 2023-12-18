@@ -1,153 +1,142 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <title>Adminlogin</title>
+    <title>Admin Login</title>
     <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="/userLogin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 
 <body>
-    <header>
-        <div class=" navbar navbar-light w-100 h-25 p-2 border-bottom justify-content-sm-center  bg-black text-white ">
-            <div class="navbar navbar-light border-bottom d-flex justify-content-around bg-white fixed-top "
-                style="height:80px">
-                <div style="font-family: 'Ravie', sans-serif; font-weight:bold; font-size: 24px; color: #014122;">
-                    drip
-                </div>
-
-            </div>
-    </header>
-    <div class="container">
-        <div class="row mt-5">
-            <div class="col-md-6 left-box">
-                <div class="featured-image">
-                    <img src="https://www.uab.edu/humanresources/home/images/RecordsAdmin/RecordsIcon_Oracle_SelfService.png"
-                        class="img-fluid" style="width: 100%" />
-                </div>
-            </div>
-            <div class="col-md-6 mt-5">
-                <div id="first">
-                    <div class="myform form mt-5">
-                        <div class="logo mb-3">
-                            <div class="col-md-12">
-                                <h1 style="
-                      font-size: 36px;
-                      font-weight: 500;
-                      line-height: 30px;
-                    ">
-                                    Admin Login
-                                </h1>
-                                <h1 style="
-                      font-family: Poppins;
-                      font-size: 16px;
-                      font-weight: 400;
-                      line-height: 24px;
-                      letter-spacing: 0em;
-                      text-align: left;
-                    ">
-                                    Fill the datas
-                                </h1>
+    <nav class="navbar navbar-expand-lg bg-white border-bottom "
+        style="height: 100px; font-family: 'Ravie', sans-serif; font-weight:bold; font-size: 24px; color: #014122;">
+        <div class="container-fluid d-flex justify-content-center align-items-center h-100 mt-2">
+            <h1 class="mt-2">Drip</h1>
+        </div>
+    </nav>
+    <div class="min-vh-100 d-flex align-items-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-7 mx-auto">
+                    <div class="shadow-lg">
+                        <div class="d-flex align-items-center">
+                            <div class="d-none d-md-block d-lg-block">
+                                <img src="/images/login.png" class="objectFit" />
+                            </div>
+                            <div class="p-4" id="formPanel">
+                                <div class="text-center mb-5">
+                                    <h1 class="customHeading h3 text-uppercase">Login</h1>
+                                </div>
+                                <form action="/admin/login" method="post" id="userLogin">
+                                    <div class="custom-form-group">
+                                        <label class="text-uppercase" for="email">Email</label>
+                                        <input type="text" id="email" class="pb-1" name="email" /><span class="pb-1 customs"><i
+                                                class="fas fa-envelope"></i></span>
+                                        <span id="email_error" class="text-danger"></span>
+                                    </div>
+                                    <div class="custom-form-group mt-3">
+                                        <label class="text-uppercase" for="password">Password</label>
+                                        <input type="password" id="password" class="pb-1" name="password" /><span
+                                            class="pb-1 customs"><i id="eyeIcon" class="fas fa-eye-slash"
+                                                onclick="togglePassword()"></i></span>
+                                        <span id="password_error" class="text-danger"></span>
+                                    </div>
+                                    <div class="mt-3">
+                                        <a class="customa" href="/">Back to home</a>
+                                    </div>
+                                    <div class="mt-5">
+                                        <button class="w-100 p-2 d-block custom-btn">Login</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                        <form action="/admin/login" method="post">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1"></label>
-                                <input type="email" name="email" id="email" class="form-control border-bottom" style="
-                      border: 0;
-                      box-shadow: none;
-                      border-bottom: 1px solid black;
-                    " aria-describedby="emailHelp" placeholder="Email or Phone Number" />
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1"></label>
-                                <input type="password" name="password" id="password" class="form-control border-bottom"
-                                    style="
-                        border: 0;
-                        box-shadow: none;
-                        border-bottom: 1px solid black;
-                      " aria-describedby="emailHelp" placeholder="password" />
-                            </div>
                     </div>
-
-
-
-                    <div class="col-md-12 text-center mt-5">
-                        <button id="login-button" type="submit" class="btn btn-block form-control "
-                            style=" font-family: Poppins; font-size: 16px; font-weight: 500; line-height: 24px; letter-spacing: 0em; background-color: #014122;color: white;">Login
-                            as Admin</button>
-                    </div>
-
-                    <div class="col-md-12 mt-5">
-                        <div class="login-or">
-                            <hr class="hr-or" />
-                            <span class="span-or "></span>
-                        </div>
-                    </div>
-                    <div class="col-md-12 mb-3">
-
-                    </div>
-                    <div class="form-group">
-                        <p class="text-center"
-                            style="font-family: Poppins; font-size: 16px; font-weight: 400; line-height: 24px; letter-spacing: 0em; text-align: left;">
-                            Dont have account? <a href="#" id="signup"
-                                style="font-family: Poppins; font-size: 16px; font-weight: 400; line-height: 24px; letter-spacing: 0em; text-align: left; color:#014122;">Sign
-                                up</a>
-                        </p>
-                    </div>
-                    </form>
                 </div>
             </div>
         </div>
     </div>
+    <div class="blockcode">
+        <footer class="page-footer shadow">
+            <div class="container-fluid d-flex flex-wrap justify-content-between align-items-center py-4">
+                <div class="text-center text-lg-start mb-3 mb-lg-0">
+                    <a href="/" class="d-flex align-items-center p-0 text-dark text-decoration-none">
+                        <span class="ms-4 h5 mb-0 font-weight-bold"
+                            style="font-family: 'Ravie', sans-serif;color: #014122;">Drip</span>
+                    </a>
+                    <small class="ms-lg-2">&copy; <span style="font-family: 'Ravie';color: #014122;">Drip</span>, 2023.
+                        All rights reserved.</small>
+                </div>
+                <div class="text-center">
+                    <a href="#" class="text-decoration-none me-3 me-lg-2"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-decoration-none me-3 me-lg-2"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-decoration-none me-3 me-lg-2"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </footer>
     </div>
-    <footer class="text-center text-white mt-5" style="background-color: #018141;">
-        <!-- Grid container -->
-        <div class="container p-4 pb-0">
-            <!-- Section: Social media -->
-            <section class="mb-4">
-                <!-- Facebook -->
-                <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
-                        class="fab fa-facebook-f"></i></a>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+        </script>
 
-                <!-- Twitter -->
-                <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
-                        class="fab fa-twitter"></i></a>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+        </script>
+    <script>
+        const email = document.getElementById('email')
+        const password = document.getElementById('password')
+        const form = document.getElementById('userLogin')
 
-                <!-- Google -->
-                <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
-                        class="fab fa-google"></i></a>
+        const email_error = document.getElementById('email_error')
+        const password_error = document.getElementById('password_error')
 
-                <!-- Instagram -->
-                <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
-                        class="fab fa-instagram"></i></a>
+        function togglePassword() {
+            const passwordField = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
 
-                <!-- Linkedin -->
-                <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
-                        class="fab fa-linkedin-in"></i></a>
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            } else {
+                passwordField.type = 'password';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            }
+        }
 
-                <!-- Github -->
-                <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
-                        class="fab fa-github"></i></a>
-            </section>
-            <!-- Section: Social media -->
-        </div>
-        <!-- Grid container -->
+        form.addEventListener('submit', (e) => {
 
-        <!-- Copyright -->
-        <div class="text-center p-3" style="background-color:#014122;">
-            © 2023 Copyright:
-            <a class="text-white" href="#">Drip.com</a>
-        </div>
-        <!-- Copyright -->
-    </footer>
+            let email_check = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/
+
+            if (!email.value.match(email_check)) {
+                e.preventDefault()
+                email_error.innerHTML = "Enter a valid email"
+            } else {
+                email_error.innerHTML = ""
+            }
+
+            if (password.value === "password") {
+                password_error.innerHTML = "Not a valid password"
+            } else if (password.value.length === 0 || password.value == null) {
+                password_error.innerHTML = "Please fill it"
+            } else {
+                password_error.innerHTML = ""
+            }
+
+
+        })
+    </script>
 </body>
+
+</html>

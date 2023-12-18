@@ -1,0 +1,117 @@
+<%- include('../partials/user-head.ejs') %>
+    <%- include('../partials/user-nav.ejs') %>
+
+        <section class="pt-5  container" data-aos="fade-up" data-aos-duration="800">
+            <h2 style="font-weight: bold;font-family: 'Josefin Sans', sans-serif;text-transform: uppercase;"
+                class="pt-5">
+                Address Book
+                <i class="fa-solid fa-address-book text-dark ms-2 fs-4"></i>
+            </h2>
+            <hr>
+        </section>
+
+        <div class="d-flex justify-content-center ">
+            <a href="/user/add/address" class="btn btn-primary">add address</a>
+        </div>
+
+
+        <div class="row p-5">
+
+            <% if (addressData) { %>
+                <% addressData.address.forEach((data)=> { %>
+                    <div class="col-md-4 ">
+                        <div class="card mb-4 bg-light">
+                            <div class="card-body">
+                                <div class="col">
+                                    <div class="col">
+                                        <h5 class="text-muted mb-2 text-decoration-underline">Address</h5>
+                                    </div>
+                                    <div class="col">
+                                        <p class=" mb-2">
+                                            First Name: <strong>
+                                                <%=data.fname%>
+                                            </strong>
+                                        </p>
+
+                                        <p class=" mb-2">
+                                            Last Name: <strong>
+                                                <%=data.lname%>
+                                            </strong>
+                                        </p>
+
+                                        <p class=" mb-2">
+                                            Street: <strong>
+                                                <%=data.street%>
+                                            </strong>
+                                        </p>
+
+                                        <p class=" mb-2">
+                                            Building Name: <strong>
+                                                <%=data.buildingName%>
+                                            </strong>
+                                        </p>
+
+                                        <p class=" mb-2">
+                                            City: <strong>
+                                                <%=data.city%>
+                                            </strong>
+                                        </p>
+
+                                        <p class=" mb-2">
+                                            State: <strong>
+                                                <%=data.state%>
+                                            </strong>
+                                        </p>
+
+                                        <p class=" mb-2">
+                                            Pincode: <strong>
+                                                <%=data.pincode%>
+                                            </strong>
+                                        </p>
+
+                                        <p class=" mb-2">
+                                            Mobile: <strong>
+                                                <%=data.mobile%>
+                                            </strong>
+                                        </p>
+
+                                        <p class=" mb-2">
+                                            Email: <strong>
+                                                <%=data.email%>
+                                            </strong>
+                                        </p>
+
+                                        <div class="col-md-12">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                id="inlineRadio1" value="option1">
+                                            <label class="form-check-label" for="inlineRadio1">Select</label>
+                                            <a href="/user/edit/address/<%-data.id%>"
+                                                class="p-5 text-decoration-none text-dark">
+                                                <i class="fa-solid fa-pen-to-square text-primary"></i>
+                                                Edit
+                                            </a>
+
+                                            <a href="/user/delete/address/<%-data._id%>"
+                                                class="text-decoration-none  text-dark">
+                                                <i class="fa-solid fa-trash-can text-danger"></i>
+                                                Delete
+                                            </a>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+                        <% } else { %>
+                          
+                            <% } %>
+
+
+
+
+        </div>
+
+        <%- include('../partials/user-foot.ejs') %>

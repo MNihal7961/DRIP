@@ -1,0 +1,136 @@
+body {
+    overflow-x: hidden;
+}
+
+.custom-a a {
+    text-decoration: none;
+}
+
+.custom-card-container {
+    width: 12rem;
+    height: 16.25rem;
+    background-color: #ffffff;
+    position: relative;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    overflow: hidden;
+    filter: blur(10px 30px) blur(42px);
+    transition: transform 0.3s;
+}
+
+.custom-card-container:hover {
+    transform: scale(1.05);
+    box-shadow: 10px 30px 42px rgba(0, 0, 0, 0.2);
+}
+
+.custom-icon-heart,
+.custom-icon-cart {
+    position: absolute;
+    font-size: 24px;
+    color: #000000;
+}
+
+.custom-icon-heart {
+    bottom: 10px;
+    right: 10px;
+}
+
+
+
+.custom-additional-info {
+    background-color: #fff;
+    padding: 1rem;
+    margin-top: 1px;
+    width: 12rem;
+    margin-left: 10px;
+}
+
+.custom-additional-info p {
+    font-size: 11.5px;
+    font-weight: 300;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin: 0;
+    margin-left: 0;
+    margin-top: 0;
+}
+
+
+
+.custom-icon-heart:hover {
+    color: red;
+}
+
+
+.custom-body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding-top: 50px;
+}
+
+.order-card {
+    background-color: #fff;
+    border: 1px solid #e2e2e2;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.order-image {
+    max-width: 100px;
+    max-height: 100px;
+    margin-bottom: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.order-status-bar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #555;
+}
+
+.status i {
+    font-size: 20px;
+    margin-right: 8px;
+}
+
+.status span {
+    margin-left: 5px;
+}
+
+.success {
+    color: #28a745;
+}
+
+.processing {
+    color: #ffc107;
+}
+
+.shipped {
+    color: #007bff;
+}
+
+.cancelled {
+    color: #dc3545;
+}
+
+.btn-cancel {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
+}
+
+.btn-return {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+}

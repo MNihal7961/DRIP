@@ -1,0 +1,136 @@
+<%- include('../partials/user-head.ejs') %>
+    <%- include('../partials/user-nav.ejs') %>
+        <section style="background-color: #eee;">
+            <div class="container py-5">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card mb-4">
+                            <div class="card-body text-center">
+                                <img src="<%= userData.profilePhoto ? '/profileImages/' + userData.profilePhoto : '/images/profile.jpg' %>"
+                                    alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+
+                                <div class="d-flex justify-content-center mt-3">
+                                    <label for="imageInput" class="btn btn-primary btn-rounded">
+                                        choose File
+                                        <input type="file" id="imageInput" name="profileimage" accept="image/*"
+                                            style="display: none;" onchange="uploadprofiepic(event)">
+                                    </label>
+                                </div>
+                                <h5 class="my-3">
+                                    <%=userData.username%>
+                                </h5>
+
+                            </div>
+                        </div>
+
+                        <div class="card mb-4 mb-lg-0">
+                            <div class="card-body p-0">
+                                <ul class="list-group list-group-flush rounded-3">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center p-3"
+                                        onclick="window.location.href='/user/order/details'">
+                                        <i class="fa-solid fa-box-open text-primary"></i>
+                                        <p class="mb-0">My Orders</p>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center p-3"
+                                        onclick="window.location.href='/user/cart'">
+                                        <i class="fa-solid fa-cart-shopping"></i>
+                                        <p class="mb-0">Cart</p>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center p-3"
+                                        onclick="window.location.href='/user-wish'">
+                                        <i class="fa-solid fa-heart text-danger"></i>
+                                        <p class="mb-0">Whislist</p>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center p-3"
+                                        onclick="window.location.href='/user/address/book'">
+                                        <i class="fa-solid fa-address-book"></i>
+                                        <p class="mb-0">Address Book</p>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center p-3"
+                                        onclick="window.location.href='/user/logout'">
+                                        <i class="fa-solid fa-arrow-right-from-bracket text-danger "></i>
+                                        <p class="mb-0">Log Out</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="text-muted mb-0">User Name</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class=" mb-0">
+                                            <%=userData.username%>
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="text-muted mb-0">Email</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class=" mb-0">
+                                            <%=userData.email%>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="text-muted mb-0">Profile Settings</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <a href="/user/edit/profile/<%-userData.id%>"
+                                            class="text-dark text-decoration-none">
+                                            <i class="fa-solid fa-gear text-primary"></i>
+                                            Edit Profile
+                                        </a>
+                                    </div>
+                                </div>
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="text-muted mb-0">Wallet</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <h3 class="text-dark">₹ 0000</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <%- include('../partials/user-foot.ejs') %>
+
+            <script>
+                function uploadprofiepic(event) {
+                    const fileInput = event.target;
+                    if (fileInput.files && fileInput.files[0]) {
+
+                        const formData = new FormData();
+                        formData.append('profileimage', fileInput.files[0]);
+                        fetch('/user/upload/profileImage', {
+                            method: 'POST',
+                            body: formData,
+                        })
+                            .then(res => {
+                                if (res.ok) {
+                                    console.log("File uploaded successfully");
+                                    window.location.reload();
+                                } else {
+                                    console.error("Upload failed");
+                                }
+                            })
+                            .catch(err => console.error('Error uploading files', err));
+                    }
+                }
+            </script>

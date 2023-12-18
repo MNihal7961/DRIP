@@ -1,0 +1,307 @@
+<%- include('../partials/user-head.ejs') %>
+    <%- include('../partials/user-nav.ejs') %>
+        <% if (cartItems.length>0) { %>
+            <!-- cart + summary -->
+            <section class="bg-ehite py-5">
+                <div class="container">
+                    <div class="row">
+                        <!-- cart -->
+                        <div class="col-lg-9">
+                            <div class="card border shadow-0">
+                                <div class="m-4">
+                                    <h4 class="card-title mb-4">Your shopping cart<i
+                                            class="fa-solid fa-cart-shopping text-dark ms-2 fs-4"></i></h4>
+
+                                    <% cartItems.forEach((cart,i)=> { %>
+                                        <div class="row gy-3 mt-3">
+                                            <div class="col-lg-5">
+                                                <div class="me-lg-5">
+                                                    <div class="d-flex">
+                                                        <a href="/user/product/details/<%-cart.product._id%>">
+                                                            <img src="/<%-cart.product.images[0]%>"
+                                                                class="border rounded me-3" height="100px"
+                                                                width="100px" />
+                                                        </a>
+                                                        <div class="">
+                                                            <a href="/user/product/details/<%-cart.product._id%>"
+                                                                class="text-decoration-none fw-bold">
+                                                                <%=cart.product.title%>
+                                                            </a>
+
+                                                            <p class="text-muted">size: <strong><%-cart.size%></strong>
+                                                            </p>
+                                                            <p class="text-muted">Brand:<strong>
+                                                                    <%=cart.product.brandName%>
+                                                                </strong></p>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="col-lg-2 col-sm-6 col-6 d-flex flex-row flex-lg-column flex-xl-row text-nowrap">
+                                                <div class="">
+                                                    <button class="btn btn-primary text-white mb-2" type="button"
+                                                        onclick="changeQuantity('<%-cart._id%>','<%-cart.product._id%>','<%-cart.size%>',1)"><i
+                                                            class="fa-solid fa-plus btn-increment"></i></button>
+
+
+
+                                                    <input type="text" value="<%-cart.quantity%>" disabled
+                                                        class="border-0 form-control">
+
+                                                    <button class="btn btn-primary mt-2 btn-decrement" type="button"
+                                                        <%if(cart.quantity<2){%>disabled<%} %>
+                                                            onclick="changeQuantity('<%-cart._id%>','<%-cart.product._id%>','<%-cart.size%>',-1)">
+                                                                        <i class="fa-solid fa-minus"></i></button>
+
+
+
+
+                                                </div>
+                                                <div class="ms-5">
+                                                    <text class="h6"><strong>₹</strong>
+                                                        <%=eachTotal[i].total%>.00/ <%=cart.quantity%> Pairs
+                                                    </text> <br />
+                                                    <small class="text-muted text-nowrap"> <strong>₹</strong>
+                                                        <%=cart.product.mrp%>.00 /per item
+                                                    </small>
+                                                </div>
+
+
+
+                                                <a class="ms-5 text-decoration-none"
+                                                    onclick="removeItem('<%-cart._id%>','<%-cart.product._id%>','<%-cart.size%>','<%-userData._id%>')">
+                                                    <i class="fa-solid fa-trash-can fa-lg text-danger"></i>
+                                                    <strong class="text-muted">Remove</strong>
+                                                </a>
+
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <% }) %>
+                                </div>
+
+
+                                <div class=" pt-4 mx-4 mb-4">
+                                    <p><i class="fas fa-truck text-muted fa-lg"></i> Free Delivery within 3-7 days</p>
+                                    <p class="text-muted">
+                                        All services required to transport products purchased online from a retailer to
+                                        the
+                                        customer's delivery destination. With the right store, our shipping can be
+                                        manageable, affordable, and fast.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- cart -->
+                        <!-- summary -->
+                        <div class="col-lg-3">
+                            <div class="card mb-3 border shadow-0">
+                                <div class="card-body">
+                                    <form>
+                                        <div class="form-group ">
+                                            <label class="form-label"><strong>Have coupon?</strong></label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control border" name=""
+                                                    placeholder="Coupon code" />
+                                                <button class="btn btn-success  text-white">Apply</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card shadow-0 border">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <p class="mb-2">Total price:</p>
+                                        <p class="mb-2">₹<%=total%>.00</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <p class="mb-2">Discount:</p>
+                                        <p class="mb-2 text-success">-₹0.00</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <p class="mb-2">GST:</p>
+                                        <p class="mb-2">₹<%=tax%>
+                                        </p>
+                                    </div>
+                                    <hr />
+                                    <div class="d-flex justify-content-between">
+                                        <p class="mb-2">Total price:</p>
+                                        <p class="mb-2 fw-bold">₹<%=summary%>
+                                        </p>
+                                    </div>
+
+                                    <div class="mt-3">
+                                        <a href="javascript:void(0);" onclick="confirmCheckout()"
+                                            class="btn btn-success w-100 shadow-0 mb-2"> Check out now </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- summary -->
+                    </div>
+                </div>
+            </section>
+            <!-- cart + summary -->
+
+            <!-- Related-Products -->
+            <section>
+                <div class="py-3 py-md-5 ">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-4">
+                                <h2 class="text-center my-3 fw-500" style="color: #014122;">Related Products</h1>
+                            </div>
+
+                            <div class="row custom-a">
+                                <% relateData.forEach((data)=> { %>
+
+                                    <!-- Card 1 -->
+                                    <div class="col d-flex justify-content-around flex-wrap col-lg-3">
+
+                                        <!-- Your Card Content -->
+                                        <div class="custom-card-container ms-5 mt-5">
+                                            <a href="#" class="custom-icon-heart"><i
+                                                    class="fa-regular fa-heart"></i></a>
+                                            <a href=" /user/product/details/<%-data.id%>">
+                                                <img class="card-img-top" src="/<%=data.images[0]%>"
+                                                    alt="Card image cap" height="190px" width="210px">
+                                            </a>
+                                            <div class="custom-additional-info ">
+                                                <a href=" /user/product/details/<%-data.id%>">
+                                                    <p>
+                                                        <%=data.title%>
+                                                    </p>
+                                                </a>
+                                                <p class="custom-p">₹ <%=data.mrp%> | 5.0 <i class="fa-solid fa-star"
+                                                            style="color: #F5D426;"></i></p>
+
+                                            </div>
+                                        </div>
+
+                                        <!-- Your Additional Info Content -->
+
+                                    </div>
+
+
+                                    <% }) %>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class=" d-flex justify-content-center  align-items-cenetr mb-5">
+                    <form>
+                        <a href="/user/black-friday-sale"
+                            class="btn rounded-pill  border-success text-success text-center px-5">Find More</a>
+                    </form>
+                </div>
+            </section>
+            <!-- Related-Products -->
+
+
+            <% } else { %>
+                <div class="text-center">
+                    <img src="/images/empty_cart.png"
+                        class="img-fluid"><br>
+                    <a href="/user/home" class="btn rounded-pill border-success text-center my-3 text-success w-25">Back
+                        To Shopping</a>
+                </div>
+
+                <% } %>
+
+
+
+                    <%- include('../partials/user-foot.ejs') %>
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+                            integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRNt0sGfzm0b/X7Kfjb5I5oq7A/hFql3YfFgONz4P"
+                            crossorigin="anonymous"></script>
+
+
+                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+                        <script>
+                            function confirmCheckout() {
+                                Swal.fire({
+                                    title: 'Are you sure?',
+                                    text: 'Do you want to proceed with the checkout?',
+                                    icon: 'question',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Yes, proceed'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.href = '/user/checkout';
+                                    }
+                                });
+                            }
+                        </script>
+
+
+
+                        <script>
+                            function changeQuantity(cartId, proId, size, count) {
+                                // let count=parseInt(count)
+                                // let quantity=parseInt(document.getElementById(proId).innerHTML)
+
+                                $.ajax({
+                                    url: '/change/product/quantity',
+                                    data: {
+                                        cart: cartId,
+                                        product: proId,
+                                        size: size,
+                                        count: count
+                                    },
+                                    method: 'put',
+                                    success: (response) => {
+                                        if (response) {
+                                            location.reload()
+                                        }
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error(error);
+                                    }
+                                });
+
+                            }
+                        </script>
+
+                        <script>
+                            function removeItem(cartId, prodId, size, userId) {
+
+                                Swal.fire({
+                                    title: 'Are you sure?',
+                                    text: "You won't be able to revert this!",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Yes, delete it!'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        $.ajax({
+                                            url: '/delete/cart/item',
+                                            data: {
+                                                cartId: cartId,
+                                                product: prodId,
+                                                size: size,
+                                                userId: userId
+                                            },
+                                            method: 'DELETE',
+                                            success: (response) => {
+                                                if (response.removeProduct) {
+                                                    location.reload()
+                                                }
+                                            }
+                                        })
+                                        Swal.fire(
+                                            'Deleted!',
+                                            'Your file has been deleted.',
+                                            'success'
+                                        )
+                                    }
+                                })
+                            }
+                        </script>

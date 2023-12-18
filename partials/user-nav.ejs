@@ -1,19 +1,6 @@
-<div class="superNav border-bottom py-2" style="background-color: #014122; font-size: 13px;">
-    <div class="container-fluid">
-        <div class="row">
-            <div class=" col text-center ">
-                <span class=" me-3 text-white my-auto ">Signup and
-                    get 20% off to your first order. <a href="/user/signup" class="text-white" style="font-weight: 500;">SignUp Now</a>
-                </span>
-                <a href="/admin/login" class="text-white"><span class="me-3 text-white my-auto text-end">AdminLogin</span></a>
-            </div>
-        </div>                         
-    </div>
-</div>
-
 <nav class="navbar navbar-expand-lg bg-white sticky-top navbar-light p-3 shadow-sm">
     <div class="container">
-        <a class="navbar-brand" href="#"
+        <a class="navbar-brand" href="/user/home"
             style="font-family: 'Ravie', sans-serif; font-weight:bold; font-size: 24px; color: #014122;">Drip</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,20 +34,32 @@
             </ul>
             <ul class="navbar-nav ms-auto ">
                 <li class="nav-item">
-                    <a class="nav-link mx-2 text-uppercase" href="#"><i class="fa-solid fa-cart-shopping me-1"
-                            style="color: #014122;"></i>Cart</a>
+                    <a class="nav-link mx-2 text-uppercase" href="/user/cart"> Cart <i class="fa-solid fa-cart-shopping fa-lg me-1"
+                            style="color: #014122;"></i>
+                            <% if (cartNo) { %>
+                                <span class="position-absolute  start-25 translate-middle badge rounded-pill bg-danger ms-1">
+                                    <%=cartNo%>
+                                    <span class="visually-hidden">unread messages</span>
+                                  </span>
+                            <% } %>
+                        </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link mx-2 text-uppercase" href="#"><i class="fa-solid fa-wallet me-1"
                             style="color: #014122;"></i>Wallet</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mx-2 text-uppercase" href="#"><i class="fa-solid fa-heart me-1"
-                            style="color: #014122;"></i>Wishlist</a>
+                    <a class="nav-link mx-2 text-uppercase" href="#">Wishlist <i class="fa-solid fa-heart fa-lg me-1"
+                            style="color: #014122;"></i>
+                            <span class="position-absolute  start-25 translate-middle badge rounded-pill bg-danger ms-1">
+                                99+
+                                <span class="visually-hidden">unread messages</span>
+                              </span>
+                        </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mx-2 text-uppercase" href="#"><i class="fa-solid fa-circle-user me-1"
-                            style="color: #014122;"></i>Account</a>
+                    <a class="nav-link mx-2 text-uppercase" href="/user/profile/<%=userData.id%>"><i
+                            class="fa-solid fa-circle-user me-1" style="color: #014122;"></i>Account</a>
                 </li>
             </ul>
         </div>

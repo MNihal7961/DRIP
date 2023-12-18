@@ -9,19 +9,22 @@ const adminRouter=require('./router/admin-router')
 const session = require('express-session')
 const nocache = require('nocache')
 const connectDB=require('./config/connection')
+const storage=require('./middleware/multer')
 
-const PORT=process.env.PORT||4000
+
+const PORT=process.env.PORT||3000
 const HOST=process.env.HOST
 const app=express()
 const key=uuid.v4()
 
+app.use(bodyparser.json())
+app.use(bodyparser.urlencoded({ extended: true }))
+
 app.set('view engine','ejs')
 app.set("views", path.join(__dirname, "views"))
 
-
-app.use(bodyparser.json())
-app.use(bodyparser.urlencoded({ extended: true }))
 app.use(express.static("public"))
+app.use(express.static("uploads"))
 
 app.use(session({
   secret:key,

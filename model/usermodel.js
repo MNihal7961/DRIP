@@ -5,16 +5,15 @@ require('dotenv').config()
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
-        required: true
     },
     email: {
         type: String,
-        required: true,
-        unique: true
     },
     password: {
         type: String,
-        required: true
+    },
+    profilePhoto: {
+        type: String
     },
     status: {
         type: Boolean,
@@ -22,5 +21,5 @@ const userSchema = new mongoose.Schema({
     }
 })
 
-const userCollection=mongoose.model('users',userSchema)
-module.exports=userCollection
+const userCollection = mongoose.model('users', userSchema)
+module.exports = userCollection

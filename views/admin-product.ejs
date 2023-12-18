@@ -1,1 +1,114 @@
-<h1>SDFGHJKLKJVCVBNM</h1>
+<%- include('../partials/admin-head.ejs') %>
+
+    <div class="container-fluid">
+        <div class="row">
+            <h3 class="mt-3 text-center fw-bold">PRODUCT DETAILS</h3>
+            <div class="col min-vh-100 p-4">
+                <!-- toggler -->
+                <button class="btn float-end btn btn-success " data-bs-toggle="offcanvas" data-bs-target="#offcanvas"
+                    role="button">MENU</button>
+                <form action="/admin/add/product" method="get">
+                    <button class="btn float-end btn btn-primary" type="submit">Add Product</button>
+                </form>
+                <table class="table table-responsive mt-5 table-hover table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>No</th>
+                            <th>Name</th>
+                            <th>Photo</th>
+                            <th>Brand</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Size</th>
+                            <th>Stock</th>
+                            <th>Status</th>
+                            <th>Color</th>
+                            <th>Action</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% productData.forEach((data)=>{ %>
+                            <tr>
+                                <th>
+                                    <%=++i%>
+                                </th>
+                                <td>
+                                    <%=data.title%>
+                                </td>
+                                <td>
+                                    <img src="/<%-data.images[0] %>" alt="" style="width: 50px; height: 50px;">
+                                </td>
+                                <td>
+                                    <%=data.brandName%>
+                                </td>
+                                <td>
+                                    <%=data.categoryName%>
+                                </td>
+                                <td>
+                                    <%=data.mrp%>
+                                </td>
+                                <td>
+                                    <% data.varient.forEach((element)=> { %>
+                                        <%=element.size%>
+                                            <br>
+                                            <% }) %>
+                                </td>
+                                <td>
+                                    <% data.varient.forEach((element)=> { %>
+                                        <%=element.quantity%>
+                                            <br>
+                                            <% }) %>
+                                </td>
+                                </td>
+                                <td class="<%= data.status ? 'text-success fw-bold' : 'text-danger fw-bold' %>
+                                    table-white ">
+                                    <% if (data.status) { %>
+                                        <% value='Available' ; %>
+                                            <% } else { %>
+                                                <% value='Not Available' ; %>
+                                                    <% } %>
+                                                        <%= value %>
+
+                                </td>
+                                <td>
+                                    <%=data.productColor%>
+                                </td>
+                                <td>
+                                    <% if (data.status) { %>
+                                        <!-- If user is active, provide option to block -->
+                                        <form action="/admin/product/disable/<%- data._id %>" method="POST">
+                                            <button type="submit" class="text-white font-size btn btn-danger px-3 py-0"
+                                                onclick="return confirm('Are you sure you want to disable <%=data.title%>?')">Disable</button>
+                                        </form>
+                                        <% } else { %>
+                                            <!-- If user is inactive, provide option to unblock -->
+                                            <form action="/admin/product/enable/<%- data._id %>" method="post">
+                                                <button type="submit"
+                                                    class="text-white font-size btn btn-success px-3 py-0"
+                                                    onclick="return confirm('Are you sure you want to enable <%=data.title%>?')">Enable</button>
+                                            </form>
+                                            <% } %>
+                                </td>
+                                <td>
+                                    <form action="/admin/edit/product/<%-data.id %>" method="get">
+                                        <button type="submit" class="text-white font-size btn btn-warning px-3 py-0"
+                                            onclick="return confirm('Are you sure you want to Edit <%=data.title%>?')">Edit</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="/admin/product/delete/<%-data.id %>" method="POST">
+                                        <button type="submit" class="text-white font-size btn btn-danger px-3 py-0"
+                                            onclick="return confirm('Are you sure you want to Delete <%=data.title%>?')">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/admin-foot.ejs') %>
