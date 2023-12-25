@@ -1,4 +1,4 @@
-# RIG-X-
+# Drip-Store
 👋 Hi, I’m Nihal.M <br>
 <h2>💫 About This Project</h2>
 
