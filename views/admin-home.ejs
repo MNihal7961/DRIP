@@ -1,12 +1,150 @@
 <%- include('../partials/admin-head.ejs') %>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col min-vh-100 p-4">
-            <!-- toggler -->
-              <button class="btn float-end btn btn-success " data-bs-toggle="offcanvas" data-bs-target="#offcanvas" role="button">MENU</button>
-              <h1>DASHBOARD</h1>
+    <style>
+        .my-card {
+            position: absolute;
+            left: 40%;
+            top: -20px;
+            border-radius: 50%;
+        }
+    </style>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col min-vh-100 p-4">
+                <!-- toggler -->
+                <button class="btn float-end btn btn-success " data-bs-toggle="offcanvas" data-bs-target="#offcanvas"
+                    role="button">MENU</button>
+                <h1 class="text-success text-center">DASHBOARD</h1>
+                <div class="container">
+                    <div class="row w-100 mt-5">
+                        <div class="col-md-3">
+                            <div class="card border-success mx-sm-1 p-3">
+                                <div class="card border-success shadow text-success p-3 my-card"><i
+                                        class="fa-solid fa-cart-plus"></i></div>
+                                <div class="text-success text-center mt-3">
+                                    <h4>Total Orders</h4>
+                                </div>
+                                <div class="text-success text-center mt-2">
+                                    <h1><%-orderCount[0].totalOrderCount%></h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card border-success mx-sm-1 p-3">
+                                <div class="card border-success shadow text-success p-3 my-card"><i
+                                        class="fa-solid fa-sack-dollar"></i></div>
+                                <div class="text-success text-center mt-3">
+                                    <h4>Total Revenue</h4>
+                                </div>
+                                <div class="text-success text-center mt-2">
+                                    <h1>₹<%-totalRevenue[0].totalPaidAmount%></h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card border-success mx-sm-1 p-3">
+                                <div class="card border-success shadow text-success p-3 my-card"><i
+                                        class="fa-solid fa-users"></i></div>
+                                <div class="text-success text-center mt-3">
+                                    <h4>Total Users</h4>
+                                </div>
+                                <div class="text-success text-center mt-2">
+                                    <h1><%-userCount%></h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card border-success mx-sm-1 p-3">
+                                <div class="card border-success shadow text-success p-3 my-card"><i
+                                        class="fa-solid fa-shoe-prints"></i></div>
+                                <div class="text-success text-center mt-3">
+                                    <h4>Total Products</h4>
+                                </div>
+                                <div class="text-success text-center mt-2">
+                                    <h1><%-productCount%></h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container mt-5">
+                    <div class="row">
+                        <div class="w-50">
+                            <h2 class="text-success text-start fw-bold">Payments</h2>
+                            <canvas id="payment-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container mt-5">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h2 class="text-success text-start fw-bold">Revenue</h2>
+                            <canvas id="revenue-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const chartData = {
+                labels: ["COD", "Online"],
+                datasets: [{
+                    label: "Payment Methods Used",
+                    data: [<%= codCount %>, <%= onlineCount %>],
+                    backgroundColor: ["#FFA07A", "#87CEEB"]
+                }]
+            };
+
+            const paymentChart = document.getElementById('payment-chart');
+            new Chart(paymentChart, {
+                type: "bar",
+                data: chartData,
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+
+            const totalValuesArray = [<% - totalValuesArray.join(', ') %>];
+
+            const revenueData = {
+                labels: labels,
+                datasets: [{
+                    label: 'Revenue',
+                    data: totalValuesArray,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            };
+
+            const revenueChart = document.getElementById('revenue-chart');
+            new Chart(revenueChart, {
+                type: 'line',
+                data: revenueData,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
+
     <%- include('../partials/admin-foot.ejs') %>

@@ -6,6 +6,7 @@
 
         }
 
+       
         .profile-image-pic {
             height: 200px;
             width: 200px;
@@ -22,7 +23,7 @@
     </style>
     <div class="container">
         <div class="row">
-            <div class="col-md-6 offset-md-3">
+            <div class="col-12">
                 <h2 class="text-center text-dark mt-5">Add Product</h2>
                 <div class="text-center mb-5 text-dark">Made Your Drip</div>
                 <div class="card my-5">
@@ -36,13 +37,14 @@
                                 alt="profile">
                         </div>
 
-                        <div class="mb-3">
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
                             <label for="product">Enter product name</label>
                             <input id="name" type="text" class="form-control" placeholder="Product Name" name="title" oninput="validateInput()">
                             <p id="name_error" class="text-danger"></p>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-3 col-md-6">
                             <label for="brand">Choose Brand</label>
                             <select name="brand" required class="form-select" aria-label="Default select example">
                                 <option value="">Availabe Brand</option>
@@ -53,51 +55,44 @@
                                     <% }) %>
                             </select>
                         </div>
+                    </div>
+
+                 <div class="row">
+                    <div class="mb-3 col-md-6">
+                        <label for="category">Choose Category</label>
+                        <select name="category" required class="form-select" aria-label="Default select example">
+                            <option value="">Availabe Category</option>
+                            <% categoryData.forEach((data)=> { %>
+                                <option value="<%=data.category%>">
+                                    <%=data.category%>
+                                </option>
+                                <% }) %>
+                        </select>
+                    </div>
+
+                    <div class="mb-3 col-md-6">
+                        <label for="product">Enter Price</label>
+                        <input  oninput="validateInput()" id="price" type="number" class="form-control" placeholder="Product Price" name="price">
+                        <p class="text-danger" id="price_error"></p>
+                    </div>
+
+                    
+                 </div>
+
+                 <div class="mb-3">
+                    <label for="Description">Enter Description</label>
+                    <textarea name="description" placeholder="Description" class="form-control" oninput="validateInput()"
+                        id="description" rows="3"></textarea>
+                        <p id="description_error" class="text-danger"></p>
+                </div>
+                      
 
                         <div class="mb-3">
-                            <label for="category">Choose Category</label>
-                            <select name="category" required class="form-select" aria-label="Default select example">
-                                <option value="">Availabe Category</option>
-                                <% categoryData.forEach((data)=> { %>
-                                    <option value="<%=data.category%>">
-                                        <%=data.category%>
-                                    </option>
-                                    <% }) %>
-                            </select>
+                            <label for="product">Choose Images (Up to 4)</label>
+                            <input required type="file" class="form-control" id="imageInput" name="images[]" accept="image/*" multiple>
+                            <div id="imagePreview" class="mt-3"></div>
                         </div>
-
-                        <div class="mb-3">
-                            <label for="Description">Enter Description</label>
-                            <textarea name="description" placeholder="Description" class="form-control" oninput="validateInput()"
-                                id="description" rows="3"></textarea>
-                                <p id="description_error" class="text-danger"></p>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="product">Enter Price</label>
-                            <input  oninput="validateInput()" id="price" type="number" class="form-control" placeholder="Product Price" name="price">
-                            <p class="text-danger" id="price_error"></p>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="product">Choose First Image</label>
-                            <input required type="file" class="form-control" name="image1" accept="image/*">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="product">Choose Second Image</label>
-                            <input required type="file" class="form-control" name="image2" accept="image/*">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="product">Choose Third Image</label>
-                            <input required type="file" class="form-control" name="image3" accept="image/*">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="product">Choose Fourth Image</label>
-                            <input required type="file" class="form-control" name="image4" accept="image/*">
-                        </div>
+                        
 
                         <div class="mb-3">
                             <label for="product">Enter Product Color</label>
@@ -152,6 +147,10 @@
         </div>
     </div>
     <%- include('../partials/admin-foot.ejs') %>
+
+    <!-- SweetAlert CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 
         <script>
             document.getElementById('addVariant').addEventListener('click', function () {
@@ -240,3 +239,59 @@
                 }
             }
         </script>
+
+<script>
+    document.getElementById('imageInput').addEventListener('change', function () {
+        var preview = document.getElementById('imagePreview');
+        preview.innerHTML = '';
+
+        var files = this.files;
+        var validImageTypes = ['image/jpeg', 'image/png', 'image/gif','image/jpg','image/webp'];
+
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+
+            // Validate file type
+            if (validImageTypes.indexOf(file.type) === -1) {
+                // Show SweetAlert for file type validation error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid File Type',
+                    text: 'Please select only image files (JPEG, PNG, GIF).',
+                });
+                this.value = ''; // Reset the input field to clear the invalid selection
+                return;
+            }
+
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                img.classList.add('img-thumbnail', 'mr-2', 'mb-2');
+                img.style.maxWidth = '150px';
+                img.style.maxHeight = '150px';
+
+                var deleteButton = document.createElement('button');
+                deleteButton.innerHTML = 'Delete';
+                deleteButton.classList.add('btn', 'btn-danger', 'btn-sm', 'mb-2', 'ms-2');
+                deleteButton.addEventListener('click', function () {
+                    // Remove the image and the delete button on click
+                    preview.removeChild(img);
+                    preview.removeChild(this);
+
+                    // Remove the respective file from the input
+                    var index = Array.from(preview.children).indexOf(deleteButton) / 2; // divided by 2 to get the correct index
+                    document.getElementById('imageInput').value = '';
+                    var newFiles = Array.from(files).filter((_, fileIndex) => fileIndex !== index);
+                    document.getElementById('imageInput').files = newFiles;
+                });
+
+                preview.appendChild(img);
+                preview.appendChild(deleteButton);
+            }
+
+            reader.readAsDataURL(file);
+        }
+    });
+</script>

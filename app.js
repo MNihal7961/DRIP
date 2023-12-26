@@ -10,6 +10,7 @@ const session = require('express-session')
 const nocache = require('nocache')
 const connectDB=require('./config/connection')
 const storage=require('./middleware/multer')
+const flash=require('connect-flash')
 
 
 const PORT=process.env.PORT||3000
@@ -19,6 +20,8 @@ const key=uuid.v4()
 
 app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({ extended: true }))
+app.use(express.json())
+app.use(flash())
 
 app.set('view engine','ejs')
 app.set("views", path.join(__dirname, "views"))

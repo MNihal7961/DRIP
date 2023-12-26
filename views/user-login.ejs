@@ -37,6 +37,11 @@
                   <h1 class="customHeading h3 text-uppercase">Login</h1>
                 </div>
                 <form action="/user/login" method="post" id="userLogin">
+                  <% if (message.length>0) { %>
+                   <div class="alert alert-danger">
+                    <span ><%-message%></span>
+                   </div>
+                  <% } %>
                   <div class="custom-form-group">
                     <label class="text-uppercase" for="email">Email</label>
                     <input type="text" id="email" class="pb-1" name="email" /><span class="pb-1"><i
@@ -51,6 +56,9 @@
                   </div>
                   <div class="mt-3">
                     <a class="customa" href="/user/signup">Don't have account?,<br>Create account</a>
+                  </div>
+                  <div class="mt-3">
+                    <a class="customa" href="/user/forgott/password">Forgott Password?</a>
                   </div>
                   <div class="mt-5">
                     <button class="w-100 p-2 d-block custom-btn">Login</button>

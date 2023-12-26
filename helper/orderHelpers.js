@@ -1,9 +1,15 @@
 const cart = require('../model/cartmodel')
 const product = require('../model/productmodel')
 const { ObjectId } = require('mongodb')
-const users = require('../model/usermodel')
-const shipping = require('../model/shippingmodel')
 const order = require('../model/ordermodel')
+require('dotenv').config()
+const Razorpay = require('razorpay')
+const crypto=require('crypto')
+
+const instance = new Razorpay({
+    key_id: process.env.KEY_ID,
+    key_secret: process.env.KEY_SECRET,
+})
 
 const placeOrder = (user, shipping, address, total, payment) => {
     return new Promise(async (resolve, reject) => {
@@ -43,7 +49,7 @@ const placeOrder = (user, shipping, address, total, payment) => {
                         productImage: '$cartItemsRs.images',
                     }
                 }
-            ]);
+            ])
 
             //totalQuatity calculation
             let totalQuantity = products.reduce((acc, curr) => acc + curr.quantity, 0);
@@ -59,7 +65,7 @@ const placeOrder = (user, shipping, address, total, payment) => {
                 pincode: address[0].address.pincode,
                 mobile: address[0].address.mobile,
                 email: address[0].address.email
-            };
+            }
 
             // Inventory management - Update product quantities
             for (let i = 0; i < products.length; i++) {
@@ -75,7 +81,7 @@ const placeOrder = (user, shipping, address, total, payment) => {
                     {
                         $inc: { 'varient.$.quantity': -quantityToUpdate }
                     }
-                );
+                )
             }
 
             const mappedProducts = products.map(product => ({
@@ -86,7 +92,14 @@ const placeOrder = (user, shipping, address, total, payment) => {
                 productsPrice: product.productsPrice,
                 productImage: product.productImage,
                 status: true
-            }));
+            }))
+
+            let paymentStatus = ""
+            if (payment == "COD") {
+                paymentStatus = "Pending"
+            } else {
+                paymentStatus = "Paid"
+            }
 
             let orderData = {
                 userId: user._id,
@@ -95,19 +108,20 @@ const placeOrder = (user, shipping, address, total, payment) => {
                 billingAddress: Address,
                 totalPrice: total,
                 paymentMethod: payment,
+                paymentStatus: paymentStatus,
                 totalQuantity: totalQuantity,
                 shippingMethod: shipping.title,
                 productDetails: mappedProducts,
             };
 
-            const orderExist = await order.findOne({ user: user._id });
+            const orderExist = await order.findOne({ user: user._id })
 
             if (orderExist) {
                 await order.updateOne(
                     { user: user._id },
                     { $push: { order: orderData } }
                 );
-                resolve({ order: "success" });
+                resolve({ order: "success" })
             } else {
                 const newOrder = new order({
                     user: user._id,
@@ -115,20 +129,85 @@ const placeOrder = (user, shipping, address, total, payment) => {
                 });
 
                 await newOrder.save();
-                resolve({ order: "success" });
+                resolve({ order: "success" })
             }
 
             cart.deleteMany({ user: new ObjectId(user._id) }).then((response) => {
                 resolve({ order: "success" });
             });
 
+
         } catch (err) {
             console.log(err);
-            reject(err);
+            reject(err)
         }
-    });
-};
+    })
+}
 
+const generateRazorPay = async (userId, total) => {
+    const ordersDetails = await order.find({ user: new ObjectId(userId) })
+    let orders = ordersDetails[0]?.order?.slice()?.reverse()
+    let orderId = orders[0]._id
+    total = total * 100
+    return new Promise((resolve, reject) => {
+        try {
+            var options = {
+                amount: total,
+                currency: "INR",
+                receipt: "" + orderId
+            };
+            instance.orders.create(options, function (err, order) {
+                resolve(order)
+            });
+        } catch (err) {
+            console.Consolelog(err)
+        }
+    })
+}
+
+const verifyPayment = async (payment) => {
+    return new Promise((resolve, reject) => {
+        try {
+            console.log('verifypayment called')
+            let hmac = crypto.createHmac("sha256", '6dMOUSzCg1h01Q3TW0mmq6UR')
+            hmac.update(payment.razorpay_order_id + "|" + payment.razorpay_payment_id);
+            hmac = hmac.digest("hex");
+            console.log(hmac + "00")
+            console.log(payment.razorpay_signature + "00")
+            if (hmac === payment.razorpay_signature) {
+                resolve()
+            } else {
+                reject("not match")
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    })
+}
+
+const changePaymentStatus = (userId, orderId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let orders = await order.find({ user: userId })
+            let orderIndex = orders[0].order.findIndex(order => order._id == orderId)
+            await order.updateOne(
+                {
+                    'order._id': new ObjectId(orderId)
+                },
+                {
+                    $set: {
+                        ['order.' + orderIndex + '.paymentStatus']: 'PAID'
+                    }
+                }
+            ).then((data) => {
+                resolve()
+            })
+        } catch (err) {
+            console.log(err)
+        }
+
+    })
+}
 
 const adminProcessOrder = (orderId, status) => {
     return new Promise(async (resolve, reject) => {
@@ -224,11 +303,15 @@ const userCancelSingleProduct = (userId, orderId) => {
             reject(err);
         }
     });
-};
+}
+
 
 
 module.exports = {
     placeOrder,
+    generateRazorPay,
+    verifyPayment,
+    changePaymentStatus,
     adminProcessOrder,
     adminPlaceOrder,
     adminShipOrder,

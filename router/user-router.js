@@ -25,16 +25,14 @@ router.get('/', async (req, res) => {
 // User-home GET
 router.get('/user/home', userAuth.authMiddleware, userController.userhome_get)
 
-
 // Signup
 router.get('/user/signup',userController.usersignup_get)
-// router.post('/user/signup', userController.usersignup_post)
+
 //OTP GET
 router.get('/user/otp', userController.userotp_get)
 
 router.post('/user/signup', userController.userSignUpOTP_post)
 router.post('/user/otp', userController.userSignUpOTPValidate_post)
-
 router.post('/user/upload/profileImage', upload.single('profileimage'), profileController.editprofileImage)
 
 // Login
@@ -43,6 +41,12 @@ router.post('/user/login', userController.userlogin_post)
 
 // Logout
 router.get('/user/logout', userAuth.authMiddleware, userController.userlogout_get)
+
+// Forgott-password
+router.get('/user/forgott/password',userController.userForgottPassword_get)
+router.post('/user/forgott/password',userController.userForgottPassword_post)
+router.post('/user/forgott/otp',userController.userforgottOTPvalidate_post)
+router.post('/user/new/password',userController.usernewpassword_post)
 
 // User-view-black-friday-sale GET
 router.get('/user/black-friday-sale', userAuth.authMiddleware, userController.blackfridaysale_get)
@@ -104,6 +108,8 @@ router.post('/user/order/cancel/:id', userAuth.authMiddleware, orderController.u
 
 // Order-cancel-single-product POST
 router.post('/user/order/cancelProduct/:oid/:proid', userAuth.authMiddleware, orderController.userordersingleproductcancel_post)
+
+router.post('/verify/payment',userAuth.authMiddleware,orderController.verifyPayment)
 
 
 

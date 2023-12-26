@@ -7,20 +7,25 @@ const cart = require('../model/cartmodel')
 const global = require('../global/globalFunction')
 const sendOTP = require('../global/emailSender')
 const OTPgenerator = require('../global/otpGenerator')
+
 // User-signup GET
 const usersignup_get = (req, res) => {
-
-      
-
-    const title = "usersignup"
-    res.render('user-signup', { title })
+    try {
+        const title = "usersignup"
+        res.render('user-signup', { title })
+    } catch (err) {
+        console.log(err)
+    }
 }
 
 // User-login GET
 const userlogin_get = (req, res) => {
-
-    const title = "userlogin"
-    res.render('user-login', { title })
+    try {
+        const title = "userlogin"
+        res.render('user-login', { title, message: req.flash('message') })
+    } catch (err) {
+        console.log(err)
+    }
 }
 
 // User-login POST
@@ -29,22 +34,25 @@ const userlogin_post = async (req, res) => {
     try {
         const user = await users.findOne({ email })
         if (!user) {
-            res.redirect('/user/signup')
+            req.flash('message', 'Email not found')
+            res.redirect('/user/login')
         }
-        const pass_match = await bcrypt.compare(password, user.password)
+        const pass_match = bcrypt.compare(password, user.password)
         if (pass_match) {
             req.session.userlogged = true
             req.session.email = email
             req.session.user = req.body
             res.redirect('/user/home')
         } else {
+            req.flash('message', 'wrong password')
             res.redirect('/user/login')
         }
-        if(user.status==false){
-            res.redirect('/user/login?message=sorry you are blocked')
+        if (user.status == false) {
+            req.flash('messsage', 'You are blocked')
+            res.redirect('/user/login')
         }
     } catch (err) {
-        res.status(500).send("SERVER ERROR")
+        console.log(err)
     }
 }
 
@@ -66,7 +74,8 @@ const userhome_get = async (req, res) => {
 // User-logout GET
 const userlogout_get = (req, res) => {
     try {
-        res.redirect('/?message=Logout success')
+        req.flash('message', 'Logout success')
+        res.redirect('/')
         req.session.userlogged = false
         req.session.destroy()
     } catch (err) {
@@ -119,12 +128,12 @@ const userSignUpOTP_post = async (req, res) => {
                 req.flash('error', 'This email is already in use!. Please Login!')
                 return res.redirect('/user/signup')
             }
-                const saltRound = 10;
-                const hashedPassword = await bcrypt.hash(password, saltRound)
-                req.session.userName = name
-                req.session.email = email
-                req.session.hashedPassword = hashedPassword
-            
+            const saltRound = 10;
+            const hashedPassword = await bcrypt.hash(password, saltRound)
+            req.session.userName = name
+            req.session.email = email
+            req.session.hashedPassword = hashedPassword
+
             const generatedOTP = OTPgenerator
             console.log('generatedOTP', generatedOTP)
             const userEmail = email;
@@ -177,6 +186,63 @@ const userSignUpOTPValidate_post = async (req, res) => {
     }
 }
 
+const userForgottPassword_get = (req, res) => {
+    try {
+        res.render('user-forgott-password')
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const otpStore2 = {}
+const userForgottPassword_post = async (req, res) => {
+    try {
+        const email = req.body.email
+        let emailCheck = await users.findOne({ email: email })
+        if (!emailCheck) {
+            res.redirect('/user/forgott/password?messsage=No User Found')
+        } else {
+            const generatedOTP = OTPgenerator
+            console.log('generatedOTP', generatedOTP)
+            const expirationTime = 5 * 60 * 1000;
+            const expirationTimestamp = Date.now() + expirationTime;
+            otpStore2[generatedOTP] = expirationTimestamp
+            await sendOTP(email, generatedOTP)
+            req.session.email = email
+            res.render('user-forgott-otp')
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const userforgottOTPvalidate_post = (req, res) => {
+    try {
+        const { otp } = req.body
+        const userEnteredOTP = otp
+        if (otpStore2[userEnteredOTP] && otpStore2[userEnteredOTP] > Date.now()) {
+            res.render('user-new-password')
+        } else {
+            res.status(500).redirect('/user/forgott/password?error= Invalid or expired OTP');
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const usernewpassword_post = async (req, res) => {
+    try {
+        const email = req.session.email
+        console.log(email + "////////////")
+        const password = req.body.password1
+        const hashedPassword = await bcrypt.hash(password, 10)
+        const update = await users.updateOne({ email: email }, { $set: { password: hashedPassword } })
+        res.redirect('/user/login?message=password changed')
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 module.exports = {
     usersignup_get,
     userotp_get,
@@ -187,5 +253,9 @@ module.exports = {
     userlogout_get,
     blackfridaysale_get,
     userSignUpOTPValidate_post,
-    userSignUpOTP_post
+    userSignUpOTP_post,
+    userForgottPassword_get,
+    userForgottPassword_post,
+    userforgottOTPvalidate_post,
+    usernewpassword_post
 }

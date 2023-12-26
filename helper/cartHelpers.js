@@ -1,8 +1,5 @@
 const cart = require('../model/cartmodel')
-const products = require('../model/productmodel')
 const { ObjectId } = require('mongodb')
-const users = require('../model/usermodel')
-const shipping = require('../model/shippingmodel')
 
 const addToCart = async (proId, userId, sizeSelect) => {
     try {

@@ -1,5 +1,10 @@
 const session = require('express-session')
 const users = require('../model/usermodel')
+const order = require('../model/ordermodel')
+const product = require('../model/productmodel')
+const global = require('../global/globalFunction')
+const salesHelper = require('../helper/salesReportHelper')
+
 
 // Admin Datas
 const adminData = {
@@ -25,16 +30,58 @@ const adminlogin_get = (req, res) => {
 const adminhome_get = async (req, res) => {
     try {
         const title = "adminhome"
-        var i = 0
-        const userData = await users.find().sort({ username: 1, email: 1, password: 1, status: 1 })
-        res.render('admin-home', { title, userData, i })
+        const userCount = await users.find({}).count()
+        const orderCount = await order.aggregate([
+            {
+                $project: {
+                    orderCount: { $size: "$order" } // Calculate the size (length) of the order array
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalOrderCount: { $sum: "$orderCount" } // Sum up the order counts from all documents
+                }
+            }
+        ])
+
+        const totalRevenue = await order.aggregate([
+            {
+                $unwind: "$order"
+            },
+            {
+                $match: {
+                    "order.paymentStatus": "Paid"
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalPaidAmount: { $sum: "$order.totalPrice" }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    totalPaidAmount: { $round: ["$totalPaidAmount", 2] }
+                }
+            }
+        ])
+
+        const monthlyRevenue = await salesHelper.monthWiseSales()
+        const totalValuesArray = monthlyRevenue.data.map(item => item.total)
+        console.log(totalValuesArray)
+        const productCount = await product.countDocuments({})
+        const codCount = await global.codCount()
+        const onlineCount = await global.onlineCount()
+        res.render('admin-home', { totalValuesArray, title, userCount, orderCount, totalRevenue, productCount, onlineCount, codCount })
     } catch (err) {
         console.log(err)
     }
 }
 
 // Adminlogin POST
-const adminlogin_post =(req, res) => {
+const adminlogin_post = (req, res) => {
     try {
         const { email, password } = req.body
         if (adminData.email === email && adminData.password === password) {
@@ -105,6 +152,8 @@ const adminuser_get = async (req, res) => {
 
 
 
+
+
 module.exports = {
     adminlogin_get,
     adminlogin_post,
@@ -112,5 +161,6 @@ module.exports = {
     adminlogout_get,
     adminblock_post,
     adminunblock_post,
-    adminuser_get,
+    adminuser_get
+
 }

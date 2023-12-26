@@ -1,12 +1,6 @@
-const users = require('../model/usermodel')
-const address = require('../model/addressmodel')
-const { ObjectId } = require('mongodb')
-const userHelper = require('../helper/userHelpers')
-const cart = require('../model/cartmodel')
 const global = require('../global/globalFunction')
 const orderHelper = require('../helper/orderHelpers')
-const cartHelper = require('../helper/cartHelpers')
-const order = require('../model/ordermodel')
+const razorpayHelper = require('../helper/razorpayHelpers')
 
 const placeorder_post = async (req, res) => {
     const { address, payment, shipping, summary } = req.body;
@@ -15,21 +9,43 @@ const placeorder_post = async (req, res) => {
         const orderShipping = await global.selectShipping(shipping);
         const orderAddress = await global.selectAddress(userData._id, address);
         const orderPrice = global.overallPrice(summary, orderShipping.charge);
-        const orderPayment = global.selectPayment(shipping.toString());
-        await orderHelper.placeOrder(userData, orderShipping, orderAddress, orderPrice, payment).then(async (response) => {
-            res.json({ codstatus: true });
-        });
+        const orderPayment = req.body.payment
+        await orderHelper.placeOrder(userData, orderShipping, orderAddress, orderPrice, payment).then(async (orderId) => {
+            if (orderPayment == 'COD') {
+                res.json({ codstatus: true });
+            } else {
+                razorpayHelper.generateRazorPay(userData._id, orderPrice).then((order) => {
+                    res.json(order)
+                })
+            }
+        })
     } catch (err) {
         throw err;
     }
 }
+
+const verifyPayment = async (req, res) => {
+    const userData = await global.loggedUser(req.session.email)
+    console.log(req.body)
+    const { payment, order } = req.body
+    try {
+        orderHelper.verifyPayment(payment).then(() => {          
+                res.json({ status: true })
+        }).catch((err) => {
+            res.json({ status: false })
+        })
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 
 const ordersuccess_get = async (req, res) => {
     try {
         const title = "order-success"
         const userData = await global.loggedUser(req.session.email)
         const cartNo = await global.cartCount(userData._id)
-        res.render('user-order-success',{title,userData,cartNo})
+        res.render('user-order-success', { title, userData, cartNo })
     } catch (err) {
         console.log(err)
     }
@@ -120,15 +136,18 @@ const userordercancel_post = async (req, res) => {
 const userordersingleproductcancel_post = async (req, res) => {
     const userData = await global.loggedUser(req.session.email)
     try {
-        const { orderId} = req.body
+        const { orderId } = req.body
         console.log(req.body)
-        await orderHelper.userCancelSingleProduct(userData._id,orderId).then(async (response) => {
+        await orderHelper.userCancelSingleProduct(userData._id, orderId).then(async (response) => {
             res.json({ updateStatus: true })
         })
     } catch (err) {
         console.log(err)
     }
 }
+
+
+
 
 module.exports = {
     placeorder_post,
@@ -140,5 +159,6 @@ module.exports = {
     adminordershipped_post,
     adminorderdelivered_post,
     userordercancel_post,
-    userordersingleproductcancel_post
+    userordersingleproductcancel_post,
+    verifyPayment
 }

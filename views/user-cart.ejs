@@ -51,12 +51,9 @@
                                                         class="border-0 form-control">
 
                                                     <button class="btn btn-primary mt-2 btn-decrement" type="button"
-                                                        <%if(cart.quantity<2){%>disabled<%} %>
+                                                        <%if(cart.quantity===1){%>disabled<%} %>
                                                             onclick="changeQuantity('<%-cart._id%>','<%-cart.product._id%>','<%-cart.size%>',-1)">
                                                                         <i class="fa-solid fa-minus"></i></button>
-
-
-
 
                                                 </div>
                                                 <div class="ms-5">
@@ -122,8 +119,13 @@
                                         <p class="mb-2 text-success">-₹0.00</p>
                                     </div>
                                     <div class="d-flex justify-content-between">
-                                        <p class="mb-2">GST:</p>
-                                        <p class="mb-2">₹<%=tax%>
+                                        <p class="mb-2">CGST:</p>
+                                        <p class="mb-2">₹<%=tax/2%>
+                                        </p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <p class="mb-2">SGST:</p>
+                                        <p class="mb-2">₹<%=tax/2%>
                                         </p>
                                     </div>
                                     <hr />

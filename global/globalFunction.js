@@ -200,6 +200,68 @@ const getAllOrderProduct = async () => {
     }
 }
 
+const codCount = async () => {
+    try {
+        const count = await order.aggregate([
+            {
+                $unwind: "$order"
+            },
+            {
+                $match: {
+                    "order.paymentMethod": "COD"
+                }
+            },
+            {
+                $group: {
+                    _id: "$_id",
+                    orderCount: { $sum: 1 }
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalOrderCount: { $sum: "$orderCount" }
+                }
+            }
+        ])
+
+        return count[0].totalOrderCount
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const onlineCount = async () => {
+    try {
+        const count = await order.aggregate([
+            {
+                $unwind: "$order"
+            },
+            {
+                $match: {
+                    "order.paymentMethod": "razorpay"
+                }
+            },
+            {
+                $group: {
+                    _id: "$_id",
+                    orderCount: { $sum: 1 }
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalOrderCount: { $sum: "$orderCount" }
+                }
+            }
+        ])
+
+        return count[0].totalOrderCount
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 
 
 
@@ -220,5 +282,7 @@ module.exports = {
     getProductFromOrder,
     getProductDetailsFromOrder,
     getAllOrder,
-    getAllOrderProduct
+    getAllOrderProduct,
+    codCount,
+    onlineCount
 }

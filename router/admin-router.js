@@ -6,9 +6,10 @@ const categoryController = require('../controller/categoryController')
 const brandController = require('../controller//brandController')
 const productController = require('../controller/productController')
 const upload = require('../middleware/multer')
-const shippingController=require('../controller/shippingController')
-const paymentController=require('../controller/paymentController')
-const orderController=require('../controller/orderController')
+const shippingController = require('../controller/shippingController')
+const paymentController = require('../controller/paymentController')
+const orderController = require('../controller/orderController')
+const salesController = require('../controller/salesController.js')
 
 // Admin-login
 router.get('/admin/login', adminController.adminlogin_get)
@@ -108,60 +109,63 @@ router.post('/admin/edit/product/:id',
 router.post('/admin/product/delete/:id', auth.authMiddleware, productController.deleteproduct_post)
 
 // Admin-shipping
-router.get('/admin/shipping',auth.authMiddleware,shippingController.shipping_get)
+router.get('/admin/shipping', auth.authMiddleware, shippingController.shipping_get)
 
 // Admin-add-shipping
-router.get('/admin/add/shipping',auth.authMiddleware,shippingController.addshipping_get)
-router.post('/admin/add/shipping',auth.authMiddleware,shippingController.addshipping_post)
+router.get('/admin/add/shipping', auth.authMiddleware, shippingController.addshipping_get)
+router.post('/admin/add/shipping', auth.authMiddleware, shippingController.addshipping_post)
 
 
 // Admin-disable-shipping
-router.post('/admin/shipping/disable/:id',auth.authMiddleware,shippingController.disableshipping_post)
+router.post('/admin/shipping/disable/:id', auth.authMiddleware, shippingController.disableshipping_post)
 
 // Admin-enable-shipping
-router.post('/admin/shipping/enable/:id',auth.authMiddleware,shippingController.enableshipping_post)
+router.post('/admin/shipping/enable/:id', auth.authMiddleware, shippingController.enableshipping_post)
 
 // Admin-edit-shipping
-router.get('/admin/edit/shipping/:id',auth.authMiddleware,shippingController.editshipping_get)
-router.post('/admin/edit/shipping/:id',auth.authMiddleware,shippingController.editshipping_post)
+router.get('/admin/edit/shipping/:id', auth.authMiddleware, shippingController.editshipping_get)
+router.post('/admin/edit/shipping/:id', auth.authMiddleware, shippingController.editshipping_post)
 
 // Admin-delete-shipping
-router.post('/admin/delete/shipping/:id',auth.authMiddleware,shippingController.deleteshipping_post)
+router.post('/admin/delete/shipping/:id', auth.authMiddleware, shippingController.deleteshipping_post)
 
 // Admin-payment
-router.get('/admin/payment',auth.authMiddleware,paymentController.payment_get)
+router.get('/admin/payment', auth.authMiddleware, paymentController.payment_get)
 
 // Admin-add-payment
-router.get('/admin/add/payment',auth.authMiddleware,paymentController.addpayment_get)
-router.post('/admin/add/payment',auth.authMiddleware,paymentController.addpayment_post)
+router.get('/admin/add/payment', auth.authMiddleware, paymentController.addpayment_get)
+router.post('/admin/add/payment', auth.authMiddleware, paymentController.addpayment_post)
 
 // Admin-disable-payment
-router.post('/admin/payment/disable/:id',auth.authMiddleware,paymentController.disablepayment_post)
+router.post('/admin/payment/disable/:id', auth.authMiddleware, paymentController.disablepayment_post)
 
 // Admin-enable-payment
-router.post('/admin/payment/enable/:id',auth.authMiddleware,paymentController.enablepayment_post)
+router.post('/admin/payment/enable/:id', auth.authMiddleware, paymentController.enablepayment_post)
 
 // Admin-edit-shipping
-router.get('/admin/edit/payment/:id',auth.authMiddleware,paymentController.editpayment_get)
-router.post('/admin/edit/payment/:id',auth.authMiddleware,paymentController.editpayment_post)
+router.get('/admin/edit/payment/:id', auth.authMiddleware, paymentController.editpayment_get)
+router.post('/admin/edit/payment/:id', auth.authMiddleware, paymentController.editpayment_post)
 
 // Admin-delete-shipping
-router.post('/admin/delete/payment/:id',auth.authMiddleware,paymentController.deletpayment_post)
+router.post('/admin/delete/payment/:id', auth.authMiddleware, paymentController.deletpayment_post)
 
 // Admin-order
-router.get('/admin/order',auth.authMiddleware,orderController.adminorder_get)
+router.get('/admin/order', auth.authMiddleware, orderController.adminorder_get)
 
 // Admin-order-process
-router.post('/admin/order/process/:id',auth.authMiddleware,orderController.adminorderprocess_post)
+router.post('/admin/order/process/:id', auth.authMiddleware, orderController.adminorderprocess_post)
 
 // Admin-order-place
-router.post('/admin/order/place/:id',auth.authMiddleware,orderController.adminorderplaced_post)
+router.post('/admin/order/place/:id', auth.authMiddleware, orderController.adminorderplaced_post)
 
 // Admin-order-ship
-router.post('/admin/order/ship/:id',auth.authMiddleware,orderController.adminordershipped_post)
+router.post('/admin/order/ship/:id', auth.authMiddleware, orderController.adminordershipped_post)
 
 // Admin-order-delivery
-router.post('/admin/order/delivery/:id',auth.authMiddleware,orderController.adminorderdelivered_post)
+router.post('/admin/order/delivery/:id', auth.authMiddleware, orderController.adminorderdelivered_post)
+
+// Admin-sales-report
+router.get('/admin/sales/report', auth.authMiddleware, salesController.adminsalesreport_get)
 
 module.exports = router
 

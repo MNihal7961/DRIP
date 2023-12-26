@@ -176,8 +176,7 @@
         </form>
         <%- include('../partials/user-foot.ejs') %>
 
-            <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-           
+
 
 
             <script>
@@ -225,50 +224,126 @@
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@clientIO/rave-js@3"></script>
 
-<script>
-    $(document).ready(function () {
-        $("#checkout-form").submit((e) => {
-            e.preventDefault();
-            const shippingOptions = document.getElementsByName('shipping');
-            let selectedShipping = '';
 
-            shippingOptions.forEach(option => {
-                if (option.checked) {
-                    selectedShipping = JSON.parse(option.value);
-                }
-            });
 
-            if (selectedShipping) {
-            
-                $('input[name="shipping"]').val(selectedShipping.title);
+            <script>
+                $(document).ready(function () {
+                    $("#checkout-form").submit((e) => {
+                        e.preventDefault();
+                        const shippingOptions = document.getElementsByName('shipping');
+                        let selectedShipping = '';
 
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: 'Do you want to place this order?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, place order'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: '/place/order',
-                            method: 'post',
-                            data: $('#checkout-form').serialize(),
-                            success: (response) => {
-                                if (response.codstatus) {
-                                    location.href = '/user/success';
-                                }
+                        shippingOptions.forEach(option => {
+                            if (option.checked) {
+                                selectedShipping = JSON.parse(option.value);
                             }
                         });
-                    }else{
-                        location.reload()
+
+                        if (selectedShipping) {
+
+                            $('input[name="shipping"]').val(selectedShipping.title);
+
+                            Swal.fire({
+                                title: 'Are you sure?',
+                                text: 'Do you want to place this order?',
+                                icon: 'question',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Yes, place order'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $.ajax({
+                                        url: '/place/order',
+                                        method: 'post',
+                                        data: $('#checkout-form').serialize(),
+                                        success: (response) => {
+                                            alert(response)
+                                            if (response.codstatus) {
+                                                location.href = '/user/success';
+                                            } else {
+                                                console.log(response, "/////////////")
+                                                razorPay(response)
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    location.reload()
+                                }
+                            });
+                        }
+                    });
+
+                    function razorPay(order) {
+
+                        console.log(order);
+
+                        var options = {
+                            "key": "rzp_test_b17TxK3brF48ub",
+                            "amount": order.amount,
+                            "currency": "INR",
+                            "name": "Drip-Store",
+                            "description": "Test Transaction",
+                            "image": "https://example.com/your_logo",
+                            "order_id": order.id,
+                            "handler": function (response) {
+                                verifyPayment(response, order)
+                            },
+                            "prefill": {
+                                "name": "Gaurav Kumar",
+                                "email": "gaurav.kumar@example.com",
+                                "contact": "9000090000"
+                            },
+                            "notes": {
+                                "address": "Razorpay Corporate Office"
+                            },
+                            "theme": {
+                                "color": "#3399cc"
+                            }
+                        }
+
+                        var rzp1 = new Razorpay(options);
+                        rzp1.open()
+                        rzp1.on('payment.failed', function (response) {
+                            alert(response.error.code);
+                            alert(response.error.description);
+                            alert(response.error.source);
+                            alert(response.error.step);
+                            alert(response.error.reason);
+                            alert(response.error.metadata.order_id);
+                            alert(response.error.metadata.payment_id);
+                        });
                     }
-                });
-            }
-        });
-    });
-</script>
+                    
+                    console.log(order+"fuckkk")
+
+                    function verifyPayment(payment, order) {
+                        $.ajax({
+                            url: '/verify/payment',
+                            data: {
+                                payment,
+                                order
+                            },
+                            method: 'POST',
+                            success: (response) => {
+                                if (response.status)
+                                    location.replace("/user/success");
+                                else {
+                                    //order Failed
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: 'Something went wrong!',
+                                        footer: '<a href="/">Goto home page</a>'
+                                    })
+                                }
+                            }
+                        })
+                    }
+                })
+            </script>
