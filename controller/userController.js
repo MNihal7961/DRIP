@@ -243,6 +243,21 @@ const usernewpassword_post = async (req, res) => {
     }
 }
 
+const resendOtp=async (req,res)=>{
+    try{
+        console.log("worked")
+        const generatedOTP = OTPgenerator
+            console.log('resendOTP', generatedOTP)
+            const userEmail = req.session.email;
+            const expirationTime = 5 * 60 * 1000;
+            const expirationTimestamp = Date.now() + expirationTime;
+            otpStore1[generatedOTP] = expirationTimestamp
+            await sendOTP(userEmail, generatedOTP)
+    }catch(err){
+        console.log(err)
+    }
+}
+
 module.exports = {
     usersignup_get,
     userotp_get,
@@ -257,5 +272,6 @@ module.exports = {
     userForgottPassword_get,
     userForgottPassword_post,
     userforgottOTPvalidate_post,
-    usernewpassword_post
+    usernewpassword_post,
+    resendOtp
 }

@@ -113,5 +113,7 @@ router.post('/verify/payment',userAuth.authMiddleware,orderController.verifyPaym
 
 router.post('/user/add/address-checkout',userAuth.authMiddleware,addressController.addaddresscheckout_post)
 
+// User-otp-resend POST
+router.post('/user/resend/otp',userController.resendOtp)
 
 module.exports = router
