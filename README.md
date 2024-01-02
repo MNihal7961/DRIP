@@ -26,7 +26,6 @@ Technologies Used:
 - express
 - ejs
 - bootstrap
-- Twilio
 - Razorpay
 
 
