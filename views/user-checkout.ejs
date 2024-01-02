@@ -1,51 +1,150 @@
 <%- include('../partials/user-head.ejs') %>
     <%- include('../partials/user-nav.ejs') %>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalRegisterForm" tabindex="-1" aria-labelledby="modalRegisterFormLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class=" text-center" id="modalRegisterFormLabel">Add Address</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Registration Form -->
+                        <form id="addressForm" method="POST" action="/user/add/address-checkout">
+                            <div class="row">
+                                <div class="mb-3 col-md-6">
+                                    <label for="firstName" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="firstName" name="firstname">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for="lastName" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="lastName" name="lastName">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="mb-3 col-md-6">
+                                    <label for="street" class="form-label">Street</label>
+                                    <input type="text" class="form-control" id="street" name="street">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for="buildingName" class="form-label">Building Name</label>
+                                    <input type="text" class="form-control" id="buildingName" name="buildingName">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="mb-3 col-md-6">
+                                    <label for="city" class="form-label">City</label>
+                                    <input type="text" class="form-control" id="city" name="city">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for="state" class="form-label">State</label>
+                                    <input type="text" class="form-control" id="state" name="state">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="mb-3 col-md-6">
+                                    <label for="pincode" class="form-label">Pincode</label>
+                                    <input type="number" class="form-control" id="pincode" name="pincode">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for="phoneNumber" class="form-label">Phone Number</label>
+                                    <input type="number" class="form-control" id="phoneNumber" name="phoneNumber">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email" name="email">
+                                <div class="invalid-feedback"></div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Add new address</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="toastContainer" class="position-fixed top-0 end-0 p-3" style="z-index: 5">
+                        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="toast-header">
+                                <strong class="me-auto">Notification</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="toast"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="toast-body"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <div class="mt-2">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#modalRegisterForm">
+                add address</button>
+         </div>
         <form action="" id="checkout-form">
             <section class="bg-white py-5">
-
+               
                 <div class="container">
                     <h4 class="card-title mb-4">Checkout
                         <i class="fa-solid fa-cart-shopping text-dark ms-2 fs-4"></i>
                     </h4>
+                 
                     <div class="row">
+
                         <div class="col-xl-8 col-lg-8">
-                            <!-- Checkout -->
+                    
                             <div class="card shadow-0 border">
                                 <div class="p-4">
                                     <h5 class="card-title mb-3">Select Address</h5>
-
+                                   
                                     <div class="row mb-3">
-
-                                        <% addressData.address.forEach((data,i)=> { %>
-                                            <div class="col-lg-4 mb-3">
-                                                <!-- Address radio -->
-                                                <div class="form-check h-100 border rounded-3">
-                                                    <div class="p-3">
-                                                        <input required class="form-check-input" type="radio"
-                                                            name="address" id="flexRadioDefault3"
-                                                            value="<%=data._id%>" />
-                                                        <label class="form-check-label" for="flexRadioDefault3">
-                                                            Address No: <strong>
-                                                                <%=++i%>
-                                                            </strong><br />
-                                                            <small class="text-muted">
-                                                                <%=data.fname%> , <%=data.lname%>
-                                                            </small><br>
-                                                            <small class="text-muted">
-                                                                <%=data.street%> , <%=data.buildingName%>
-                                                            </small><br>
-                                                            <small class="text-muted">
-                                                                <%=data.city%> , <%=data.state%> , <%=data.pincode%>
-                                                            </small><br>
-                                                            <small class="text-muted">
-                                                                <%=data.email%> , <%=data.mobile%>
-                                                            </small>
-                                                        </label>
+                                        <% if (addressData) {
+                                            addressData.address.forEach((data, i) => { %>
+                                                <div class="col-lg-4 mb-3 mt-3">
+                                                    <!-- Address radio -->
+                                                    <div class="form-check h-100 border rounded-3">
+                                                        <div class="p-3">
+                                                            <input required class="form-check-input" type="radio"
+                                                                name="address" id="flexRadioDefault3"
+                                                                value="<%=data._id%>" />
+                                                            <label class="form-check-label" for="flexRadioDefault3">
+                                                                Address No: <strong>
+                                                                    <%=++i%>
+                                                                </strong><br />
+                                                                <small class="text-muted">
+                                                                    <%=data.fname%> , <%=data.lname%>
+                                                                </small><br>
+                                                                <small class="text-muted">
+                                                                    <%=data.street%> , <%=data.buildingName%>
+                                                                </small><br>
+                                                                <small class="text-muted">
+                                                                    <%=data.city%> , <%=data.state%> , <%=data.pincode%>
+                                                                </small><br>
+                                                                <small class="text-muted">
+                                                                    <%=data.email%> , <%=data.mobile%>
+                                                                </small>
+                                                            </label>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                        <% }); } else { %>
+                                            <!-- Show a message or any other content when there are no addresses -->
+                                            <div class="col-12">
+                                                <p>No addresses available.</p>
                                             </div>
-                                            <% }) %>
+                                        <% } %>
                                     </div>
+                                    
                                     <hr>
                                     <h5 class="card-title mb-3">Choose PaymentMethod</h5>
                                     <div class="row mb-3">
@@ -176,7 +275,96 @@
         </form>
         <%- include('../partials/user-foot.ejs') %>
 
-
+        <script>
+            document.getElementById('addressForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+                var formElements = this.elements;
+                var isValid = true;
+        
+                // Reset previous error messages
+                resetErrorMessages();
+        
+                // Validate each field
+                for (var i = 0; i < formElements.length; i++) {
+                    var field = formElements[i];
+                    if (field.type !== "submit") {
+                        // Simple validation: Check if the field is empty
+                        if (!field.value.trim()) {
+                            displayErrorMessage(field, 'Please fill in this field.');
+                            isValid = false;
+                        }
+        
+                        // Validate pincode with exactly 6 digits
+                        if (field.id === 'pincode' && !isValidPincode(field.value)) {
+                            displayErrorMessage(field, 'Please enter a valid 6-digit pincode.');
+                            isValid = false;
+                        }
+        
+                        // Validate phone number with exactly 10 digits
+                        if (field.id === 'phoneNumber' && !isValidPhoneNumber(field.value)) {
+                            displayErrorMessage(field, 'Please enter a valid 10-digit phone number.');
+                            isValid = false;
+                        }
+                    }
+                }
+        
+                // If all validation passes, submit the form
+                if (isValid) {
+                    // Submit the form
+                    this.submit();
+                }
+            });
+        
+            // Function to validate pincode with exactly 6 digits
+            function isValidPincode(pincode) {
+                var pincodeRegex = /^\d{6}$/;
+                return pincodeRegex.test(pincode);
+            }
+        
+            // Function to validate phone number with exactly 10 digits
+            function isValidPhoneNumber(phoneNumber) {
+                var phoneNumberRegex = /^\d{10}$/;
+                return phoneNumberRegex.test(phoneNumber);
+            }
+        
+            // Function to display a Bootstrap toast
+            function showToast(message, type) {
+                var toastContainer = document.getElementById('toastContainer');
+                var toast = new bootstrap.Toast(toastContainer.querySelector('.toast'));
+        
+                // Set toast content and type
+                toastContainer.querySelector('.toast-body').innerText = message;
+                toastContainer.querySelector('.toast').classList.remove('bg-success', 'bg-danger');
+                toastContainer.querySelector('.toast').classList.add(type === 'success' ? 'bg-success' : 'bg-danger');
+        
+                // Show the toast
+                toast.show();
+            }
+        
+            // Function to display an error message below the input field
+            function displayErrorMessage(inputField, message) {
+                var errorMessageContainer = inputField.nextElementSibling;
+                errorMessageContainer.innerText = message;
+                errorMessageContainer.style.display = 'block';
+                inputField.classList.add('is-invalid');
+            }
+        
+            // Function to reset error messages and styles
+            function resetErrorMessages() {
+                var errorContainers = document.querySelectorAll('.invalid-feedback');
+                errorContainers.forEach(function (container) {
+                    container.innerText = '';
+                    container.style.display = 'none';
+                });
+        
+                var inputFields = document.querySelectorAll('.is-invalid');
+                inputFields.forEach(function (field) {
+                    field.classList.remove('is-invalid');
+                });
+            }
+        </script>
+        
+        
 
 
             <script>
@@ -263,7 +451,6 @@
                                         method: 'post',
                                         data: $('#checkout-form').serialize(),
                                         success: (response) => {
-                                            alert(response)
                                             if (response.codstatus) {
                                                 location.href = '/user/success';
                                             } else {
@@ -319,8 +506,8 @@
                             alert(response.error.metadata.payment_id);
                         });
                     }
-                    
-                    console.log(order+"fuckkk")
+
+                    console.log(order + "fuckkk")
 
                     function verifyPayment(payment, order) {
                         $.ajax({

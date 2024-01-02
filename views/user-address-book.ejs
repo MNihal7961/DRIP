@@ -91,11 +91,13 @@
                                                 Edit
                                             </a>
 
-                                            <a href="/user/delete/address/<%-data._id%>"
-                                                class="text-decoration-none  text-dark">
-                                                <i class="fa-solid fa-trash-can text-danger"></i>
-                                                Delete
-                                            </a>
+                                            <a href="#" class="text-decoration-none text-dark delete-address"
+                                            data-id="<%- data._id %>"
+                                            data-confirm-text="Are you sure you want to delete this address?"
+                                         >
+                                             <i class="fa-solid fa-trash-can text-danger"></i>
+                                             Delete
+                                         </a>
 
                                         </div>
 
@@ -115,3 +117,36 @@
         </div>
 
         <%- include('../partials/user-foot.ejs') %>
+
+        <!-- Add this in the <head> section of your HTML -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const deleteButtons = document.querySelectorAll('.delete-address');
+        
+                deleteButtons.forEach(button => {
+                    button.addEventListener('click', function (event) {
+                        event.preventDefault();
+        
+                        const addressId = button.getAttribute('data-id');
+                        const confirmText = button.getAttribute('data-confirm-text') || 'Are you sure?';
+        
+                        Swal.fire({
+                            title: 'Confirmation',
+                            text: confirmText,
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, delete it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = `/user/delete/address/${addressId}`;
+                            }
+                        });
+                    });
+                });
+            });
+        </script>

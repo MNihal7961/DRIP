@@ -28,33 +28,25 @@ const addproduct_get = async (req, res) => {
 
 // Add product POST
 const addproduct_post = async (req, res) => {
-    const { title, brand, category, description, price, color } = req.body
-    const images = req.files
-    const imageArray = Object.values(images);
+    const { title, brand, category, description, price, color } = req.body;
+    const images = req.files;
+    console.log(images);
 
     try {
-        const fileNameFromImage = Object.values(images).flatMap(filearray =>
-            filearray.map(fileobject => fileobject.filename)
-        )
-
-        const fileNameFromImageArray = imageArray.flatMap(innerArray =>
-            innerArray.map(filename => filename.filename)
-        );
-
-        const allFileNames = [...fileNameFromImage];
-
-
-        let obj = []
+        const allFileNames = images.map(file => file.filename)
+        console.log(allFileNames)
+        let obj = [];
         for (let i = 0; i < req.body.variant.size.length; i++) {
             obj.push({
                 size: req.body.variant.size[i],
-                quantity: req.body.variant.quantity[i]
-            })
+                quantity: req.body.variant.quantity[i],
+            });
         }
 
-        const exist_product = await product.findOne({ title: title })
+        const exist_product = await product.findOne({ title: title });
+
         if (exist_product) {
-            res.redirect('/admin/product?message=This product already exists')
+            res.redirect('/admin/product?message=This product already exists');
         } else {
             const new_product = await product.create({
                 title: title,
@@ -63,17 +55,18 @@ const addproduct_post = async (req, res) => {
                 description: description,
                 mrp: price,
                 varient: obj,
-                images: allFileNames,
+                images: allFileNames, // Assign the array of strings directly
                 productColor: color,
+            });
 
-            })
-            res.redirect('/admin/product')
+            res.redirect('/admin/product');
         }
     } catch (err) {
-        console.log(err)
+        console.log(err);
+        res.status(500).send('Internal Server Error');
     }
+};
 
-}
 
 // Disable product POST
 const disableproduct_post = async (req, res) => {

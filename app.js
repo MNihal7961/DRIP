@@ -11,6 +11,7 @@ const nocache = require('nocache')
 const connectDB=require('./config/connection')
 const storage=require('./middleware/multer')
 const flash=require('connect-flash')
+const sharp=require('sharp')
 
 
 const PORT=process.env.PORT||3000

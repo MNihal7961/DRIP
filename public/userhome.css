@@ -134,3 +134,14 @@ body {
     border-color: #007bff;
     color: #fff;
 }
+
+.red-strikethrough {
+    text-decoration: line-through;
+    filter: hue-rotate(0deg) brightness(50%) sepia(100%);
+}
+
+.strike-red {
+    color: red;
+    text-decoration: line-through;
+}
+

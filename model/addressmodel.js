@@ -5,28 +5,22 @@ const address_schema = new mongoose.Schema({
     user: mongoose.Types.ObjectId,
     address: [{
         fname: {
-            type: String,
-            required: true
+            type: String
         },
         lname: {
-            type: String,
-            required:true
+            type: String
         },
         street: {
-            type: String,
-            required: true
+            type: String
         },
         buildingName: {
-            type: String,
-            required: true
+            type: String
         },
         city: {
-            type: String,
-            required: true
+            type: String
         },
         state: {
-            type: String,
-            required: true
+            type: String
         },
         pincode: {
             type: Number,

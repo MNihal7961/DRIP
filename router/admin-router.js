@@ -75,16 +75,13 @@ router.get('/admin/product', auth.authMiddleware, productController.product_get)
 
 // Admin-add-product
 router.get('/admin/add/product', auth.authMiddleware, productController.addproduct_get)
-router.post('/admin/add/product',
+router.post(
+    '/admin/add/product',
     auth.authMiddleware,
-    upload.multerUpload.fields([
-        { name: 'image1', maxCount: 1 },
-        { name: 'image2', maxCount: 1 },
-        { name: 'image3', maxCount: 1 },
-        { name: 'image4', maxCount: 1 },
-    ]),
+    upload.multerUpload.array('images',4),
     productController.addproduct_post
-)
+);
+
 
 // Admin-disable-product
 router.post('/admin/product/disable/:id', auth.authMiddleware, productController.disableproduct_post)

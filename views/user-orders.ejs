@@ -1,164 +1,211 @@
 <%- include('../partials/user-head.ejs') %>
     <%- include('../partials/user-nav.ejs') %>
         <div class="container ">
-           <% if (orderData.length>0) { %>
-            <h1 class="text-center mb-4 mt-3">Your Orders <i class="fa fa-shopping-bag"></i></h1>
-           <% } %>
-            <div class="row">
-                <% if (!orderData || orderData.length === 0) { %>
-                    <h1 class="text-center mb-4 mt-3">You have no orders <i class="fa fa-shopping-bag"></i></h1>
-                    <div class="text-center">
-                        <img src="/images/noorder.png"
-                            class="img-fluid"><br>
-                        <a href="/user/home" class="btn rounded-pill border-success text-center my-3 text-success w-25">Back
-                            To Shopping</a>
-                    </div>
-                <% } else { %>
-                <% orderData.forEach((order)=> { %>
-                    <div class="col-lg-12">
-                        <div class="order-card mb-4 shadow">
-                            <h4 class="text-satrt">Order #<%-order.oid%></h4>
-                            <div class="progress">
-                                <% if (order.orderStatus === 'Pending') { %>
-                                    <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                <% } else if (order.orderStatus === 'Processing') { %>
-                                    <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                <% } else if (order.orderStatus === 'Placed') { %>
-                                    <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                <% } else if (order.orderStatus === 'Shipped') { %>
-                                    <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                <% } else if (order.orderStatus === 'Delivered') { %>
-                                    <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                <% } else if (order.orderStatus === 'Cancelled') { %>
-                                    <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Cancelled</div>
-                                <% } else if (order.orderStatus === 'Returned') { %>
-                                    <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Returned</div>
-                                <% } %>
+            <% if (orderData.length>0) { %>
+                <h1 class="text-center mb-4 mt-3">Your Orders <i class="fa fa-shopping-bag"></i></h1>
+                <% } %>
+                    <div class="row">
+                        <% if (!orderData || orderData.length===0) { %>
+                            <h1 class="text-center mb-4 mt-3">You have no orders <i class="fa fa-shopping-bag"></i></h1>
+                            <div class="text-center">
+                                <img src="/images/noorder.png" class="img-fluid"><br>
+                                <a href="/user/home"
+                                    class="btn rounded-pill border-success text-center my-3 text-success w-25">Back
+                                    To Shopping</a>
                             </div>
-                            
-                            
-                            <div class="mt-3 text-end">
-                                <p class="order-details">Date: <strong>
-                                        <%= order.orderedAt%>
-                                    </strong></p>
-                            </div>
-                            <% order.productDetails.forEach((product)=> { %>
-                                <!-- Product Details Display -->
-                                <div class="product-item mt-5">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-4">
-                                            <img src="/<%= product.productImage[0] %>" alt="Product Image"
-                                                class="order-image img-fluid">
-                                            <div class="text-center">
-                                                <p class="order-details"><strong>
-                                                        <%= product.productsName %>
+                            <% } else { %>
+                                <% orderData.forEach((order)=> { %>
+                                    <div class="col-lg-12">
+                                        <div class="order-card mb-4 shadow">
+                                            <h4 class="text-satrt">Order #<%-order.oid%></h4>
+                                            <div class="progress">
+                                                <% if (order.orderStatus==='Pending' ) { %>
+                                                    <div class="progress-bar progress-bar-striped" role="progressbar"
+                                                        style="width: 0%" aria-valuenow="0" aria-valuemin="0"
+                                                        aria-valuemax="100"></div>
+                                                    <% } else if (order.orderStatus==='Processing' ) { %>
+                                                        <div class="progress-bar progress-bar-striped"
+                                                            role="progressbar" style="width: 25%" aria-valuenow="25"
+                                                            aria-valuemin="0" aria-valuemax="100"></div>
+                                                        <% } else if (order.orderStatus==='Placed' ) { %>
+                                                            <div class="progress-bar progress-bar-striped"
+                                                                role="progressbar" style="width: 50%" aria-valuenow="50"
+                                                                aria-valuemin="0" aria-valuemax="100"></div>
+                                                            <% } else if (order.orderStatus==='Shipped' ) { %>
+                                                                <div class="progress-bar progress-bar-striped"
+                                                                    role="progressbar" style="width: 75%"
+                                                                    aria-valuenow="75" aria-valuemin="0"
+                                                                    aria-valuemax="100"></div>
+                                                                <% } else if (order.orderStatus==='Delivered' ) { %>
+                                                                    <div class="progress-bar progress-bar-striped"
+                                                                        role="progressbar" style="width: 100%"
+                                                                        aria-valuenow="100" aria-valuemin="0"
+                                                                        aria-valuemax="100"></div>
+                                                                    <% } else if (order.orderStatus==='Cancelled' ) { %>
+                                                                        <div class="progress-bar progress-bar-striped bg-danger"
+                                                                            role="progressbar" style="width: 100%"
+                                                                            aria-valuenow="100" aria-valuemin="0"
+                                                                            aria-valuemax="100">Cancelled</div>
+                                                                        <% } else if (order.orderStatus==='Returned' ) {
+                                                                            %>
+                                                                            <div class="progress-bar progress-bar-striped bg-warning"
+                                                                                role="progressbar" style="width: 100%"
+                                                                                aria-valuenow="100" aria-valuemin="0"
+                                                                                aria-valuemax="100">Returned</div>
+                                                                            <% } %>
+                                            </div>
+
+
+                                            <div class="mt-3 text-end">
+                                                <p class="order-details">Date: <strong>
+                                                        <%= order.orderedAt%>
                                                     </strong></p>
                                             </div>
-                                        </div>
+                                            <% order.productDetails.forEach((product,index)=> { %>
+                                                <div class="product-item mt-5">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-4">
+                                                            <img src="/<%= product.productImage[0] %>"
+                                                                alt="Product Image"
+                                                                class="order-image img-fluid <%= product.status ? '' : 'red-strikethrough' %>">
 
-                                        <div class="col-md-8">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <p class="order-details">Buyer: <strong>
-                                                            <%= order.buyerName%>
-                                                        </strong></p>
-                                                    <p class="order-details">Size: <strong>
-                                                            <%= product.size %>
-                                                        </strong></p>
-                                                    <p class="order-details">Qty: <strong>
-                                                            <%= product.quantity %>
-                                                        </strong></p>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <p class="order-details">Amount: <strong>₹<%= order.totalPrice%>
-                                                                </strong></p>
-                                                    <p class="order-details">Payment: <strong>
-                                                            <%= order.paymentMethod%>
-                                                        </strong></p>
-                                                    <p class="order-details">Shipping: <strong>
-                                                            <%= order.shippingMethod%>
-                                                        </strong></p>
-                                                </div>
-                                            </div>
 
-                                            <div class="text-center">
-                                                <% if (order.orderStatus !== 'Delivered' && order.orderStatus !== 'Cancelled' && product.status==true && product.length>1) { %>
-                                                    <button class="btn btn-cancel mt-3" data-order-id="<%-order.oid%>" ><i class="fas fa-times-circle"></i> Cancel Product</button>
-                                                <% } %>
-                                            </div>
-                                            
-                                            <hr>
+                                                            <div class="text-center">
+                                                                <p class="order-details"><strong>
+                                                                        <%= product.productsName %>
+                                                                    </strong></p>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-8">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <p class="order-details">Size: <strong
+                                                                            class="<%= product.status ? '' : 'strike-red' %>">
+                                                                            <%= product.size %>
+                                                                        </strong></p>
+                                                                    <p class="order-details">Qty: <strong
+                                                                            class="<%= product.status ? '' : 'strike-red' %>">
+                                                                            <%= product.quantity %>
+                                                                        </strong></p>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <p class="order-details">Amount: <strong
+                                                                            class="<%= product.status ? '' : 'strike-red' %>">₹
+                                                                            <%= product.productsPrice %></strong></p>
+                                                                    <p class="order-details">Item: <strong
+                                                                            class="<%= product.status ? '' : 'strike-red' %>">
+                                                                            <%= product.productsName %>
+                                                                        </strong></p>
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="text-center">
+                                                                <% if (order.orderStatus !=='Delivered' &&
+                                                                    order.orderStatus !=='Cancelled' &&
+                                                                    order.productDetails.length>1&&
+                                                                    sum>1&& product.status==true) { %>
+                                                                        <button
+                                                                            class="btn btn-danger mt-3 cancel-order-single"
+                                                                            type="button" data-order-id="<%-order.oid%>"
+                                                                            data-product-name="<%-product.productsName%>"
+                                                                            data-product-size="<%-product.size%>"
+                                                                            data-product-quantity="<%-product.quantity%>"
+                                                                            data-product-price="<%-product.productsPrice%>"
+                                                                            >
+                                                                            <i class="fas fa-times-circle"></i> Cancel
+                                                                            Product
+                                                                        </button>
+                                                                        <% } %>
+                                                            </div>
+
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <% }) %>
+                                                <div class="">
+                                                    <p class="order-details float-end">Summary:<strong>
+                                                        ₹<%= order.totalPrice %>
+                                                                    </strong></p>
+                                                </div>
+
+                                                    <div class="order-status-bar mt-3 fw-bold">
+                                                        <% if (order.orderStatus==='Delivered' ) { %>
+                                                            <div class="status success">
+                                                                <i class="fas fa-check-circle fa-shake"></i>
+                                                                <span>Delivered</span>
+                                                            </div>
+                                                            <% } else if (order.orderStatus==='Shipped' ) { %>
+                                                                <div class="status shipped">
+                                                                    <i class="fas fa-shipping-fast fa-flip"></i>
+                                                                    <span>Shipped</span>
+                                                                </div>
+                                                                <% } else if (order.orderStatus==='Processing' ) { %>
+                                                                    <div class="status processing">
+                                                                        <i class="fas fa-hourglass-half fa-bounce"></i>
+                                                                        <span>Processing</span>
+                                                                    </div>
+                                                                    <% } else if (order.orderStatus==='Placed' ) { %>
+                                                                        <div class="status placed">
+                                                                            <i
+                                                                                class="fas fa-info-circle fa-beat-fade"></i>
+                                                                            <span>Placed</span>
+                                                                        </div>
+                                                                        <% } else if (order.orderStatus==='Cancelled' )
+                                                                            { %>
+                                                                            <div class="status cancelled">
+                                                                                <i class="fas fa-times-circle"></i>
+                                                                                <span>Cancelled</span>
+                                                                            </div>
+                                                                            <% } else if (order.orderStatus==='Returned'
+                                                                                ) { %>
+                                                                                <div class="status returned">
+                                                                                    <i class="fas fa-undo-alt"></i>
+                                                                                    <span>Returned</span>
+                                                                                </div>
+                                                                                <% } else { %>
+                                                                                    <div class="status pending">
+                                                                                        <i
+                                                                                            class="fa-regular fa-clock fa-spin"></i>
+                                                                                        <span>Pending</span>
+                                                                                    </div>
+                                                                                    <% } %>
+                                                    </div>
+
+                                                    <div class="text-end">
+                                                        <% if (order.orderStatus==='Delivered' ||
+                                                            order.orderStatus==='Shipped' ) { %>
+                                                            <a class="btn btn-warning"><i class="fas fa-undo-alt"></i>
+                                                                Return Order</a>
+                                                            <% } else if (order.orderStatus==='Cancelled' ) { %>
+                                                                <p class="text-danger fw-bold">You have cancelled this
+                                                                    order</p>
+                                                                <% } else { %>
+                                                                    <button class="btn btn-danger cancel-order"
+                                                                        data-order-id="<%-order.oid%>" <% if
+                                                                        (order.orderStatus==='Cancelled' ) { %>disabled
+                                                                        <% } %>>
+                                                                            <i class="fas fa-times-circle"></i> Cancel
+                                                                            Order
+                                                                    </button>
+                                                                    <% } %>
+                                                    </div>
+
+
                                         </div>
                                     </div>
-                                </div>
-                                <% }) %>
-
-                                <div class="order-status-bar mt-3 fw-bold">
-                                    <% if (order.orderStatus==='Delivered' ) { %>
-                                        <div class="status success">
-                                            <i class="fas fa-check-circle fa-shake"></i>
-                                            <span>Delivered</span>
-                                        </div>
-                                    <% } else if (order.orderStatus==='Shipped' ) { %>
-                                        <div class="status shipped">
-                                            <i class="fas fa-shipping-fast fa-flip"></i>
-                                            <span>Shipped</span>
-                                        </div>
-                                    <% } else if (order.orderStatus==='Processing' ) { %>
-                                        <div class="status processing">
-                                            <i class="fas fa-hourglass-half fa-bounce"></i>
-                                            <span>Processing</span>
-                                        </div>
-                                    <% } else if (order.orderStatus==='Placed' ) { %>
-                                        <div class="status placed">
-                                            <i class="fas fa-info-circle fa-beat-fade"></i>
-                                            <span>Placed</span>
-                                        </div>
-                                    <% } else if (order.orderStatus === 'Cancelled') { %>
-                                        <div class="status cancelled">
-                                            <i class="fas fa-times-circle"></i>
-                                            <span>Cancelled</span>
-                                        </div>
-                                    <% } else if (order.orderStatus === 'Returned') { %>
-                                        <div class="status returned">
-                                            <i class="fas fa-undo-alt"></i>
-                                            <span>Returned</span>
-                                        </div>
-                                    <% } else { %>
-                                        <div class="status pending">
-                                            <i class="fa-regular fa-clock fa-spin"></i>
-                                            <span>Pending</span>
-                                        </div>
-                                    <% } %>
-                                </div>
-                                
-                                <div class="text-end">
-                                    <% if (order.orderStatus === 'Delivered' || order.orderStatus === 'Shipped') { %>
-                                        <a class="btn btn-warning"><i class="fas fa-undo-alt"></i> Return Order</a>
-                                    <% } else if (order.orderStatus === 'Cancelled') { %>
-                                        <p class="text-danger fw-bold">You have cancelled this order</p>
-                                    <% } else { %>
-                                        <button class="btn btn-danger cancel-order"
-                                            data-order-id="<%-order.oid%>" <% if (order.orderStatus === 'Cancelled') { %>disabled<% } %>>
-                                            <i class="fas fa-times-circle"></i> Cancel Order
-                                        </button>
-                                    <% } %>
-                                </div>
-                                
-
-                        </div>
+                                    <% }) %>
+                                        <% } %>
                     </div>
-                    <% }) %>
-                    <% } %>
-            </div>
         </div>
         <%- include('../partials/user-foot.ejs') %>
-            <!-- jQuery -->
+            
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-            <!-- SweetAlert CSS -->
+        
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-            <!-- SweetAlert JS -->
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
             <script>
@@ -214,9 +261,9 @@
                 });
 
             </script>
-<script>
-    // Function to cancel a specific product within an order
-    function cancelSingleItem(orderId, productId) {
+
+            <script>
+    function cancelSingleItem(orderId, productName, productSize, productQuantity, productPrice) {
         Swal.fire({
             title: 'Are you sure?',
             text: 'Do you want to cancel this product?',
@@ -229,9 +276,13 @@
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'POST',
-                    url: '/user/order/cancel/' + orderId ,
+                    url: '/user/order/cancel/single/' + orderId,
                     data: {
-                        orderId: orderId
+                        orderId: orderId,
+                        productName: productName,
+                        productSize: productSize,
+                        productQuantity: productQuantity,
+                        productPrice: productPrice
                     },
                     success: (response) => {
                         console.log('Response:', response);
@@ -264,13 +315,17 @@
         });
     }
 
-    // Event listener for the Cancel Product button
-    $(document).on('click', '.btn-cancel', function () {
+    $(document).on('click', '.cancel-order-single', function () {
         const orderId = $(this).data('order-id');
-        
+        const productName = $(this).data('product-name');
+        const productSize = $(this).data('product-size');
+        const productQuantity = $(this).data('product-quantity');
+        const productPrice = $(this).data('product-price');
         console.log('Order ID:', orderId);
-
+        console.log('Product Name:', productName);
+        console.log('Product Size:', productSize);
+        console.log('Product Quantity:', productQuantity);
+        console.log('Product Price:', productPrice);
+        cancelSingleItem(orderId, productName, productSize, productQuantity, productPrice);
     });
 </script>
-
-

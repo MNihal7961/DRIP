@@ -75,19 +75,23 @@ const getSingleAddress = async (addrId, userId) => {
     }
 }
 
-
-
-const editAddress = async (data, userId) => {
+const editAddress = async (data, userId, id) => {
     try {
-        const userAddress = await address.findOne({ userId: userId });
+        console.log("Start of editAddress");
+
+        const userAddress = await address.findOne({ user: new ObjectId(userId) });
         if (!userAddress) {
             throw new Error("User address not found");
         }
 
-        const addressIndex = userAddress.address.findIndex(addr => addr._id == data._id);
+        console.log("User Address:", userAddress);
+
+        const addressIndex = userAddress.address.findIndex(addr => addr._id == id);
         if (addressIndex === -1) {
             throw new Error("Address not found");
         }
+
+        console.log("Address Index:", addressIndex);
 
         const updatedAddress = {
             fname: data.firstname,
@@ -103,14 +107,15 @@ const editAddress = async (data, userId) => {
 
         userAddress.address[addressIndex] = updatedAddress;
         await userAddress.save();
-        
+
+        console.log("Update Successful");
+
         return { status: true };
     } catch (err) {
-        console.log(err);
+        console.log("Error:", err);
         return { status: false, error: err.message };
     }
 }
-
 
 const deleteAddress= (userId, addressId) => {
     return new Promise(async (resolve, reject) => {

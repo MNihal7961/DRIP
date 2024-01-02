@@ -81,6 +81,8 @@ const editaddress_get = async (req, res) => {
 
 // user-edit-address POST
 const editaddress_post = async (req, res) => {
+  const id = req.params.id;
+  console.log(req.body)
     const data = {
         firstname: req.body.firstname,
         lastname: req.body.lastname,
@@ -99,7 +101,7 @@ const editaddress_post = async (req, res) => {
             throw new Error("User data not found")
         }
 
-        const editResult = await userHelper.editAddress(data, userData._id)
+        const editResult = await userHelper.editAddress(data, userData._id,id)
         
         if (editResult.status) {
             res.redirect('/user/address/book?message=successfully updated your address')
@@ -137,11 +139,36 @@ const deleteaddress_get = async (req, res) => {
 
 }
 
+// user-address-add-checkout POST
+const addaddresscheckout_post=async(req,res)=>{
+    try{
+        console.log(req.body)
+        const data = {
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            street: req.body.street,
+            building: req.body.buildingName,
+            city: req.body.city,
+            state: req.body.state,
+            pincode: req.body.pincode,
+            mobile: req.body.phoneNumber,
+            email: req.body.email
+        }
+        const userData = await users.findOne({ email: req.session.email })
+        userHelper.addNewAddress(userData._id, data).then((response) => {
+            res.redirect('/user/checkout?message=successfully added new address')
+        })
+    }catch(err){
+        console.log(err)
+    }
+}
+
 module.exports = {
     addressbook_get,
     addaddress_get,
     addaddress_post,
     editaddress_get,
     editaddress_post,
-    deleteaddress_get
+    deleteaddress_get,
+    addaddresscheckout_post
 }

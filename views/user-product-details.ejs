@@ -103,8 +103,7 @@
                                     <div class="row pb-3">
                                         <div class="col d-grid">
 
-                                            <button class="btn btn-success  rounded-pill"
-                                               >Add to cart</button>
+                                            <button class="btn btn-success  rounded-pill">Add to cart</button>
 
                                         </div>
                                 </form>
@@ -181,32 +180,28 @@
                 integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
                 crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+            <!-- ElevateZoom CDN -->
+            <link rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.css" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script>
+
             <script>
                 $(document).ready(function () {
-
                     $(".thumbnail-image-container").click(function () {
-
                         var newImageSrc = $(this).find("img").attr("src");
-
                         $("#selected-image").attr("src", newImageSrc);
-
-
                         initializeImageZoom();
                     });
-
-
+            
                     initializeImageZoom();
                 });
-
+            
                 function initializeImageZoom() {
-                    var options = {
-                        width: 300,
-                        height: 500,
-                        zoomWidth: 150,
-                        offset: { vertical: 0, horizontal: 10 }
-                    };
-
-                    new ImageZoom(document.getElementById("image-container"), options);
+                    $('#selected-image').elevateZoom({
+                        zoomType: "inner",
+                        cursor: "crosshair"
+                        // Add any additional options as needed
+                    });
                 }
             </script>
-
+            

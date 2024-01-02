@@ -107,11 +107,11 @@ router.get('/user/order/details', userAuth.authMiddleware, orderController.order
 router.post('/user/order/cancel/:id', userAuth.authMiddleware, orderController.userordercancel_post)
 
 // Order-cancel-single-product POST
-router.post('/user/order/cancelProduct/:oid/:proid', userAuth.authMiddleware, orderController.userordersingleproductcancel_post)
+router.post('/user/order/cancel/single/:id', userAuth.authMiddleware, orderController.userordersingleproductcancel_post)
 
 router.post('/verify/payment',userAuth.authMiddleware,orderController.verifyPayment)
 
-
+router.post('/user/add/address-checkout',userAuth.authMiddleware,addressController.addaddresscheckout_post)
 
 
 module.exports = router

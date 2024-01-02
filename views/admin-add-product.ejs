@@ -6,7 +6,7 @@
 
         }
 
-       
+
         .profile-image-pic {
             height: 200px;
             width: 200px;
@@ -21,6 +21,57 @@
             text-decoration: none;
         }
     </style>
+    <style>
+        #imageUploadContainer {
+            text-align: center;
+        }
+
+        #dropArea {
+            background-color: #fff;
+            border: 2px solid #ccc;
+            padding: 20px;
+            cursor: pointer;
+        }
+
+        #imagePreview {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .previewImage {
+            position: relative;
+            margin: 5px;
+        }
+
+        .previewImage img {
+            max-width: 100px;
+            max-height: 100px;
+        }
+
+        .removeButton {
+            position: absolute;
+            top: 0;
+            right: 0;
+            cursor: pointer;
+            background-color: #ff5555;
+            color: #fff;
+            border: none;
+            padding: 3px 8px;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        #imageError {
+            color: red;
+        }
+
+        .dragover {
+            border-color: #39b54a;
+        }
+    </style>
+
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -37,68 +88,80 @@
                                 alt="profile">
                         </div>
 
-                    <div class="row">
-                        <div class="mb-3 col-md-6">
-                            <label for="product">Enter product name</label>
-                            <input id="name" type="text" class="form-control" placeholder="Product Name" name="title" oninput="validateInput()">
-                            <p id="name_error" class="text-danger"></p>
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="product">Enter product name</label>
+                                <input id="name" type="text" class="form-control" placeholder="Product Name"
+                                    name="title" oninput="validateInput()">
+                                <p id="name_error" class="text-danger"></p>
+                            </div>
+
+                            <div class="mb-3 col-md-6">
+                                <label for="brand">Choose Brand</label>
+                                <select name="brand" required class="form-select" aria-label="Default select example">
+                                    <option value="">Availabe Brand</option>
+                                    <% brandData.forEach((data)=> { %>
+                                        <option value="<%=data.brand%>">
+                                            <%=data.brand%>
+                                        </option>
+                                        <% }) %>
+                                </select>
+                            </div>
                         </div>
 
-                        <div class="mb-3 col-md-6">
-                            <label for="brand">Choose Brand</label>
-                            <select name="brand" required class="form-select" aria-label="Default select example">
-                                <option value="">Availabe Brand</option>
-                                <% brandData.forEach((data)=> { %>
-                                    <option value="<%=data.brand%>">
-                                        <%=data.brand%>
-                                    </option>
-                                    <% }) %>
-                            </select>
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="category">Choose Category</label>
+                                <select name="category" required class="form-select"
+                                    aria-label="Default select example">
+                                    <option value="">Availabe Category</option>
+                                    <% categoryData.forEach((data)=> { %>
+                                        <option value="<%=data.category%>">
+                                            <%=data.category%>
+                                        </option>
+                                        <% }) %>
+                                </select>
+                            </div>
+
+                            <div class="mb-3 col-md-6">
+                                <label for="product">Enter Price</label>
+                                <input oninput="validateInput()" id="price" type="number" class="form-control"
+                                    placeholder="Product Price" name="price">
+                                <p class="text-danger" id="price_error"></p>
+                            </div>
+
+
                         </div>
-                    </div>
-
-                 <div class="row">
-                    <div class="mb-3 col-md-6">
-                        <label for="category">Choose Category</label>
-                        <select name="category" required class="form-select" aria-label="Default select example">
-                            <option value="">Availabe Category</option>
-                            <% categoryData.forEach((data)=> { %>
-                                <option value="<%=data.category%>">
-                                    <%=data.category%>
-                                </option>
-                                <% }) %>
-                        </select>
-                    </div>
-
-                    <div class="mb-3 col-md-6">
-                        <label for="product">Enter Price</label>
-                        <input  oninput="validateInput()" id="price" type="number" class="form-control" placeholder="Product Price" name="price">
-                        <p class="text-danger" id="price_error"></p>
-                    </div>
-
-                    
-                 </div>
-
-                 <div class="mb-3">
-                    <label for="Description">Enter Description</label>
-                    <textarea name="description" placeholder="Description" class="form-control" oninput="validateInput()"
-                        id="description" rows="3"></textarea>
-                        <p id="description_error" class="text-danger"></p>
-                </div>
-                      
 
                         <div class="mb-3">
-                            <label for="product">Choose Images (Up to 4)</label>
-                            <input required type="file" class="form-control" id="imageInput" name="images[]" accept="image/*" multiple>
-                            <div id="imagePreview" class="mt-3"></div>
+                            <label for="Description">Enter Description</label>
+                            <textarea name="description" placeholder="Description" class="form-control"
+                                oninput="validateInput()" id="description" rows="3"></textarea>
+                            <p id="description_error" class="text-danger"></p>
                         </div>
-                        
+
+
+                        <div class="mb-3">
+                            <div id="imageUploadContainer">
+                                <p>Choose or Drag Files Here</p>
+                                <div id="dropArea">
+                                    <img src="/images/upload-img.jpg" height="50px">
+                                    <label for="product">Select Images</label>
+                                    <input type="file" id="imageInput" name="images" accept="image/*" multiple />
+
+                                </div>
+                                <p id="imageError"></p>
+
+                                <div id="imagePreview"></div>
+                            </div>
+                        </div>
+
 
                         <div class="mb-3">
                             <label for="product">Enter Product Color</label>
-                            <input required type="text" class="form-control" name="color" oninput="validateInput()" id="color"
-                                placeholder="Enter product color">
-                                <p class="text-danger" id="color_error"></p>
+                            <input required type="text" class="form-control" name="color" oninput="validateInput()"
+                                id="color" placeholder="Enter product color">
+                            <p class="text-danger" id="color_error"></p>
                         </div>
 
                         <div class="mb-3">
@@ -115,14 +178,15 @@
                             <div class="variant-row row mb-4" data-variant-index="0">
                                 <div class="col-md-6">
                                     <label for="productSize" class="form-label">Size</label>
-                                    <input type="number" id="size" class="form-control" name="variant[size][]" placeholder="Size" oninput="validateInput()">
+                                    <input type="number" id="size" class="form-control" name="variant[size][]"
+                                        placeholder="Size" oninput="validateInput()">
                                     <p class="text-danger" id="size_error"></p>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="productStock" class="form-label">Stock Quantity</label>
                                     <input type="number" class="form-control" name="variant[quantity][]"
                                         placeholder="Stock" required id="stock" oninput="validateInput()">
-                                        <p class="text-danger" id="stock_error"></p>
+                                    <p class="text-danger" id="stock_error"></p>
                                 </div>
                                 <!-- Remove Variant Icon -->
                                 <div class="col-md-12 mt-2 d-flex justify-content-end">
@@ -148,8 +212,9 @@
     </div>
     <%- include('../partials/admin-foot.ejs') %>
 
-    <!-- SweetAlert CDN -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <!-- SweetAlert CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 
 
         <script>
@@ -180,118 +245,183 @@
         </script>
 
 
-        <script>
-            function  validateInput(){
-                let Regex = /^[a-zA-Z0-9]+$/
+<script>
+    function showToast(message) {
+        // Get the toast container
+        var toastContainer = document.getElementById('toast-container');
 
-                var name=document.getElementById('name')
-                var nameError=document.getElementById('name_error')
+        // Create a new toast element
+        var toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.setAttribute('role', 'alert');
+        toast.setAttribute('aria-live', 'assertive');
+        toast.setAttribute('aria-atomic', 'true');
 
-                if(!name.value.trim().match(Regex)){
-                    nameError.innerHTML='Please enter a valid name'
-                }else{
-                    nameError.innerHTML=''
-                }
+        // Create a toast body element
+        var toastBody = document.createElement('div');
+        toastBody.className = 'toast-body';
+        toastBody.innerHTML = message;
 
-                var description=document.getElementById('description')
-                var descriptionError=document.getElementById('description_error')
+        // Append the toast body to the toast element
+        toast.appendChild(toastBody);
 
-                if(!description.value.trim().match(Regex)){
-                    descriptionError.innerHTML="Please Enter a valid data"
-                }else{
-                    descriptionError.innerHTML=''
-                }
+        // Append the toast element to the container
+        toastContainer.appendChild(toast);
 
-                var price=document.getElementById('price')
-                var priceError=document.getElementById('price_error')
+        // Show the toast
+        var bootstrapToast = new bootstrap.Toast(toast);
+        bootstrapToast.show();
 
-                if(price.value.trim()<0){
-                    priceError.innerHTML='Enter valid price'
-                }else{
-                    priceError.innerHTML=''
-                }
+        // Remove the toast after 5 seconds
+        setTimeout(() => {
+            toast.remove();
+        }, 5000);
+    }
 
-                var color=document.getElementById('color')
-                var colorError=document.getElementById('color_error')
+    function validateInput() {
+        let Regex = /^[a-zA-Z0-9]+$/;
 
-                if(!color.value.trim().match(Regex)){
-                    colorError.innerHTML='Enter a valid input'
-                }else{
-                    colorError.innerHTML=''
-                }
+        var name = document.getElementById('name');
+        var description = document.getElementById('description');
+        var price = document.getElementById('price');
+        var color = document.getElementById('color');
+        var size = document.getElementById('size');
+        var stock = document.getElementById('stock');
 
-                var size=document.getElementById('size')
-                var sizeError=document.getElementById('size_error')
+        if (!name.value.trim().match(Regex)) {
+            showToast('Please enter a valid name');
+            return false;
+        }
 
-                if(size.value.trim()<0){
-                    sizeError.innerHTML='Enter a valid data'
-                }else{
-                    sizeError.innerHTML=''
-                }
+        if (!description.value.trim().match(Regex)) {
+            showToast('Please enter a valid description');
+            return false;
+        }
 
-                var stock=document.getElementById('stock')
-                var stockError=document.getElementById('stock_error')
+        if (price.value.trim() < 0) {
+            showToast('Enter a valid price');
+            return false;
+        }
 
-                if(stock.value.trim()<0){
-                    stockError.innerHTML='Enter a valid size'
-                }else{
-                    stockError.innerHTML=''
-                }
-            }
-        </script>
+        if (!color.value.trim().match(Regex)) {
+            showToast('Enter a valid color');
+            return false;
+        }
+
+        if (size.value.trim() < 0) {
+            showToast('Enter a valid size');
+            return false;
+        }
+
+        if (stock.value.trim() < 0) {
+            showToast('Enter a valid stock');
+            return false;
+        }
+
+        // If all validations pass, return true
+        return true;
+    }
+</script>
+
+<!-- Add the following HTML for the toast container -->
+<div id="toast-container" class="position-fixed bottom-0 end-0 p-3">
+    <!-- Toasts will be dynamically inserted here -->
+</div>
+
 
 <script>
-    document.getElementById('imageInput').addEventListener('change', function () {
-        var preview = document.getElementById('imagePreview');
-        preview.innerHTML = '';
+    var dropArea = document.getElementById('dropArea');
+    var previewContainer = document.getElementById('imagePreview');
+    var errorText = document.getElementById('imageError');
+    var input = document.getElementById('imageInput'); // Corrected the ID
+    var maxFiles = 4;
+    var fileCounter = 0;
 
-        var files = this.files;
-        var validImageTypes = ['image/jpeg', 'image/png', 'image/gif','image/jpg','image/webp'];
+    function initDragAndDrop() {
+        dropArea.addEventListener('click', function () {
+            input.click();
+        });
 
+        dropArea.addEventListener('dragover', function (e) {
+            e.preventDefault();
+            dropArea.classList.add('dragover');
+        });
+
+        dropArea.addEventListener('dragleave', function () {
+            dropArea.classList.remove('dragover');
+        });
+
+        dropArea.addEventListener('drop', function (e) {
+            e.preventDefault();
+            dropArea.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+    }
+
+    input.addEventListener('change', function (event) {
+        handleFiles(event.target.files);
+    });
+
+    function handleFiles(files) {
+        // Reset error message
+        errorText.textContent = '';
+
+        // Check the number of selected files
+        if (fileCounter + files.length > maxFiles) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'You can select a maximum of ' + maxFiles + ' files.'
+            });
+            input.value = ''; // Clear the input to prevent files from being added
+            return;
+        }
+
+        // Loop through each file and validate file type, then display image previews
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
 
             // Validate file type
+            var validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
             if (validImageTypes.indexOf(file.type) === -1) {
-                // Show SweetAlert for file type validation error
                 Swal.fire({
                     icon: 'error',
-                    title: 'Invalid File Type',
-                    text: 'Please select only image files (JPEG, PNG, GIF).',
+                    title: 'Oops...',
+                    text: 'Please select only image files (JPEG, PNG, GIF).'
                 });
-                this.value = ''; // Reset the input field to clear the invalid selection
-                return;
+                continue; // Skip to the next file
             }
 
             var reader = new FileReader();
 
-            reader.onload = function (e) {
-                var img = document.createElement('img');
-                img.src = e.target.result;
-                img.classList.add('img-thumbnail', 'mr-2', 'mb-2');
-                img.style.maxWidth = '150px';
-                img.style.maxHeight = '150px';
+            reader.onload = (function (file) {
+                return function (e) {
+                    var imgContainer = document.createElement('div');
+                    imgContainer.className = 'previewImage';
 
-                var deleteButton = document.createElement('button');
-                deleteButton.innerHTML = 'Delete';
-                deleteButton.classList.add('btn', 'btn-danger', 'btn-sm', 'mb-2', 'ms-2');
-                deleteButton.addEventListener('click', function () {
-                    // Remove the image and the delete button on click
-                    preview.removeChild(img);
-                    preview.removeChild(this);
+                    var img = document.createElement('img');
+                    img.src = e.target.result;
 
-                    // Remove the respective file from the input
-                    var index = Array.from(preview.children).indexOf(deleteButton) / 2; // divided by 2 to get the correct index
-                    document.getElementById('imageInput').value = '';
-                    var newFiles = Array.from(files).filter((_, fileIndex) => fileIndex !== index);
-                    document.getElementById('imageInput').files = newFiles;
-                });
+                    var removeButton = document.createElement('button');
+                    removeButton.className = 'removeButton';
+                    removeButton.textContent = 'Remove';
+                    removeButton.addEventListener('click', function () {
+                        imgContainer.remove();
+                        fileCounter--;
+                    });
 
-                preview.appendChild(img);
-                preview.appendChild(deleteButton);
-            }
+                    imgContainer.appendChild(img);
+                    imgContainer.appendChild(removeButton);
+                    previewContainer.appendChild(imgContainer);
+                    fileCounter++;
+                };
+            })(file);
 
             reader.readAsDataURL(file);
         }
-    });
+    }
+
+    // Initialize drag and drop functionality
+    initDragAndDrop();
 </script>

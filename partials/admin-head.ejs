@@ -18,20 +18,23 @@
    
     <link href="https://db.onlinewebfonts.com/c/2aeca327ae0e8ba04bf305f13cb1d589?family=Ravie" rel="stylesheet">
     <title><% -title %></title>
-    
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+<!-- Cropper CSS -->
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+
+<!-- Cropper JS -->
+
+
   </head>
   <body>
     <div class="first">
-        <P class="text-center align-content-center text-white fw-light bg-success">Check home Page<a href="/">Go to Home</a></P>
+        <P class="text-center align-content-center text-white fw-light bg-success">Check home Page<a href="/admin/home">Go to Home</a></P>
     </div>
     <!-- NAVBAR -->
-    <nav class="navbar navbar-light bg-light">
-      <div class="container-fluid d-flex">
-        <a class="navbar-brand justify-content-center" style="font-family: Ravie; color: #014122;" >Drip</a>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+    <nav class="text-center shadow ">
+      <div class="container-fluid text-center ">
+        <a class="text-center font-weight-bold text-decoration-none" style=" font-size: 50px; font-family: Ravie; color: #014122;" >Drip</a>
       </div>
     </nav>
 
@@ -87,7 +90,7 @@
               </div>
 
               <li>
-                <a href="#" class="nav-link text-truncate">
+                <a href="/admin/add/product" class="nav-link text-truncate">
                     <i class="fa-solid fa-plus"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Add Products</span></a>
               </li>
               <li>
