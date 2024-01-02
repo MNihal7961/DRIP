@@ -179,29 +179,55 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
                 integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
                 crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   <!-- ElevateZoom CDN -->
+   <link rel="stylesheet"
+   href="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script>
 
-            <!-- ElevateZoom CDN -->
-            <link rel="stylesheet"
-                href="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.css" />
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script>
+<style>
+   /* Additional styles for ElevateZoom customization */
+   .zoomContainer {
+       overflow: hidden;
+       position: relative;
+   }
 
-            <script>
-                $(document).ready(function () {
-                    $(".thumbnail-image-container").click(function () {
-                        var newImageSrc = $(this).find("img").attr("src");
-                        $("#selected-image").attr("src", newImageSrc);
-                        initializeImageZoom();
-                    });
-            
-                    initializeImageZoom();
-                });
-            
-                function initializeImageZoom() {
-                    $('#selected-image').elevateZoom({
-                        zoomType: "inner",
-                        cursor: "crosshair"
-                        // Add any additional options as needed
-                    });
-                }
-            </script>
+   .zoomLens {
+       border: 2px solid #aaa;
+       cursor: crosshair;
+   }
+
+   .zoomWindow {
+       background: #fff;
+       border: 2px solid #aaa;
+       box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+   }
+</style>
+
+<script>
+   $(document).ready(function () {
+       $(".thumbnail-image-container").click(function () {
+           var newImageSrc = $(this).find("img").attr("src");
+           $("#selected-image").attr("src", newImageSrc);
+           initializeImageZoom();
+       });
+
+       initializeImageZoom();
+   });
+
+   function initializeImageZoom() {
+       $('#selected-image').elevateZoom({
+           zoomType: "inner",
+           cursor: "crosshair",
+           responsive: true, 
+           borderSize: 0, 
+           easing: true, 
+           gallery: 'multi-item-example', 
+           galleryActiveClass: 'active', 
+           lensBorderSize: 1, 
+           lensShape: 'round', 
+           containLensZoom: true
+       });
+   }
+</script>
+
             
