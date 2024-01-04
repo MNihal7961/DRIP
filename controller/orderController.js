@@ -174,6 +174,22 @@ const userordersingleproductcancel_post = async (req, res) => {
   }
 };
 
+const userorderreturn_post = async (req, res) => {
+  const userData = await global.loggedUser(req.session.email);
+
+  try {
+    const { orderId ,orderPrice} = req.body;
+    console.log(req.body);
+    await orderHelper
+      .userReturnOrder(orderId, userData._id,orderPrice)
+      .then(async (response) => {
+        res.json({ updateStatus: true });
+      });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   placeorder_post,
   ordersuccess_get,
@@ -186,4 +202,5 @@ module.exports = {
   userordercancel_post,
   userordersingleproductcancel_post,
   verifyPayment,
+  userorderreturn_post
 };

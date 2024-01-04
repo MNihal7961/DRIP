@@ -9,6 +9,7 @@ const cartController = require('../controller/cartController')
 const profileController = require('../controller/profileController')
 const orderController = require('../controller/orderController')
 const upload = require('../middleware/profileMulter')
+const walletController=require('../controller/walletController')
 
 
 // DEMO PAGE GET
@@ -34,6 +35,9 @@ router.get('/user/otp', userController.userotp_get)
 router.post('/user/signup', userController.userSignUpOTP_post)
 router.post('/user/otp', userController.userSignUpOTPValidate_post)
 router.post('/user/upload/profileImage', upload.single('profileimage'), profileController.editprofileImage)
+
+// User-otp-resend POST
+router.post('/user/resend/otp',userController.resendOtp)
 
 // Login
 router.get('/user/login', userController.userlogin_get)
@@ -113,7 +117,12 @@ router.post('/verify/payment',userAuth.authMiddleware,orderController.verifyPaym
 
 router.post('/user/add/address-checkout',userAuth.authMiddleware,addressController.addaddresscheckout_post)
 
-// User-otp-resend POST
-router.post('/user/resend/otp',userController.resendOtp)
+// user-wallet GET
+router.get('/user/wallet',userAuth.authMiddleware,walletController.userwallet_get)
 
+// user-wallet-activate GET
+router.post('/user/activate/wallet/:id',userAuth.authMiddleware,walletController.userActivateWallet_get)
+
+// user-return-order POST
+router.post('/user/order/return/:id',userAuth.authMiddleware,orderController.userorderreturn_post)
 module.exports = router

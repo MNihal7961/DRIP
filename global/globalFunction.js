@@ -9,6 +9,7 @@ const cart = require("../model/cartmodel");
 const { ObjectId } = require("mongodb");
 const cartHelper = require("../helper/cartHelpers");
 const address = require("../model/addressmodel");
+const wallet=require('../model/walletmodel')
 
 const loggedUser = async (email) => {
   try {
@@ -355,6 +356,49 @@ const orderCount = async () => {
   }
 };
 
+const walletdata = async (userId) => {
+  try {
+    const result = await wallet.aggregate([
+      {
+        $match: { user: new ObjectId(userId) }
+      },
+      {
+        $set: {
+          history: {
+            $map: {
+              input: '$history',
+              as: 'item',
+              in: {
+                $mergeObjects: [
+                  '$$item',
+                  {
+                    date: {
+                      $dateToString: {
+                        format: "%d-%b-%Y",
+                        date: '$$item.date'
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    ]);
+
+    if (!result || result.length === 0) {
+      console.log("No wallet found for user:", userId);
+      return null;
+    }
+
+    return result[0];
+  } catch (err) {
+    console.error("Error while fetching wallet data:", err);
+    return null;
+  }
+};
+
 module.exports = {
   loggedUser,
   cartCount,
@@ -372,5 +416,6 @@ module.exports = {
   onlineCount,
   getOrderProductStatusCount,
   totalRevenue,
-  orderCount
+  orderCount,
+  walletdata
 };

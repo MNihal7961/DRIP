@@ -5,6 +5,8 @@ const order = require("../model/ordermodel");
 require("dotenv").config();
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
+const { response } = require("express");
+const wallet=require('../model/walletmodel')
 
 const instance = new Razorpay({
   key_id: process.env.KEY_ID,
@@ -358,7 +360,34 @@ const userCancelSingleProduct = (userId, orderId, productSize, productName,produ
         reject(err);
       }
     });
-  };
+};
+
+const userReturnOrder=(orderId, userId,orderPrice)=>{
+  return new Promise(async (resolve, reject) => {
+    try {
+      await order
+        .updateOne(
+          { user: userId, "order._id": new ObjectId(orderId) },
+          { $set: { "order.$.orderStatus": "Returned" } }
+        )
+
+         await wallet.updateOne(
+          { "user": new ObjectId(userId) }, 
+          {
+            $set: { "balance": parseInt(orderPrice) },
+            $push: {
+              "history": { "type":"Credited","amount": parseInt(orderPrice), "date": new Date() }
+            }
+          }
+        )
+        .then((response) => {
+          resolve({ update: "success" });
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  });
+}
   
 module.exports = {
   placeOrder,
@@ -371,4 +400,5 @@ module.exports = {
   adminDeliveryOrder,
   userCancelOrder,
   userCancelSingleProduct,
+  userReturnOrder
 };

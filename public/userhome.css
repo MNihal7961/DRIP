@@ -145,3 +145,58 @@ body {
     text-decoration: line-through;
 }
 
+.wallet-container {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .wallet-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .balance {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #28a745;
+  }
+
+  .customh4 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #343a40;
+  }
+
+  .transaction-list {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .transaction-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #dee2e6;
+    font-size: 16px;
+  }
+
+  .transaction-item span {
+    flex: 1;
+    text-align: center;
+  }
+
+  .transaction-item:last-child {
+    border-bottom: none;
+  }
+
+  .pagination {
+    justify-content: center;
+    margin-top: 20px;
+  }
+
