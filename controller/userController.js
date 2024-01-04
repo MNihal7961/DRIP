@@ -14,6 +14,7 @@ const usersignup_get = (req, res) => {
         const title = "usersignup"
         res.render('user-signup', { title })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -24,6 +25,7 @@ const userlogin_get = (req, res) => {
         const title = "userlogin"
         res.render('user-login', { title, message: req.flash('message') })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -52,6 +54,7 @@ const userlogin_post = async (req, res) => {
             res.redirect('/user/login')
         }
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -67,6 +70,7 @@ const userhome_get = async (req, res) => {
         const productData2 = await product.find({ status: true }).limit(4).skip(8)
         res.render('user-home', { title, productData, userData, productData1, productData2, cartNo })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -79,6 +83,7 @@ const userlogout_get = (req, res) => {
         req.session.userlogged = false
         req.session.destroy()
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -94,6 +99,7 @@ const userproductdetails_GET = async (req, res) => {
         const title = "product details"
         res.render('user-product-details', { productData, title, relateData, userData, cartNo })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -108,6 +114,7 @@ const blackfridaysale_get = async (req, res) => {
         const cartNo = await global.cartCount(userData._id)
         res.render('user-black-friday-sale', { title, productData, userData, cartItems, cartNo })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -155,13 +162,18 @@ const userSignUpOTP_post = async (req, res) => {
 }
 
 const userotp_get = (req, res) => {
+   try{
     res.render('user-otp',
-        {
-            message: req.query.message,
-            error: req.query.error,
-            email: req.query.email
-        }
-    )
+    {
+        message: req.query.message,
+        error: req.query.error,
+        email: req.query.email
+    }
+)
+   }catch(err){
+    res.status(500).render('500')
+    console.log(err)
+   }
 }
 
 const userSignUpOTPValidate_post = async (req, res) => {
@@ -191,6 +203,7 @@ const userForgottPassword_get = (req, res) => {
         res.render('user-forgott-password')
     } catch (err) {
         console.log(err)
+        res.status(500).render('500')
     }
 }
 
@@ -212,6 +225,7 @@ const userForgottPassword_post = async (req, res) => {
             res.render('user-forgott-otp')
         }
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -226,6 +240,7 @@ const userforgottOTPvalidate_post = (req, res) => {
             res.status(500).redirect('/user/forgott/password?error= Invalid or expired OTP');
         }
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -239,6 +254,7 @@ const usernewpassword_post = async (req, res) => {
         const update = await users.updateOne({ email: email }, { $set: { password: hashedPassword } })
         res.redirect('/user/login?message=password changed')
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -254,8 +270,22 @@ const resendOtp=async (req,res)=>{
             otpStore1[generatedOTP] = expirationTimestamp
             await sendOTP(userEmail, generatedOTP)
     }catch(err){
+        res.status(500).render('500')
         console.log(err)
     }
+}
+
+const errorPage=async(req,res)=>{
+  try{
+    if(req.session.userlogged){
+        res.render('404')
+    }else{
+        res.render('404')
+    }
+  }catch(err){
+    res.status(500).render('500')
+    console.log(err)
+  }
 }
 
 module.exports = {
@@ -273,5 +303,6 @@ module.exports = {
     userForgottPassword_post,
     userforgottOTPvalidate_post,
     usernewpassword_post,
-    resendOtp
+    resendOtp,
+    errorPage
 }

@@ -8,6 +8,7 @@ const shipping_get = async (req, res) => {
         const shippingData = await shipping.find()
         res.render('admin-shipping', { title, i, shippingData })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -18,6 +19,7 @@ const addshipping_get = (req, res) => {
         const title = 'Add shipping'
         res.render('admin-add-shipping', { title })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -39,6 +41,7 @@ const addshipping_post = async (req, res) => {
             res.redirect('/admin/shipping?message=Successfully added new shipping')
         }
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -50,6 +53,7 @@ const disableshipping_post = async (req, res) => {
         const disable = await shipping.updateOne({ _id: id }, { $set: { status: false } })
         res.redirect('/admin/shipping?message=disabled')
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -61,6 +65,7 @@ const enableshipping_post = async (req, res) => {
         const enable = await shipping.updateOne({ _id: id }, { $set: { status: true } })
         res.redirect('/admin/shipping?message=enabled')
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -73,6 +78,7 @@ const editshipping_get = async (req, res) => {
         const title = "edit shipping"
         res.render('admin-edit-shipping', { title, data })
     } catch (err) {
+        res.status(500).render('500')
         consol.log(err)
     }
 }
@@ -94,6 +100,7 @@ const editshipping_post = async (req, res) => {
             res.redirect('/admin/shipping?message=Successfully added new shipping')
         }
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -105,6 +112,7 @@ const deleteshipping_post = async (req, res) => {
         const deleteShipping = await shipping.deleteOne({ _id: id })
         res.redirect('/admin/shipping')
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }

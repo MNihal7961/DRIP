@@ -11,7 +11,7 @@ const nocache = require('nocache')
 const connectDB=require('./config/connection')
 const storage=require('./middleware/multer')
 const flash=require('connect-flash')
-const sharp=require('sharp')
+const userController=require('../Project/controller/userController')
 
 
 const PORT=process.env.PORT||3000
@@ -45,6 +45,9 @@ app.use((req,res,next)=>{
 
 app.use("/", adminRouter)
 app.use("/",userRouter)
+
+// 404 
+app.all('*',userController.errorPage)
 
 app.listen(PORT, () => { console.log(`Listening on ${HOST}:${PORT}`) })
 

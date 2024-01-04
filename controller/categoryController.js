@@ -8,6 +8,7 @@ const category_get = async (req, res) => {
         const categoryData = await category.find().sort({ category: 1, createdDate: 1, status: 1 })
         res.render('admin-category', { title, i, categoryData })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -18,6 +19,7 @@ const addcategory_get = (req, res) => {
         const title = "add category"
         res.render('admin-add-category', { title })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -37,6 +39,7 @@ const addcategory_post = async (req, res) => {
             res.redirect('/admin/category?message=Success fully adeed.')
         }
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -48,6 +51,7 @@ const disablecategory_post = async (req, res) => {
         const disable = await category.updateOne({ _id: id }, { $set: { status: false } })
         res.redirect('/admin/category?message=Success fully disabled.')
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -59,6 +63,7 @@ const enablecategory_post = async (req, res) => {
         const enable = await category.updateOne({ _id: id }, { $set: { status: true } })
         res.redirect('/admin/category?message=Success fully enabled.')
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -70,6 +75,7 @@ const deletecategory_post = async (req, res) => {
         const deleteCategory = await category.deleteOne({ _id: id })
         res.redirect('/admin/category')
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -82,6 +88,7 @@ const editcategory_get = async (req, res) => {
         const title = "edit category"
         res.render('admin-edit-category', { title, data })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -94,6 +101,7 @@ const editcategory_post = async (req, res) => {
     const edit = await category.updateOne({ _id: id }, { $set: { category: newName } })
     res.redirect('/admin/category?message="Successfully edited your changes"')
    }catch(err){
+    res.status(500).render('500')
     console.log(err)
    }
 }

@@ -11,6 +11,7 @@ const userwallet_get = async (req, res) => {
     console.log(walletData)
     res.render("user-wallet", { title, userData, cartNo, walletData });
   } catch (err) {
+    res.status(500).render('500')
     console.log(err);
   }
 };
@@ -28,6 +29,7 @@ const userActivateWallet_get = async (req, res) => {
       res.redirect("/user/wallet?message=wallet activated");
     }
   } catch (err) {
+    res.status(500).render('500')
     console.log(err);
   }
 };

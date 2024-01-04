@@ -8,6 +8,7 @@ const payment_get = async (req, res) => {
         const paymentData = await payment.find()
         res.render('admin-payment', { title, i, paymentData })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -18,6 +19,7 @@ const addpayment_get = (req, res) => {
         const title = 'Add payment'
         res.render('admin-add-payment', { title })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -38,6 +40,7 @@ const addpayment_post = async (req, res) => {
             res.redirect('/admin/payment?message=Successfully added new payment')
         }
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -49,6 +52,7 @@ const disablepayment_post = async (req, res) => {
         const disable = await payment.updateOne({ _id: id }, { $set: { status: false } })
         res.redirect('/admin/payment?message=disabled')
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -60,6 +64,7 @@ const enablepayment_post = async (req, res) => {
         const enable = await payment.updateOne({ _id: id }, { $set: { status: true } })
         res.redirect('/admin/payment?message=enabled')
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -72,6 +77,7 @@ const editpayment_get = async (req, res) => {
         const title = "edit payment"
         res.render('admin-edit-payment', { title, data })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -92,6 +98,7 @@ const editpayment_post = async (req, res) => {
             res.redirect('/admin/payment?message=Successfully updated payment')
         }
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -103,6 +110,7 @@ const deletpayment_post = async (req, res) => {
         const deletePayment = await payment.deleteOne({ _id: id })
         res.redirect('/admin/payment?message=deleted')
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }

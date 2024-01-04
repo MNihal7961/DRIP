@@ -10,6 +10,7 @@ const product_get = async (req, res) => {
         const productData = await product.find()
         res.render('admin-product', { title, i, productData })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -22,6 +23,7 @@ const addproduct_get = async (req, res) => {
         const categoryData = await category.find()
         res.render('admin-add-product', { title, brandData, categoryData })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -55,7 +57,7 @@ const addproduct_post = async (req, res) => {
                 description: description,
                 mrp: price,
                 varient: obj,
-                images: allFileNames, // Assign the array of strings directly
+                images: allFileNames, 
                 productColor: color,
             });
 
@@ -63,10 +65,9 @@ const addproduct_post = async (req, res) => {
         }
     } catch (err) {
         console.log(err);
-        res.status(500).send('Internal Server Error');
+        res.status(500).render('500')
     }
 };
-
 
 // Disable product POST
 const disableproduct_post = async (req, res) => {
@@ -75,6 +76,7 @@ const disableproduct_post = async (req, res) => {
         const disable = await product.updateOne({ _id: id }, { $set: { status: false } })
         res.redirect('/admin/product?message=Success fully disabled.')
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -86,6 +88,7 @@ const enableproduct_post = async (req, res) => {
         const enable = await product.updateOne({ _id: id }, { $set: { status: true } })
         res.redirect('/admin/product?message=Success fully enabled.')
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -100,6 +103,7 @@ const editproduct_get = async (req, res) => {
         const title = "edit product"
         res.render('admin-edit-product', { title, data, brandData, categoryData })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -151,6 +155,7 @@ const editproduct_post = async (req, res) => {
 
         res.redirect('/admin/product?message=successfully updated your changes')
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 
@@ -163,6 +168,7 @@ const deleteproduct_post = async (req, res) => {
     const deleteProduct = await product.deleteOne({ _id: id })
     res.redirect('/admin/product')
    }catch(err){
+    res.status(500).render('500')
     console.log(err)
    }
 }

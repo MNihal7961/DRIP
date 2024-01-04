@@ -8,6 +8,7 @@ const brand_get = async (req, res) => {
         const brandData = await brand.find().sort({ brand: 1, createdDate: 1, status: 1 })
         res.render('admin-brand', { title, i, brandData })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -18,6 +19,7 @@ const addbrand_get = (req, res) => {
         const title = "Add Brand"
         res.render('admin-add-brand', { title })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -34,6 +36,7 @@ const addbrand_post = async (req, res) => {
             res.redirect('/admin/brand?message=Successfully added new brand')
         }
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -45,6 +48,7 @@ const disablebrand_post = async (req, res) => {
         const disable = await brand.updateOne({ _id: id }, { $set: { status: false } })
         res.redirect('/admin/brand?message=Success fully disabled.')
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -56,6 +60,7 @@ const enablebrand_post = async (req, res) => {
         const enable = await brand.updateOne({ _id: id }, { $set: { status: true } })
         res.redirect('/admin/brand?message=Success fully enabled.')
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -68,6 +73,7 @@ const editbrand_get = async (req, res) => {
         const title = "edit brand"
         res.render('admin-edit-brand', { title, data })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -80,6 +86,7 @@ const editbrand_post = async (req, res) => {
         const edit = await brand.updateOne({ _id: id }, { $set: { brand: newName } })
         res.redirect('/admin/brand?message="Successfully edited your changes"')
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -91,6 +98,7 @@ const deletebrand_post = async (req, res) => {
         const deleteBrand = await brand.deleteOne({ _id: id })
         res.redirect('/admin/brand')
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }

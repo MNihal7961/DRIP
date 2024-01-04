@@ -133,6 +133,7 @@ const deleteAddress= (userId, addressId) => {
                 resolve({ status: true })
             })
         } catch (err) {
+            res.status(500).render('500')
             console.log(err)
         }
     })

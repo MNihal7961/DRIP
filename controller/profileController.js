@@ -12,6 +12,7 @@ const userprofile_get = async (req, res) => {
         const cartItems = await cart.findOne({ user: userData._id })
         res.render('user-profile', { title, userData, cartItems, cartNo })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -26,12 +27,14 @@ const usereditprofile_get = async (req, res) => {
         const cartItems = await cart.findOne({ user: userData._id })
         res.render('user-edit-profile', { title, id, userData, cartItems, cartNo })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
 
 // user-edit-profile POST
 const usereditprofile_post = async (req, res) => {
+   try{
     const { name } = req.body
     const userData = await users.findOne({ email: req.session.email })
     if (name == userData.username) {
@@ -40,6 +43,10 @@ const usereditprofile_post = async (req, res) => {
         const updateprofile = await userData.updateOne({ username: name })
         res.redirect('/user/profile/:id?message=successfullyupdatedprofile')
     }
+   }catch(err){
+    res.status(500).render('500')
+    console.log(err)
+   }
 }
 
 // user-reset-password GET
@@ -51,6 +58,7 @@ const userresetpassword_get = async (req, res) => {
     const cartNo = await global.cartCount(userData._id)
     res.render('user-reset-password', { title, userData, cartItems, cartNo })
    }catch(err){
+    res.status(500).render('500')
     console.log(err)
    }
 }
@@ -70,6 +78,7 @@ const userresetpassword_post = async (req, res) => {
             res.redirect('/user/reset/password?message=entereddatadoesnotmatch')
         }
     }catch(err){
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -94,7 +103,7 @@ const editprofileImage = async (req, res) => {
         }
     } catch (err) {
         console.error('error', err)
-        res.status(500).json({ error: "internal server error" })
+        res.status(500).render('500')
     }
 
 } 

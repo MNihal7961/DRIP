@@ -21,6 +21,7 @@ const adminlogin_get = (req, res) => {
       res.render("admin-login", { title });
     }
   } catch (err) {
+    res.status(500).render('500')
     console.log(err);
   }
 };
@@ -51,6 +52,7 @@ const adminhome_get = async (req, res) => {
       codCount,
     });
   } catch (err) {
+    res.status(500).render('500')
     console.log(err);
   }
 };
@@ -68,6 +70,7 @@ const adminlogin_post = (req, res) => {
       res.redirect("/admin/login");
     }
   } catch (err) {
+    res.status(500).render('500')
     console.log(err);
   }
 };
@@ -79,6 +82,7 @@ const adminlogout_get = (req, res) => {
     req.session.adminlogged = false;
     req.session.destroy();
   } catch (err) {
+    res.status(500).render('500')
     console.log(err);
   }
 };
@@ -94,6 +98,7 @@ const adminblock_post = async (req, res) => {
     );
     return res.redirect("/admin/user");
   } catch (err) {
+    res.status(500).render('500')
     console.log(err);
   }
 };
@@ -109,6 +114,7 @@ const adminunblock_post = async (req, res) => {
     );
     return res.redirect("/admin/user");
   } catch (err) {
+    res.status(500).render('500')
     console.log(err);
   }
 };
@@ -126,6 +132,7 @@ const adminuser_get = async (req, res) => {
       .sort({ username: 1, email: 1, password: 1, status: 1 });
     res.render("admin-user", { title, userData, i });
   } catch (err) {
+    res.status(500).render('500')
     console.log(err);
   }
 };

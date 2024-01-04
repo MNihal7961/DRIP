@@ -12,6 +12,7 @@ const adminsalesreport_get = async (req, res) => {
         const title = "sales-report"
         res.render('admin-sales-report', { title, monthlyRevenue, dailyRevenue, yearlyRevenue, monthWise })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }

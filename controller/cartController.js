@@ -28,6 +28,7 @@ const cart_get = async (req, res) => {
             res.render('user-cart', { title, cartItems, userData, relateData, userCart, cartNo })
         }
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 
@@ -42,6 +43,7 @@ const addToCart_post = async (req, res) => {
             res.redirect('/user/cart')
         })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -54,6 +56,7 @@ const changeQuantity_put = async (req, res) => {
             res.json(response)
         })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -65,6 +68,7 @@ const removeCarItem_delete = async (req, res) => {
             res.json(response)
         })
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }
@@ -88,6 +92,7 @@ const checkout_get = async (req, res) => {
             res.render('user-checkout', { i, title, cartItems, userData, userCart, total, eachTotal, cartNo, summary, shippingData, addressData, paymentData })
         }
     } catch (err) {
+        res.status(500).render('500')
         console.log(err)
     }
 }

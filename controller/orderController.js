@@ -24,6 +24,7 @@ const placeorder_post = async (req, res) => {
         }
       });
   } catch (err) {
+    res.status(500).render('500')
     throw err;
   }
 };
@@ -42,6 +43,7 @@ const verifyPayment = async (req, res) => {
         res.json({ status: false });
       });
   } catch (err) {
+    res.status(500).render('500')
     console.log(err);
   }
 };
@@ -53,6 +55,7 @@ const ordersuccess_get = async (req, res) => {
     const cartNo = await global.cartCount(userData._id);
     res.render("user-order-success", { title, userData, cartNo });
   } catch (err) {
+    res.status(500).render('500')
     console.log(err);
   }
 };
@@ -79,17 +82,22 @@ const orderdetails_get = async (req, res) => {
       sum
     });
   } catch (err) {
+    res.status(500).render('500')
     console.log(err);
   }
 };
 
 const adminorder_get = async (req, res) => {
+ try{
   const title = "orders";
   var i = 0;
   const productData = await global.getAllOrderProduct();
   const orderData = await global.getAllOrder();
   console.log(productData);
   res.render("admin-order", { title, i, orderData, productData });
+ }catch(err){
+  res.status(500).render('500')
+ }
 };
 
 const adminorderprocess_post = async (req, res) => {
@@ -101,6 +109,7 @@ const adminorderprocess_post = async (req, res) => {
         res.json({ updateStatus: true });
       });
   } catch (err) {
+    res.status(500).render('500')
     console.log(err);
   }
 };
@@ -114,6 +123,7 @@ const adminorderplaced_post = async (req, res) => {
         res.json({ updateStatus: true });
       });
   } catch (err) {
+    res.status(500).render('500')
     console.log(err);
   }
 };
@@ -125,6 +135,7 @@ const adminordershipped_post = async (req, res) => {
       res.json({ updateStatus: true });
     });
   } catch (err) {
+    res.status(500).render('500')
     console.log(err);
   }
 };
@@ -138,6 +149,7 @@ const adminorderdelivered_post = async (req, res) => {
         res.json({ updateStatus: true });
       });
   } catch (err) {
+    res.status(500).render('500')
     console.log(err);
   }
 };
@@ -154,6 +166,7 @@ const userordercancel_post = async (req, res) => {
         res.json({ updateStatus: true });
       });
   } catch (err) {
+    res.status(500).render('500')
     console.log(err);
   }
 };
@@ -170,6 +183,7 @@ const userordersingleproductcancel_post = async (req, res) => {
         res.json({ updateStatus: true });
       });
   } catch (err) {
+    res.status(500).render('500')
     console.log(err);
   }
 };
@@ -186,6 +200,7 @@ const userorderreturn_post = async (req, res) => {
         res.json({ updateStatus: true });
       });
   } catch (err) {
+    res.status(500).render('500')
     console.log(err);
   }
 };

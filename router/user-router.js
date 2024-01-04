@@ -23,6 +23,8 @@ router.get('/', async (req, res) => {
     res.render('main', { title, brandData, productData })
 })
 
+
+
 // User-home GET
 router.get('/user/home', userAuth.authMiddleware, userController.userhome_get)
 
