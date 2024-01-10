@@ -17,7 +17,7 @@ Admin Side:
 - Product Management
 - Category Management
 - User Management
-
+- Order Management
 
 Technologies Used:
 - Javascript
@@ -27,7 +27,7 @@ Technologies Used:
 - ejs
 - bootstrap
 - Razorpay
-
+- css
 
 
 # 💻 Techs Used:

@@ -1,88 +1,5 @@
 const order = require("../model/ordermodel");
 
-// get daily sales
-const dailySaless = async () => {
-    try {
-        const currentDate = new Date();
-        const startOfDay = new Date(
-            currentDate.getFullYear(),
-            currentDate.getMonth(),
-            currentDate.getDate(),
-            0,
-            0,
-            0,
-            0
-        );
-        const endOfDay = new Date(
-            currentDate.getFullYear(),
-            currentDate.getMonth(),
-            currentDate.getDate(),
-            23,
-            59,
-            59,
-            999
-        );
-        const dayOfWeek = currentDate.getDay();
-        const daysOfWeek = [
-            "Sunday",
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-        ];
-        const adjustedDaysOfWeek = daysOfWeek
-            .slice(dayOfWeek)
-            .concat(daysOfWeek.slice(0, dayOfWeek));
-
-        const dailySales = await order.aggregate([
-            {
-                $unwind:'$order'
-            },
-            {
-                $match: {
-                    'order.deliveredAt': { $gte: startOfDay, $lte: endOfDay },
-                    'order.orderStatus': "Paid",
-                },
-            },
-            {
-                $group: {
-                    _id: { $dayOfWeek: "order.deliveredAt" }, 
-                    totalSales: { $sum: "order.totalPrice" },
-                },
-            },
-            {
-                $sort: { _id: 1 }, 
-            },
-        ]);
-
-        const salesData = Array(7).fill(0);
-        dailySales.forEach((dayData) => {
-            const dayIndex = dayData._id - 1; 
-            salesData[dayIndex] = dayData.totalSales;
-        });
-
-        const salesByDayOfWeek = adjustedDaysOfWeek.map((day, index) => ({
-            dayOfWeek: day,
-            totalSales: salesData[index],
-        }));
-        console.log("dayofweek", dayOfWeek);
-
-        console.log("salesByDayOfWeek", salesByDayOfWeek);
-
-        return {dayOfWeek,salesByDayOfWeek}
-    } catch (err) {
-        console.log(err);
-        res
-            .status(500)
-            .json({
-                success: false,
-                error: "An error occurred while fetching daily sales data",
-            });
-    }
-}
-
 const monthlySales = () => {
     let date = new Date();
     let thisMonth = date.getMonth();
@@ -285,9 +202,62 @@ const monthWiseSales = async () => {
     }
 };
 
+const weekWiseSales = async () => {
+    const data = [];
+
+    try {
+        const currentDate = new Date();
+        const sevenDaysAgo = new Date(currentDate);
+        sevenDaysAgo.setDate(currentDate.getDate() - 7);
+
+        for (let i = 0; i < 7; i++) {
+            const startOfDay = new Date(sevenDaysAgo);
+            startOfDay.setDate(sevenDaysAgo.getDate() + i);
+            const endOfDay = new Date(startOfDay);
+            endOfDay.setDate(startOfDay.getDate() + 1);
+
+            const dailyData = await order.aggregate([
+                { $unwind: "$order" },
+                {
+                    $match: {
+                        "order.orderStatus": "Delivered",
+                        "order.paymentStatus": "Paid",
+                        "order.orderedAt": { $gte: startOfDay, $lt: endOfDay },
+                    },
+                },
+                { $unwind: "$order.productDetails" },
+                {
+                    $match: { "order.productDetails.status": true },
+                },
+                {
+                    $group: {
+                        _id: null,
+                        total: { $sum: "$order.totalPrice" },
+                        orders: { $sum: "$order.totalQuantity" },
+                        count: { $sum: 1 },
+                    },
+                },
+            ]);
+
+            if (dailyData.length > 0) {
+                data.push(dailyData[0]);
+            } else {
+                data.push({ total: 0, orders: 0, count: 0 });
+            }
+        }
+
+        return { status: true, data: data };
+    } catch (err) {
+        console.log(err);
+        return { status: false, error: err.message };
+    }
+};
+
+
 module.exports = {
     monthlySales,
     dailySales,
     yearlySales,
     monthWiseSales,
+    weekWiseSales
 };

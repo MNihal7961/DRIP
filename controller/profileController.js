@@ -1,6 +1,7 @@
 const users = require('../model/usermodel')
 const bcrypt = require('bcrypt')
 const cart = require('../model/cartmodel')
+const{ObjectId}=require('mongodb')
 const global = require('../global/globalFunction')
 
 // User-profile GET
@@ -10,7 +11,8 @@ const userprofile_get = async (req, res) => {
         const userData = await users.findOne({ email: req.session.email })
         const cartNo = await global.cartCount(userData._id)
         const cartItems = await cart.findOne({ user: userData._id })
-        res.render('user-profile', { title, userData, cartItems, cartNo })
+        const wishlistNo=await global.wishlistNo(userData._id)
+        res.render('user-profile', { title, userData, cartItems, cartNo ,wishlistNo})
     } catch (err) {
         res.status(500).render('500')
         console.log(err)
@@ -25,7 +27,8 @@ const usereditprofile_get = async (req, res) => {
         const cartNo = await global.cartCount(userData._id)
         const title = "edit-profile"
         const cartItems = await cart.findOne({ user: userData._id })
-        res.render('user-edit-profile', { title, id, userData, cartItems, cartNo })
+        const wishlistNo=await global.wishlistNo(userData._id)
+        res.render('user-edit-profile', { title, id, userData, cartItems, cartNo,wishlistNo })
     } catch (err) {
         res.status(500).render('500')
         console.log(err)
@@ -56,7 +59,8 @@ const userresetpassword_get = async (req, res) => {
     const title = "reset-password"
     const cartItems = await cart.findOne({ user: userData._id })
     const cartNo = await global.cartCount(userData._id)
-    res.render('user-reset-password', { title, userData, cartItems, cartNo })
+    const wishlistNo=await global.wishlistNo(userData._id)
+    res.render('user-reset-password', { title, userData, cartItems, cartNo ,wishlistNo})
    }catch(err){
     res.status(500).render('500')
     console.log(err)
@@ -108,6 +112,25 @@ const editprofileImage = async (req, res) => {
 
 } 
 
+// user-generate-refferalcode
+const genarateReffaralCode_post=async (req,res)=>{
+    try{
+        const userData = await users.findOne({ email: req.session.email })
+        const id=req.params.id
+        const num=Math.floor(100000 + Math.random() * 900000)
+        const name=global.randomGenarator(userData.username)
+        const email=global.randomGenarator(userData.email)
+        const refaralCode="Drip"+num+name+email
+        const update=await users.updateOne({_id:new ObjectId(id)},{$set:{refferalcode:refaralCode}})
+        if(update){
+            res.json({success:true})
+        }
+    }catch(err){
+        res.status(500).render('500')
+        console.error(err)
+    }
+}
+
 module.exports = {
     userprofile_get,
     usereditprofile_get,
@@ -115,5 +138,6 @@ module.exports = {
     usereditprofile_post,
     userresetpassword_get,
     userresetpassword_post,
-    editprofileImage
+    editprofileImage,
+    genarateReffaralCode_post
 }

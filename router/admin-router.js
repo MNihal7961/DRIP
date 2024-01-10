@@ -10,6 +10,7 @@ const shippingController = require('../controller/shippingController')
 const paymentController = require('../controller/paymentController')
 const orderController = require('../controller/orderController')
 const salesController = require('../controller/salesController.js')
+const offerController=require('../controller/offerController')
 
 // Admin-login
 router.get('/admin/login', adminController.adminlogin_get)
@@ -163,6 +164,31 @@ router.post('/admin/order/delivery/:id', auth.authMiddleware, orderController.ad
 
 // Admin-sales-report
 router.get('/admin/sales/report', auth.authMiddleware, salesController.adminsalesreport_get)
+
+// Admin-product-offer
+router.get('/admin/product/offer',auth.authMiddleware,offerController.adminProductOffers_get)
+
+// Admin-add-product-offer
+router.post('/admin/add/product/offer/:id',auth.authMiddleware,offerController.adminAddOffers_post)
+
+// Admin-edit-product-offer
+router.post('/admin/edit/product/offer/:id',auth.authMiddleware,offerController.adminEditOffers_post)
+
+// Admin-delete-product-offer
+router.delete('/admin/delete/product/offer/:id',auth.authMiddleware,offerController.adminDeleteOffers_delete)
+
+// Admin-category-offer
+router.get('/admin/category/offer',auth.authMiddleware,offerController.adminCategoryOffers_get)
+
+// Admin-add-category-offer
+router.post('/admin/add/category/offer/:id',auth.authMiddleware,offerController.adminAddCategoryOffers_post)
+
+// Admin-edit-category-offer
+router.post('/admin/edit/category/offer/:id',auth.authMiddleware,offerController.adminEditCategoryOffers_post)
+
+// Admin-delete-category-offer
+router.delete('/admin/delete/category/offer/:id',auth.authMiddleware,offerController.adminDeleteAddCategoryOffers_delete)
+
 
 module.exports = router
 

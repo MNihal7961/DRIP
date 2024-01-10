@@ -49,12 +49,14 @@
                             style="color: #014122;"></i>Wallet</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mx-2 text-uppercase" href="#">Wishlist <i class="fa-solid fa-heart fa-lg me-1"
+                    <a class="nav-link mx-2 text-uppercase" href="/user/wishlist">Wishlist <i class="fa-solid fa-heart fa-lg me-1"
                             style="color: #014122;"></i>
+                           <% if (wishlistNo) { %>
                             <span class="position-absolute  start-25 translate-middle badge rounded-pill bg-danger ms-1">
-                                99+
+                                <%-wishlistNo%>
                                 <span class="visually-hidden">unread messages</span>
                               </span>
+                           <% } %>
                         </a>
                 </li>
                 <li class="nav-item">

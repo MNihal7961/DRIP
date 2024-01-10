@@ -129,6 +129,8 @@
                 }
             });
 
+            
+
             const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
             const totalValuesArray = [<%=totalValuesArray %>];
@@ -156,34 +158,38 @@
                     }
                 }
             });
-            const label= ['2023', '2024', '2025', '2026', '2027'];
-
-            const yearlyArray = [<%=yearArray %>];
-
-            const yearlyData = {
-                labels: label,
-                datasets: [{
-                    label: 'Revenue',
-                    data: yearlyArray,
-                    fill: false,
-                    borderColor: 'rgb(75, 192, 192)',
-                    tension: 0.1
-                }]
-            };
-
-            const yearlyChart = document.getElementById('yearly-chart');
-            new Chart(yearlyChart, {
-                type: 'bar',
-                data: yearlyData,
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
         });
     </script>
+
+<script>
+    const labels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+    const weeklyArray = [<%= weeklyData.data.map(entry => entry.total) %>];
+
+    const weeklyDataChart = {
+        labels: labels,
+        datasets: [{
+            label: 'Revenue',
+            data: weeklyArray,
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1
+        }]
+    };
+
+    const weeklyChart = document.getElementById('weekly-chart');
+    new Chart(weeklyChart, {
+        type: 'bar',
+        data: weeklyDataChart,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
 
     <%- include('../partials/admin-foot.ejs') %>

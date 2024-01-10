@@ -1,11 +1,10 @@
-const cart = require("../model/cartmodel");
-const product = require("../model/productmodel");
-const { ObjectId } = require("mongodb");
-const order = require("../model/ordermodel");
+const cart=require('../model/cartmodel')
+const product=require('../model/productmodel')
+const { ObjectId }=require('mongodb')
+const order=require('../model/ordermodel')
 require("dotenv").config();
-const Razorpay = require("razorpay");
-const crypto = require("crypto");
-const { response } = require("express");
+const Razorpay=require('razorpay')
+const crypto=require('crypto')
 const wallet=require('../model/walletmodel')
 
 const instance = new Razorpay({
@@ -148,7 +147,7 @@ const placeOrder = (user, shipping, address, total, payment) => {
 };
 
 const generateRazorPay = async (userId, total) => {
-  const ordersDetails = await order.find({ user: new ObjectId(userId) });
+  const ordersDetails = await find({ user: new ObjectId(userId) });
   let orders = ordersDetails[0]?.order?.slice()?.reverse();
   let orderId = orders[0]._id;
   total = total * 100;
@@ -193,12 +192,11 @@ const verifyPayment = async (payment) => {
 const changePaymentStatus = (userId, orderId) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let orders = await order.find({ user: userId });
+      let orders = await find({ user: userId });
       let orderIndex = orders[0].order.findIndex(
         (order) => order._id == orderId
       );
-      await order
-        .updateOne(
+      await order.updateOne(
           {
             "order._id": new ObjectId(orderId),
           },
@@ -220,8 +218,7 @@ const changePaymentStatus = (userId, orderId) => {
 const adminProcessOrder = (orderId, status) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await order
-        .updateOne(
+      await order.updateOne(
           { "order._id": new ObjectId(orderId) },
           { $set: { "order.$.orderStatus": status } }
         )
@@ -237,8 +234,7 @@ const adminProcessOrder = (orderId, status) => {
 const adminPlaceOrder = (orderId, status) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await order
-        .updateOne(
+      await order.updateOne(
           { "order._id": new ObjectId(orderId) },
           { $set: { "order.$.orderStatus": status } }
         )
@@ -254,8 +250,7 @@ const adminPlaceOrder = (orderId, status) => {
 const adminShipOrder = (orderId, status) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await order
-        .updateOne(
+      await order.updateOne(
           { "order._id": new ObjectId(orderId) },
           { $set: { "order.$.orderStatus": status } }
         )
@@ -273,8 +268,7 @@ const adminDeliveryOrder = (orderId, status) => {
     try {
       const currentDate = new Date(); // Get the current date
 
-      await order
-        .updateOne(
+      await order.updateOne(
           { "order._id": new ObjectId(orderId) },
           {
             $set: {
@@ -297,8 +291,7 @@ const adminDeliveryOrder = (orderId, status) => {
 const userCancelOrder = (orderId, userId) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await order
-        .updateOne(
+      await order.updateOne(
           { user: userId, "order._id": new ObjectId(orderId) },
           { $set: { "order.$.orderStatus": "Cancelled" } }
         )
@@ -346,12 +339,18 @@ const userCancelSingleProduct = (userId, orderId, productSize, productName,produ
           }
         );
   
-        // Check the result
-        console.log(result);
-  
         console.log(result[0]);
   
         if (result.nModified > 0) {
+          await product.updateOne(
+            {
+              title:productName,
+              "varient.size": parseInt(productSize)
+            },
+            {
+              $inc: { "varient.$.quantity": productQuantity }
+            }
+            )
           resolve({ update: "success" });
         } else {
           resolve({ update: "failed", reason: "No modifications" });
@@ -362,24 +361,32 @@ const userCancelSingleProduct = (userId, orderId, productSize, productName,produ
     });
 };
 
-const userReturnOrder=(orderId, userId,orderPrice)=>{
+const userReturnOrder=(orderId, userId,orderPrice,orderData)=>{
   return new Promise(async (resolve, reject) => {
     try {
-      await order
-        .updateOne(
+      await order.updateOne(
           { user: userId, "order._id": new ObjectId(orderId) },
           { $set: { "order.$.orderStatus": "Returned" } }
         )
 
-         await wallet.updateOne(
+         await order.updateOne(
           { "user": new ObjectId(userId) }, 
           {
-            $set: { "balance": parseInt(orderPrice) },
+            $inc: { "balance": parseInt(orderPrice) },
             $push: {
               "history": { "type":"Credited","amount": parseInt(orderPrice), "date": new Date() }
             }
           }
         )
+        await product.updateOne(
+          {
+            title:orderData[0].productDetails.productsName,
+            "varient.size":orderData[0].productDetails.productsName
+          },
+          {
+            $inc: { "varient.$.quantity": orderData[0].productDetails.quantity }
+          }
+          )
         .then((response) => {
           resolve({ update: "success" });
         });
@@ -389,7 +396,7 @@ const userReturnOrder=(orderId, userId,orderPrice)=>{
   });
 }
   
-module.exports = {
+module.exports= {
   placeOrder,
   generateRazorPay,
   verifyPayment,

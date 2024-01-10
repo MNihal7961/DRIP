@@ -10,6 +10,7 @@ const profileController = require('../controller/profileController')
 const orderController = require('../controller/orderController')
 const upload = require('../middleware/profileMulter')
 const walletController=require('../controller/walletController')
+const whishlistController=require('../controller/wishlistController')
 
 
 // DEMO PAGE GET
@@ -23,8 +24,6 @@ router.get('/', async (req, res) => {
     res.render('main', { title, brandData, productData })
 })
 
-
-
 // User-home GET
 router.get('/user/home', userAuth.authMiddleware, userController.userhome_get)
 
@@ -33,7 +32,6 @@ router.get('/user/signup',userController.usersignup_get)
 
 //OTP GET
 router.get('/user/otp', userController.userotp_get)
-
 router.post('/user/signup', userController.userSignUpOTP_post)
 router.post('/user/otp', userController.userSignUpOTPValidate_post)
 router.post('/user/upload/profileImage', upload.single('profileimage'), profileController.editprofileImage)
@@ -115,8 +113,10 @@ router.post('/user/order/cancel/:id', userAuth.authMiddleware, orderController.u
 // Order-cancel-single-product POST
 router.post('/user/order/cancel/single/:id', userAuth.authMiddleware, orderController.userordersingleproductcancel_post)
 
+// verify-payment POST
 router.post('/verify/payment',userAuth.authMiddleware,orderController.verifyPayment)
 
+// user-add-address while checkout
 router.post('/user/add/address-checkout',userAuth.authMiddleware,addressController.addaddresscheckout_post)
 
 // user-wallet GET
@@ -127,4 +127,18 @@ router.post('/user/activate/wallet/:id',userAuth.authMiddleware,walletController
 
 // user-return-order POST
 router.post('/user/order/return/:id',userAuth.authMiddleware,orderController.userorderreturn_post)
+
+// user-whishlist GET
+router.get('/user/wishlist',userAuth.authMiddleware,whishlistController.userwhishlist_get)
+
+// user-whishlist-add POST
+router.post('/user/wishlist/add/:id',userAuth.authMiddleware,whishlistController.userwhishlistAdd_post)
+
+// user-whishlist-remove DELETE
+router.delete('/user/wishlist/remove/:id',userAuth.authMiddleware,whishlistController.userWhislistRemoveItem_delete)
+
+// user-genarate-refferal-code
+router.post('/user/generate/refferalcode/:id',userAuth.authMiddleware,profileController.genarateReffaralCode_post)
+
+
 module.exports = router

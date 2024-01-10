@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
+// Wallet schema
 const wallet_schema = new mongoose.Schema({
   user: mongoose.Types.ObjectId,
-  balance:{type:Number,default:0},
+  balance:Number,
   history:[Object]
 });
 

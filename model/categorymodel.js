@@ -13,6 +13,9 @@ const category_schema= new mongoose.Schema({
     status:{
         type:Boolean,
         default:true 
+    },
+    discountprice:{
+        type:Number
     }
 })
 

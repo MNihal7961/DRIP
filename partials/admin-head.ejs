@@ -1,25 +1,45 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/iconify/2.0.0/iconify.min.js" integrity="sha512-lYMiwcB608+RcqJmP93CMe7b4i9G9QK1RbixsNu4PzMRJMsqr/bUrkXUuFzCNsRUo3IXNUr5hz98lINURv5CNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cdbootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cdbootstrap/css/cdb.min.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/cdbootstrap/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/cdbootstrap/js/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/cdbootstrap/js/cdb.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-   
-    <link href="https://db.onlinewebfonts.com/c/2aeca327ae0e8ba04bf305f13cb1d589?family=Ravie" rel="stylesheet">
-    <title><% -title %></title>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-    <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.css" />
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cdbootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cdbootstrap/css/cdb.min.css" />
+
+  <!-- Font Awesome CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Bootstrap JavaScript and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cdbootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Font family -->
+  <link href="https://db.onlinewebfonts.com/c/2aeca327ae0e8ba04bf305f13cb1d589?family=Ravie" rel="stylesheet">
+
+  <!-- Page title -->
+  <title><%- title %></title>
+
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK" crossorigin="anonymous"></script>
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+<!-- Bootstrap JS Bundle (includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-zpKSbFIo7AvS5BzRlqI26twDj8fuSf+/Z/uA6iD5fOnC4EfS4igdHw7BEV6dNQpH" crossorigin="anonymous"></script>
+
+<!-- Cropper.js CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" integrity="sha256-qf8XE6rHb4l58/Fp6lgqleLg4f7DuG06cgc8ODLM7qs=" crossorigin="anonymous">
+
+<!-- Cropper.js JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js" integrity="sha256-RfeAmzxnAUDpRskWLl8mO6WGY+Gty0T2F4RYLsn5OIY=" crossorigin="anonymous"></script>
+
+
 
   </head>
   <body>
@@ -68,6 +88,10 @@
                     <i class="fa-solid fa-folder-tree"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Catagories</span></a>
               </li>
               <li>
+                <a href="/admin/category/offer" class="nav-link text-truncate">
+                  <i class="fa fa-percent" aria-hidden="true"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Catagorie Offer</span></a>
+              </li>
+              <li>
                 <a href="/admin/sales/report" class="nav-link text-truncate">
                     <i class="fa-solid fa-money-check-dollar"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Sales Report</span></a>
               </li>
@@ -91,6 +115,10 @@
               <li>
                 <a href="/admin/product" class="nav-link text-truncate">
                     <i class="fa-solid fa-bars-progress"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Product Management</span></a>
+              </li>
+              <li>
+                <a href="/admin/product/offer" class="nav-link text-truncate">
+                  <i class="fa-brands fa-product-hunt"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Offer Management</span></a>
               </li>
 
               <div class="offcanvas-header">

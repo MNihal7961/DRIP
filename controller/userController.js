@@ -66,9 +66,11 @@ const userhome_get = async (req, res) => {
         const productData = await product.find({ status: true }).limit(4)
         const userData = await users.findOne({ email: req.session.email })
         const cartNo = await global.cartCount(userData._id)
+        const wishlistNo=await global.wishlistNo(userData._id)
+        console.log(wishlistNo);
         const productData1 = await product.find({ status: true }).limit(4).skip(4)
         const productData2 = await product.find({ status: true }).limit(4).skip(8)
-        res.render('user-home', { title, productData, userData, productData1, productData2, cartNo })
+        res.render('user-home', { title, productData, userData, productData1, productData2, cartNo,wishlistNo })
     } catch (err) {
         res.status(500).render('500')
         console.log(err)
@@ -96,8 +98,9 @@ const userproductdetails_GET = async (req, res) => {
         const relateData = await product.find({ brandName: productData.brandName, categoryName: productData.categoryName }).limit(4)
         const userData = await users.findOne({ email: req.session.email })
         const cartNo = await global.cartCount(userData._id)
+        const wishlistNo=await global.wishlistNo(userData._id)
         const title = "product details"
-        res.render('user-product-details', { productData, title, relateData, userData, cartNo })
+        res.render('user-product-details', { productData, title, relateData, userData, cartNo ,wishlistNo})
     } catch (err) {
         res.status(500).render('500')
         console.log(err)
@@ -112,7 +115,8 @@ const blackfridaysale_get = async (req, res) => {
         const userData = await users.findOne({ email: req.session.email })
         const cartItems = await cart.findOne({ user: userData._id })
         const cartNo = await global.cartCount(userData._id)
-        res.render('user-black-friday-sale', { title, productData, userData, cartItems, cartNo })
+        const wishlistNo=await global.wishlistNo(userData._id)
+        res.render('user-black-friday-sale', { title, productData, userData, cartItems, cartNo ,wishlistNo})
     } catch (err) {
         res.status(500).render('500')
         console.log(err)

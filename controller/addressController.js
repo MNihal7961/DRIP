@@ -13,12 +13,14 @@ const addressbook_get = async (req, res) => {
     const addressData = await address.findOne({ user: userData._id });
     const cartItems = await cart.findOne({ user: userData._id });
     const cartNo = await global.cartCount(userData._id);
+    const wishlistNo=await global.wishlistNo(userData._id)
     res.render("user-address-book", {
       title,
       userData,
       addressData,
       cartItems,
       cartNo,
+      wishlistNo
     });
   } catch (err) {
     res.status(500).render("500");
@@ -33,7 +35,8 @@ const addaddress_get = async (req, res) => {
     const userData = await users.findOne({ email: req.session.email });
     const cartItems = await cart.findOne({ user: userData._id });
     const cartNo = await global.cartCount(userData._id);
-    res.render("user-add-address", { title, userData, cartItems, cartNo });
+    const wishlistNo=await global.wishlistNo(userData._id)
+    res.render("user-add-address", { title, userData, cartItems, cartNo ,wishlistNo});
   } catch (err) {
     res.status(500).render("500");
     console.log(err);
@@ -71,6 +74,7 @@ const editaddress_get = async (req, res) => {
   const userData = await users.findOne({ email: req.session.email });
   const cartItems = await cart.findOne({ user: userData._id });
   const cartNo = await global.cartCount(userData._id);
+  const wishlistNo=await global.wishlistNo(userData._id)
   try {
     const data = await address.aggregate([
       { $match: { user: new ObjectId(userData._id) } },
@@ -87,6 +91,7 @@ const editaddress_get = async (req, res) => {
       data,
       cartItems,
       cartNo,
+      wishlistNo
     });
   } catch (err) {
     res.status(500).render("500");

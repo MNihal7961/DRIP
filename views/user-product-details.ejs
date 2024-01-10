@@ -46,12 +46,27 @@
                     <div class="col-lg-7 mt-5">
                         <div class="card">
                             <div class="card-body">
-                                <h1 class="h2">
+                                <h1 class="h2" style="font-family: 'Ravie', sans-serif; font-weight:bold; color: #014122;">
                                     <%=productData.title%>
                                 </h1>
-                                <p class="h3 py-2">₹<%=productData.mrp%>
-                                </p>
+                                <p class="h3 py-2">₹<%=productData.sellingprice%> <% if (productData.sellingprice<productData.mrp) { %>
+                                    <strike class="py-2 text-danger">₹<%-productData.mrp%></strike>
+                                <% } %></p>
+                                <% if (productData.discountprice>0&&productData.categorydiscount>0) { %>
+                                    <p class="py-2"><% if (productData.discountprice>0) { %>
+                                        You save <strong class="text-success">₹<%-productData.discountprice+productData.categorydiscount%></strong> on <strong><%-productData.title%></strong>
+                                    <% } %> <br><% if (productData.categorydiscount>0) { %>
+                                     plus extra <strong class="text-success">₹<%-productData.categorydiscount%></strong> off on category <%-productData.categoryName%>
+                                    <% } %></p>
+                                <% } %>
 
+                                <% if (productData.discountprice>0&&productData.categorydiscount<=0) { %>
+                                 <p class="py-2">You save <strong class="text-success">₹<%-productData.discountprice+productData.categorydiscount%></strong> on <strong><%-productData.title%></strong></p>
+                                <% } %>
+
+                                <% if (productData.discountprice<=0&&productData.categorydiscount>0) { %>
+                                    <p class="py-2">You save <strong class="text-success">₹<%-productData.categorydiscount%></strong> on category <strong><%-productData.categoryName%></strong></p>
+                                <% } %>
                                 <ul class="list-inline">
                                     <li class="list-inline-item">
                                         <h6>Brand:</h6>
@@ -92,26 +107,25 @@
                                             <h6>Avaliable Size :</h6>
                                         </li>
                                         <li class="list-inline-item">
-
                                             <%productData.varient.forEach((data)=> { %>
                                                 <input name="size" type="radio" value="<%=data.size%>" required>
                                                 <%=data.size%>
-                                                    <% }) %>
-
+                                                <% }) %>
                                         </li>
                                     </ul>
+                                   
                                     <div class="row pb-3">
                                         <div class="col d-grid">
-
                                             <button class="btn btn-success  rounded-pill">Add to cart</button>
-
                                         </div>
                                 </form>
+                               <form action="/user/wishlist/add/<%-productData._id%>" method="post" class="mt-4">
                                 <div class="col d-grid">
-                                    <a href="" class="btn btn-success  rounded-pill">Add to wishlist</a>
+                                    <button class="btn btn-success  rounded-pill" type="submit">Add to wishlist</button>
                                 </div>
+                               </form>
                             </div>
-
+                           
 
                         </div>
                     </div>
@@ -132,10 +146,8 @@
                 <div class="row custom-a">
                     <% relateData.forEach((data)=> { %>
 
-                        <!-- Card 1 -->
-                        <div class="col-md-3">
 
-                            <!-- Your Card Content -->
+                        <div class="col-md-3">
                             <div class="custom-card-container ms-5 mt-5">
                                 <a href="#" class="custom-icon-heart"><i class="fa-regular fa-heart"></i></a>
 
@@ -154,9 +166,6 @@
 
                                 </div>
                             </div>
-
-                            <!-- Your Additional Info Content -->
-
                         </div>
 
 
@@ -167,8 +176,6 @@
 
             </div>
         </section>
-        <!-- End related-products -->
-        <!-- Bootstrap JavaScript Libraries -->
 
         <%- include('../partials/user-foot.ejs') %>
 
@@ -185,7 +192,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script>
 
 <style>
-   /* Additional styles for ElevateZoom customization */
    .zoomContainer {
        overflow: hidden;
        position: relative;
@@ -198,7 +204,7 @@
 
    .zoomWindow {
        background: #fff;
-       border: 2px solid #aaa;
+       border: 0px solid #aaa;
        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
    }
 </style>
@@ -228,6 +234,10 @@
            containLensZoom: true
        });
    }
+</script>
+
+<script>
+
 </script>
 
             

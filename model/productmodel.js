@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-require('dotenv').config()
+const mongoose = require('mongoose');
+require('dotenv').config();
 
 const product_schema = new mongoose.Schema({
     title: {
@@ -24,6 +24,12 @@ const product_schema = new mongoose.Schema({
         required: true,
         min: 0
     },
+    discountprice: {
+        type: Number,
+    },
+    sellingprice: {
+        type: Number
+    },
     varient: [
         {
             size: {
@@ -47,10 +53,14 @@ const product_schema = new mongoose.Schema({
     status: {
         type: Boolean,
         default: true
+    },
+    categorydiscount:{
+        type:Number
     }
 }, {
     timestamps: true
-})
+});
 
-const product = mongoose.model('product', product_schema)
-module.exports = product
+
+const Product = mongoose.model('Product', product_schema);
+module.exports = Product;

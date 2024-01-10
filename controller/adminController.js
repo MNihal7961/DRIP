@@ -27,7 +27,7 @@ const adminlogin_get = (req, res) => {
 };
 
 // Adminhome GET
-const adminhome_get = async (req, res) => {
+const adminhome_get = async (req, res) => {                                     
   try {
     const title = "adminhome";
     const userCount = await users.find({}).count();
@@ -40,6 +40,8 @@ const adminhome_get = async (req, res) => {
     const productCount = await product.countDocuments({});
     const codCount = await global.codCount();
     const onlineCount = await global.onlineCount();
+    const weeklyData= await salesHelper.weekWiseSales()
+    console.log(weeklyData);
     res.render("admin-home", {
       yearArray,
       totalValuesArray,
@@ -50,6 +52,7 @@ const adminhome_get = async (req, res) => {
       productCount,
       onlineCount,
       codCount,
+      weeklyData
     });
   } catch (err) {
     res.status(500).render('500')

@@ -9,8 +9,6 @@ const addToCart = async (proId, userId, sizeSelect) => {
             let productExist = userCart.cartItems.findIndex(
                 cartItem => cartItem.products == proId && cartItem.size == sizeSelect
             );
-            console.log(productExist+" $$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-
             if (productExist !== -1) {
                 await cart.updateOne(
                     { 'user': new ObjectId(userId), 'cartItems.products': new ObjectId(proId), 'cartItems.size': sizeSelect },

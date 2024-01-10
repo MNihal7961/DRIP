@@ -32,7 +32,7 @@ const addproduct_get = async (req, res) => {
 const addproduct_post = async (req, res) => {
     const { title, brand, category, description, price, color } = req.body;
     const images = req.files;
-    console.log(images);
+    const categoryDiscount=await category.findOne({category:category})
 
     try {
         const allFileNames = images.map(file => file.filename)
@@ -50,12 +50,16 @@ const addproduct_post = async (req, res) => {
         if (exist_product) {
             res.redirect('/admin/product?message=This product already exists');
         } else {
+            let sellPrice=price-categoryDiscount.discountprice
             const new_product = await product.create({
                 title: title,
                 brandName: brand,
                 categoryName: category,
                 description: description,
                 mrp: price,
+                sellingprice:sellPrice,
+                discountprice:0,
+                categorydiscount:categoryDiscount.discountprice,
                 varient: obj,
                 images: allFileNames, 
                 productColor: color,

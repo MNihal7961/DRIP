@@ -17,15 +17,16 @@ const cart_get = async (req, res) => {
         const cartNo = await global.cartCount(userData._id)
         const relateData = await product.find({ status: true }).sort({ title: 1 }).limit(4)
         const title = "cart"
+        const wishlistNo=await global.wishlistNo(userData._id)
         if (cartItems.length > 0) {
             const total = await cartHelper.getTotalAmount(userData._id)
             var i = 0
             const eachTotal = await cartHelper.getTotalAmountOfEachItem(userData._id)
             const tax = Math.round(((total * 18) / 100))
             const summary = global.totalAmount(total, tax)
-            res.render('user-cart', { title, cartItems, userData, relateData, userCart, total, eachTotal, i, tax, cartNo, summary })
+            res.render('user-cart', {wishlistNo, title, cartItems, userData, relateData, userCart, total, eachTotal, i, tax, cartNo, summary })
         } else {
-            res.render('user-cart', { title, cartItems, userData, relateData, userCart, cartNo })
+            res.render('user-cart', {wishlistNo, title, cartItems, userData, relateData, userCart, cartNo })
         }
     } catch (err) {
         res.status(500).render('500')
@@ -76,6 +77,7 @@ const removeCarItem_delete = async (req, res) => {
 const checkout_get = async (req, res) => {
     const userData = await global.loggedUser(req.session.email)
     const cartItems = await cartHelper.getCartProducts(userData._id)
+    const wishlistNo=await global.wishlistNo(userData._id)
     try {
         if (cartItems.length > 0) {
             const userCart = await cart.findOne({ user: new ObjectId(userData._id) })
@@ -89,7 +91,7 @@ const checkout_get = async (req, res) => {
             const addressData = await address.findOne({ user: userData._id })
             const paymentData = await payment.find({ status: true })
             var i = 0
-            res.render('user-checkout', { i, title, cartItems, userData, userCart, total, eachTotal, cartNo, summary, shippingData, addressData, paymentData })
+            res.render('user-checkout', {wishlistNo, i, title, cartItems, userData, userCart, total, eachTotal, cartNo, summary, shippingData, addressData, paymentData })
         }
     } catch (err) {
         res.status(500).render('500')

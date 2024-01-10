@@ -1,0 +1,204 @@
+<%- include('../partials/admin-head.ejs') %>
+    <div class="container-fluid">
+        <div class="row">
+            <h3 class="mt-3 text-center fw-normal">Product Offers</h3>
+            <div class="col min-vh-100 p-4">
+                <button class="btn float-end btn btn-success" data-bs-toggle="offcanvas" data-bs-target="#offcanvas"
+                    role="button">
+                    MENU
+                </button>
+                <table class="table table-responsive mt-5 table-hover table-bordered">
+                    <thead class="table-dark">
+                        <th>No</th>
+                        <th>Product</th>
+                        <th>Photo</th>
+                        <th>MRP</th>
+                        <th>Category Offer</th>
+                        <th>Discount Price</th>
+                        <th>Selling Price</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody>
+                        <% productData.forEach((data)=> { %>
+                            <tr>
+                                <td><strong><%-++i%></strong></td>
+                                <td><strong><%-data.title%></strong></td>
+                                <td>
+                                    <img src="/<%-data.images[0]%>" alt="" style="width: 50px; height: 50px" />
+                                </td>
+                                <td><strong>₹<%-data.mrp%></strong></td>
+                                <td>
+                                    <% if (data.categorydiscount <=0) { %>
+                                        <strong class="text-danger">No Discounts On Category</strong>
+                                        <% } else { %> <strong>₹<%-data.categorydiscount%></strong>
+                                                <span class="text-success">Off On category</span>
+                                                <% } %>
+                                </td>
+                                <td>
+                                    <% if (data.discountprice <=0) { %>
+                                        <strong class="text-danger">No Discounts</strong>
+                                        <% } else { %> <strong>₹<%-data.discountprice%></strong>
+                                                <strong class="text-success">Off</strong>
+                                                <% } %>
+                                </td>
+                                <td><strong class="text-success">₹<%-data.sellingprice%></strong></td>
+                                <td>
+                                    <% if (data.discountprice<=0) { %>
+                                        <a class="btn btn-primary" onclick="addOffer('<%-data._id%>')">
+                                            <i class="fa-solid fa-plus"></i>
+                                            Add Offer
+                                        </a>
+                                    <% } %>
+
+                                    <% if (data.discountprice>0) { %>
+                                        <a class="btn btn-warning" onclick="editOffer('<%-data._id%>','<%-data.discountprice%>')">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                            Edit Offer
+                                        </a>
+                                    <% } %>
+
+                                    <% if (data.discountprice>0) { %>
+                                        <a class="btn btn-danger" onclick="deleteOffer('<%-data._id%>','<%-data.discountprice%>')">
+                                            <i class="fa-solid fa-trash"></i>
+                                            Remove Offer
+                                        </a>
+                                    <% } %>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+     <!-- ADD OFFER MODAL -->
+     <div class="modal fade" id="addOfferModal" tabindex="-1" aria-labelledby="addOfferModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addOfferModalLabel">Add Offer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post">
+                        <div class="mb-3">
+                            <label for="discountInput" class="form-label">Discount Price</label>
+                            <input type="number" oninput="validateDiscount()" class="form-control" id="discountInput" name="discountPrice" placeholder="Enter discount price">
+                            <p class="text-danger" id="discountError"></p>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ADD OFFER MODAL -->
+
+  <!-- EDIT OFFER MODAL -->
+<div class="modal fade" id="editOfferModal" tabindex="-1" aria-labelledby="editOfferModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editOfferModalLabel">Edit Offer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="" method="post">
+                    <div class="mb-3">
+                        <label for="editDiscountInput" class="form-label">Discount Price</label>
+                        <input type="number" oninput="validateDiscount()" class="form-control" id="editDiscountInput" name="editDiscountPrice" placeholder="Enter edited discount price">
+                        <p class="text-danger" id="editDiscountError"></p>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- EDIT OFFER MODAL -->
+
+    
+<%- include('../partials/admin-foot.ejs') %>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <script>
+        function addOffer(id) {
+            $('#addOfferModal').find('.modal-body form').attr('action', '/admin/add/product/offer/' + id);
+            $('#addOfferModal').modal('show');
+        }
+    
+        function editOffer(id, discountPrice) {
+            $('#editOfferModal').find('.modal-body form').attr('action', '/admin/edit/product/offer/' + id);
+            $('#editDiscountInput').val(discountPrice);
+            $('#editOfferModal').modal('show');
+        }
+
+    </script>
+    
+
+    <script>
+        function validateDiscount(){
+            var discountPrice=document.getElementById('discountInput')
+            var error=document.getElementById('discountError')
+            if(discountPrice.value<0){
+                error.innerHTML="Please enter a non-negative value"
+            }else{
+                error.innerHTML=""
+            }
+
+            var editPrice=document.getElementById('editDiscountInput')
+            var editError=document.getElementById('editDiscountError')
+            if(editPrice.value<0){
+                editError.innerHTML="Please enter a non-negative value"
+            }else{
+                editError.innerHTML=""
+            }
+        }
+    </script>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    function deleteOffer(id, discountPrice) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: `/admin/delete/product/offer/${id}`,
+                    method: 'DELETE',
+                    dataType: 'json',
+                    data: { discountprice: discountPrice }, 
+                    success: function (data) {
+                        if (data.success) {
+                            Swal.fire(
+                                'Removed!',
+                                'The product offer has been removed.',
+                                'success'
+                            ).then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire(
+                                'Error!',
+                                'There was an error removing the offer.',
+                                'error'
+                            );
+                        }
+                    },
+                    error: function (error) {
+                        Swal.fire('Error!', 'An error occurred while deleting the offer.', 'error');
+                    }
+                });
+            }
+        });
+    }
+</script>

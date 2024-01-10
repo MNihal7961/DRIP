@@ -65,31 +65,32 @@
                         <div class="row custom-a">
                             <% productData.forEach((data)=> { %>
 
-                                <!-- Card 1 -->
                                 <div class="col d-flex justify-content-around flex-wrap col-lg-3">
-
-                                    <!-- Your Card Content -->
-                                    <div class="custom-card-container ms-5 mt-5">
-                                        <a href="#" class="custom-icon-heart"><i class="fa-regular fa-heart"></i></a>
-                                        <a href=" /user/product/details/<%-data.id%>">
-                                            <img class="card-img-top" src="/<%=data.images[0]%>" alt="Card image cap" height="190px" width="210px">
+                                    <div class="custom-card-container ms-5 mt-5 position-relative">
+                                        <form action="/user/wishlist/add/<%-data._id%>" method="post" class="position-relative">
+                                            <button type="submit" class="btn custom-icon-heart position-absolute top-0 end-0 py-2 px-2" aria-label="Add to Wishlist">
+                                                <i class="fa-regular fa-heart"></i>
+                                            </button>
+                                        </form>
+                                        <a href="/user/product/details/<%-data.id%>">
+                                            <img class="img-fluid card-img-top" src="/<%=data.images[0]%>" alt="Card image cap" style="height: 190px; width: 210px;" >
                                         </a>
                                         <div class="custom-additional-info ">
-                                            <a href=" /user/product/details/<%-data.id%>">
-                                                <p>
-                                                    <%=data.title%>
-                                                </p>
+                                            <a href="/user/product/details/<%-data.id%>">
+                                                <p><%=data.title%></p>
                                             </a>
-                                            <p class="custom-p">₹ <%=data.mrp%> | 5.0 <i class="fa-solid fa-star"
-                                                        style="color: #F5D426;"></i></p>
-    
+                                            <p class="custom-p"><% if (data.sellingprice==data.mrp) { %>
+                                                <strong>₹<%=data.mrp%></strong>
+                                            <% } %><% if (data.sellingprice<data.mrp) { %>
+                                             <strong><strike class="text-danger"><%-data.mrp%></strike> <strong class="text-success"><%-data.sellingprice%></strong></strong> 
+                                            <% } %>
+                                              <% if (data.sellingprice < data.mrp) { %>
+                                                | <span class="text-success fw-bold">Offer</span>
+                                            <% } %></p>
                                         </div>
                                     </div>
-
-                                    <!-- Your Additional Info Content -->
-                                    
                                 </div>
-
+                                
 
                                 <% }) %>
                         </div>
@@ -133,8 +134,7 @@
                                                     <%=data.title%>
                                                 </p>
                                             </a>
-                                            <p class="custom-p">₹ <%=data.mrp%> | 5.0 <i class="fa-solid fa-star"
-                                                        style="color: #F5D426;"></i></p>
+                                            <p class="custom-p">₹ <%=data.mrp%> | <span class="badge badge-success">Success</span></p>
     
                                         </div>
                                     </div>
@@ -165,40 +165,10 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12 col-sm-4">
-                                <h2 class="text-center my-3 fw-500" style="color: #014122;">New Drops</h1>
+                                <h2 class="text-center my-3 fw-500" style="color: #014122;">Gallery</h1>
                             </div>
     
-                            <div class="row custom-a">
-                                <% productData2.forEach((data)=> { %>
-    
-                                    <!-- Card 1 -->
-                                    <div class="col d-flex justify-content-around flex-wrap col-lg-3">
-    
-                                        <!-- Your Card Content -->
-                                        <div class="custom-card-container ms-5 mt-5">
-                                            <a href="#" class="custom-icon-heart"><i class="fa-regular fa-heart"></i></a>
-                                            <a href=" /user/product/details/<%-data.id%>">
-                                                <img class="card-img-top" src="/<%=data.images[0]%>" alt="Card image cap" height="190px" width="210px">
-                                            </a>
-                                            <div class="custom-additional-info ">
-                                                <a href=" /user/product/details/<%-data.id%>">
-                                                    <p>
-                                                        <%=data.title%>
-                                                    </p>
-                                                </a>
-                                                <p class="custom-p">₹ <%=data.mrp%> | 5.0 <i class="fa-solid fa-star"
-                                                            style="color: #F5D426;"></i></p>
-        
-                                            </div>
-                                        </div>
-    
-                                        <!-- Your Additional Info Content -->
-                                        
-                                    </div>
-    
-    
-                                    <% }) %>
-                            </div>
+                           
     
                         </div>
                     </div>

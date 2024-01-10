@@ -10,6 +10,8 @@ const { ObjectId } = require("mongodb");
 const cartHelper = require("../helper/cartHelpers");
 const address = require("../model/addressmodel");
 const wallet=require('../model/walletmodel')
+const wishlist=require('../model/wishlistmodel')
+
 
 const loggedUser = async (email) => {
   try {
@@ -28,6 +30,15 @@ const cartCount = async (userId) => {
   }
 };
 
+const wishlistNo=async(userId)=>{
+  try{
+    const data=await wishlist.findOne({user:new ObjectId(userId)})
+    console.log(data);
+    return data.items.length
+  }catch(err){
+    console.error(err)
+  }
+}
 const totalAmount = (total, tax) => {
   try {
     return total + tax;
@@ -399,9 +410,34 @@ const walletdata = async (userId) => {
   }
 };
 
+const wishlistData=async(userId)=>{
+  try{
+    let result=await wishlist.findOne({user:new ObjectId(userId)})
+    return result
+  }catch(err){
+    console.error(err)
+  }
+}
+
+const randomGenarator=(name)=>{
+  try{
+    const characters = name.split('');
+    
+    for (let i = characters.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [characters[i], characters[j]] = [characters[j], characters[i]];
+    }
+
+    return characters.join('');
+  }catch(err){
+    console.error(err)
+  }
+}
+
 module.exports = {
   loggedUser,
   cartCount,
+  wishlistNo,
   totalAmount,
   selectShipping,
   selectAddress,
@@ -417,5 +453,7 @@ module.exports = {
   getOrderProductStatusCount,
   totalRevenue,
   orderCount,
-  walletdata
+  walletdata,
+  wishlistData,
+  randomGenarator
 };

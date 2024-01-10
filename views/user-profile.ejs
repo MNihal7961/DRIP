@@ -107,6 +107,25 @@
                                         </a>
                                     </div>
                                 </div>
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="text-muted mb-0">My Refferal Code</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                           <% if (userData.refferalcode) { %>
+                                            <i class="fa fa-gift text-success" aria-hidden="true"></i>
+                                                <input class="border-0 text-dark fw-bold w-50"  type="text" id="textToCopy" value="<%-userData.refferalcode%>" readonly>
+                                            <a  onclick="copyToClipboard()" class="ms-2">
+                                                <i class="fa-solid fa-copy  fa-xl text-success"></i>
+                                            </a>
+                                           <% } %>
+                                            <% if (!userData.refferalcode) { %>
+                                                    <button  class="btn btn-success" onclick="generateRefferalCode('<%-userData._id%>')"><i class="fa-solid fa-plus"></i> Generate Refferalcode</button>
+                                            <% } %>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -138,3 +157,75 @@
                     }
                 }
             </script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function generateRefferalCode(userId) {
+        Swal.fire({
+            title: 'Generate Refferal Code',
+            text: 'Are you sure you want to generate a refferal code?',
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, generate it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: `/user/generate/refferalcode/${userId}`,
+                    method: 'POST',
+                    success: function (data) {
+                        if (data.success) {
+                            Swal.fire(
+                                'Genarated!',
+                                'Your reffaral code has been genarated.',
+                                'success'
+                            ).then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire(
+                                'Error!',
+                                'There was an error genarating the code.',
+                                'error'
+                            );
+                        }
+                    },
+                    error: function (error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'An error occurred. Please try again later.',
+                        });
+                    }
+                });
+            }
+        });
+    }
+</script>
+
+<script>
+    function copyToClipboard() {
+        const textToCopy = document.getElementById('textToCopy').value;
+
+        navigator.clipboard.writeText(textToCopy)
+            .then(() => {
+                console.log('Code copied to clipboard:', textToCopy);
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Refferal Code Copied!',
+                    text: textToCopy,
+                });
+            })
+            .catch(err => {
+                console.error('Unable to copy text to clipboard', err);
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error Copying Text',
+                    text: 'Please try again.',
+                });
+            });
+    }
+</script>
