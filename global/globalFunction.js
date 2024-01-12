@@ -39,6 +39,7 @@ const wishlistNo=async(userId)=>{
     console.error(err)
   }
 }
+
 const totalAmount = (total, tax) => {
   try {
     return total + tax;
@@ -194,7 +195,7 @@ const getAllOrder = async () => {
         },
       },
       {
-        $sort: { orderedAt: -1 }, // Sort by orderedAt field in descending order (newest first)
+        $sort: { orderedAt: -1 },
       },
     ]);
 
@@ -336,7 +337,7 @@ const totalRevenue = async () => {
       {
         $project: {
           _id: 0,
-          totalPaidAmount: { $round: ["$totalPaidAmount", 2] },
+          totalPaidAmount: { $round: ["$totalPaidAmount", 0] },
         },
       },
     ]);
@@ -350,22 +351,28 @@ const orderCount = async () => {
   try {
     const result = await order.aggregate([
       {
-        $project: {
-          orderCount: { $size: "$order" }, // Calculate the size (length) of the order array
+        $unwind: "$order",
+      },
+      {
+        $match: {
+          "order.paymentStatus": "Paid",
         },
       },
       {
         $group: {
           _id: null,
-          totalOrderCount: { $sum: "$orderCount" }, // Sum up the order counts from all documents
+          totalOrderCount: { $sum: 1 }, 
         },
       },
     ]);
+    
+    console.log(result[0]);
+    
     return result;
   } catch (err) {
     console.log(err);
   }
-};
+}
 
 const walletdata = async (userId) => {
   try {
@@ -434,6 +441,67 @@ const randomGenarator=(name)=>{
   }
 }
 
+const getAllCancelledOrder = async () => {
+  try {
+    const orderData = await order.aggregate([
+      {
+        $unwind: "$order",
+      },
+      {
+        $match: {
+          "order.orderStatus": "Cancelled",
+        },
+      },
+      {
+        $project: {
+          buyerName: "$order.buyerName",
+          totalPrice: "$order.totalPrice",
+          paymentMethod: "$order.paymentMethod",
+          shippingMethod: "$order.shippingMethod",
+          orderStatus: "$order.orderStatus",
+          totalQuantity: { $size: "$order.productDetails" },
+          orderedAt: {
+            $dateToString: {
+              date: "$order.orderedAt",
+              format: "%d-%b-%Y",
+            },
+          },
+          reason:"$order.cancelReason",
+          _id: "$order._id",
+        },
+      },
+      {
+        $sort: { orderedAt: -1 },
+      },
+    ])
+
+    console.log(orderData)
+
+    return orderData;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const getAllCancelledOrderProduct = async () => {
+  try {
+    const productDetails = await order.aggregate([
+      { $unwind: "$order" },
+      {
+        $match:{
+          "order.orderStatus": "Cancelled",
+        }
+      },
+      { $replaceRoot: { newRoot: "$order" } },
+      { $project: { _id: 0, productDetails: 1 } },
+    ]);
+
+    return productDetails.map((item) => item.productDetails);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   loggedUser,
   cartCount,
@@ -455,5 +523,7 @@ module.exports = {
   orderCount,
   walletdata,
   wishlistData,
-  randomGenarator
+  randomGenarator,
+  getAllCancelledOrder,
+  getAllCancelledOrderProduct
 };

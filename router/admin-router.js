@@ -162,6 +162,9 @@ router.post('/admin/order/ship/:id', auth.authMiddleware, orderController.admino
 // Admin-order-delivery
 router.post('/admin/order/delivery/:id', auth.authMiddleware, orderController.adminorderdelivered_post)
 
+// Admin-order-returns
+router.get('/admin/return/requests',auth.authMiddleware,orderController.adminReturnRequests_get)
+
 // Admin-sales-report
 router.get('/admin/sales/report', auth.authMiddleware, salesController.adminsalesreport_get)
 
@@ -189,6 +192,8 @@ router.post('/admin/edit/category/offer/:id',auth.authMiddleware,offerController
 // Admin-delete-category-offer
 router.delete('/admin/delete/category/offer/:id',auth.authMiddleware,offerController.adminDeleteAddCategoryOffers_delete)
 
+// Admin-cancelled-order 
+router.get('/admin/cancelled/orders',auth.authMiddleware,orderController.adminCancelorders_get)
 
 module.exports = router
 

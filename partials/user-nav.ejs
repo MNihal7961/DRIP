@@ -36,7 +36,7 @@
                 <li class="nav-item">
                     <a class="nav-link mx-2 text-uppercase" href="/user/cart"> Cart <i class="fa-solid fa-cart-shopping fa-lg me-1"
                             style="color: #014122;"></i>
-                            <% if (cartNo) { %>
+                            <% if (cartNo>0) { %>
                                 <span class="position-absolute  start-25 translate-middle badge rounded-pill bg-danger ms-1">
                                     <%=cartNo%>
                                     <span class="visually-hidden">unread messages</span>
@@ -51,7 +51,7 @@
                 <li class="nav-item">
                     <a class="nav-link mx-2 text-uppercase" href="/user/wishlist">Wishlist <i class="fa-solid fa-heart fa-lg me-1"
                             style="color: #014122;"></i>
-                           <% if (wishlistNo) { %>
+                           <% if (wishlistNo>0) { %>
                             <span class="position-absolute  start-25 translate-middle badge rounded-pill bg-danger ms-1">
                                 <%-wishlistNo%>
                                 <span class="visually-hidden">unread messages</span>

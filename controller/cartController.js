@@ -22,9 +22,11 @@ const cart_get = async (req, res) => {
             const total = await cartHelper.getTotalAmount(userData._id)
             var i = 0
             const eachTotal = await cartHelper.getTotalAmountOfEachItem(userData._id)
+            const totalDiscount=await cartHelper.getTotalProductDiscount(userData._id)+ await cartHelper.getTotalCategoryDiscount(userData._id)
+            console.log(totalDiscount)
             const tax = Math.round(((total * 18) / 100))
             const summary = global.totalAmount(total, tax)
-            res.render('user-cart', {wishlistNo, title, cartItems, userData, relateData, userCart, total, eachTotal, i, tax, cartNo, summary })
+            res.render('user-cart', {totalDiscount,wishlistNo, title, cartItems, userData, relateData, userCart, total, eachTotal, i, tax, cartNo, summary })
         } else {
             res.render('user-cart', {wishlistNo, title, cartItems, userData, relateData, userCart, cartNo })
         }

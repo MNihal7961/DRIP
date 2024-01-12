@@ -63,13 +63,10 @@
           <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-start" id="menu">
               <li class="nav-item">
                   <a href="#" class="nav-link text-truncate">
-                   </i><span class="ms-1 d-none d-sm-inline text-dark fw-bold">MANAGEMENT</span>
+                   <span class="ms-1 d-none d-sm-inline text-dark fw-bold">MANAGEMENT</span>
                   </a>
               </li>
-              <li>
-                <a href="/admin/order" class="nav-link text-truncate">
-                  <i class="fa-solid fa-cart-flatbed"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Orders</span></a>
-            </li>
+             
              
               <li>
                   <a href="/admin/user" class="nav-link text-truncate">
@@ -103,6 +100,24 @@
                 <a href="/admin/payment" class="nav-link text-truncate">
                     <i class="fa-solid fa-money-check-dollar"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Payment</span></a>
               </li>
+
+              <div class="offcanvas-header">
+                <h6 class="offcanvas-title d-none d-sm-block text-dark fw-bold" id="offcanvas">ORDERS</h6>
+              </div>
+              <li>
+                <a href="/admin/order" class="nav-link text-truncate">
+                  <i class="fa-solid fa-cart-flatbed"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Orders</span></a>
+            </li>
+
+            <li>
+              <a href="/admin/return/requests" class="nav-link text-truncate">
+                <i class="fa-solid fa-code-pull-request"></i></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Return Requests</span></a>
+             </li>
+
+             <li>
+              <a href="/admin/cancelled/orders" class="nav-link text-truncate">
+                <i class="fa fa-times" aria-hidden="true"></i></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Cancelled Orders</span></a>
+             </li>
 
               <div class="offcanvas-header">
                 <h6 class="offcanvas-title d-none d-sm-block text-dark fw-bold" id="offcanvas">PRODUCTS</h6>

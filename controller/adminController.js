@@ -14,7 +14,7 @@ const adminData = {
 // Adminlogin GET
 const adminlogin_get = (req, res) => {
   try {
-    if (req.session.admin) {
+    if (req.session.adminlogged) {
       res.redirect("/admin/home");
     } else {
       const title = "adminlogin";
@@ -139,6 +139,7 @@ const adminuser_get = async (req, res) => {
     console.log(err);
   }
 };
+
 
 module.exports = {
   adminlogin_get,

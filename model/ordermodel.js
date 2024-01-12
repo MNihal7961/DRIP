@@ -19,6 +19,8 @@ const order_schema = new mongoose.Schema({
         type: String,
         default: "Pending",
       },
+      cancelReason:{type:String, default:null},
+      returnReason:{type:String, default:null},
       orderedAt: {
         type: Date,
         default: new Date(),

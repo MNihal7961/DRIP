@@ -173,7 +173,7 @@ const getTotalAmount = (userId) => {
                 {
                     $group: {
                         _id: null,
-                        total: { $sum: { $multiply: ['$quantity', '$product.mrp'] } }
+                        total: { $sum: { $multiply: ['$quantity', '$product.sellingprice'] } }
                     }
                 }
             ]).then((total) => {
@@ -219,7 +219,7 @@ const getTotalAmountOfEachItem = (userId) => {
                     }
                 }, {
                     $project: {
-                        total: { $sum: { $multiply: ['$quantity', '$product.mrp'] } }
+                        total: { $sum: { $multiply: ['$quantity', '$product.sellingprice'] } }
                     }
                 }
 
@@ -232,6 +232,99 @@ const getTotalAmountOfEachItem = (userId) => {
     })
 }
 
+const getTotalProductDiscount=(userId)=>{
+    return new Promise(async (resolve, reject) => {
+        try {
+            await cart.aggregate([
+
+                {
+                    $match: { user: new ObjectId(userId) }
+                },
+                {
+                    $unwind: '$cartItems'
+                },
+                {
+                    $project: {
+                        item: '$cartItems.products',
+                        quantity: '$cartItems.quantity'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'products',
+                        localField: "item",
+                        foreignField: "_id",
+                        as: 'cartItems'
+                    }
+                },
+                {
+                    $project: {
+                        item: 1,
+                        quantity: 1,
+                        product: { $arrayElemAt: ['$cartItems', 0] }
+                    }
+                },
+                {
+                    $group: {
+                        _id: null,
+                        total: { $sum: { $multiply: ['$quantity', '$product.discountprice'] } }
+                    }
+                }
+            ]).then((total) => {
+                resolve(total[0].total)
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    })
+}
+
+const getTotalCategoryDiscount=(userId)=>{
+    return new Promise(async (resolve, reject) => {
+        try {
+            await cart.aggregate([
+
+                {
+                    $match: { user: new ObjectId(userId) }
+                },
+                {
+                    $unwind: '$cartItems'
+                },
+                {
+                    $project: {
+                        item: '$cartItems.products',
+                        quantity: '$cartItems.quantity'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'products',
+                        localField: "item",
+                        foreignField: "_id",
+                        as: 'cartItems'
+                    }
+                },
+                {
+                    $project: {
+                        item: 1,
+                        quantity: 1,
+                        product: { $arrayElemAt: ['$cartItems', 0] }
+                    }
+                },
+                {
+                    $group: {
+                        _id: null,
+                        total: { $sum: { $multiply: ['$quantity', '$product.categorydiscount'] } }
+                    }
+                }
+            ]).then((total) => {
+                resolve(total[0].total)
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    })
+}
 
 
 
@@ -244,4 +337,6 @@ module.exports = {
     deleteCartItem,
     getTotalAmount,
     getTotalAmountOfEachItem,
+    getTotalProductDiscount,
+    getTotalCategoryDiscount
 }

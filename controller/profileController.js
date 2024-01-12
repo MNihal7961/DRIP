@@ -120,7 +120,8 @@ const genarateReffaralCode_post=async (req,res)=>{
         const num=Math.floor(100000 + Math.random() * 900000)
         const name=global.randomGenarator(userData.username)
         const email=global.randomGenarator(userData.email)
-        const refaralCode="Drip"+num+name+email
+        const baseRefaralCode="Drip"+num+name+email
+        const refaralCode=baseRefaralCode.slice(0, 30).padEnd(30, 'X')
         const update=await users.updateOne({_id:new ObjectId(id)},{$set:{refferalcode:refaralCode}})
         if(update){
             res.json({success:true})

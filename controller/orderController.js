@@ -4,6 +4,7 @@ const razorpayHelper = require("../helper/razorpayHelpers");
 const {ObjectId}=require('mongodb')
 const order=require('../model/ordermodel')
 
+// USER PLACE-ORDER
 const placeorder_post = async (req, res) => {
   const { address, payment, shipping, summary } = req.body;
   try {
@@ -30,6 +31,7 @@ const placeorder_post = async (req, res) => {
   }
 };
 
+// VERIFY-ONLINEPAYMENT
 const verifyPayment = async (req, res) => {
   const userData = await global.loggedUser(req.session.email);
   console.log(req.body);
@@ -49,6 +51,7 @@ const verifyPayment = async (req, res) => {
   }
 };
 
+// USER ORDER-SUCCESS
 const ordersuccess_get = async (req, res) => {
   try {
     const title = "order-success";
@@ -62,6 +65,7 @@ const ordersuccess_get = async (req, res) => {
   }
 };
 
+// USER ORDER-DETAILS
 const orderdetails_get = async (req, res) => {
   try {
     const title = "order-details";
@@ -91,6 +95,7 @@ const orderdetails_get = async (req, res) => {
   }
 };
 
+// ADMIN-ORDERS
 const adminorder_get = async (req, res) => {
  try{
   const title = "orders";
@@ -104,6 +109,7 @@ const adminorder_get = async (req, res) => {
  }
 };
 
+// ADMIN PROCESS-ORDER
 const adminorderprocess_post = async (req, res) => {
   const { orderId, status } = req.body;
   try {
@@ -118,6 +124,7 @@ const adminorderprocess_post = async (req, res) => {
   }
 };
 
+// ADMIN PLACE-ORDER
 const adminorderplaced_post = async (req, res) => {
   const { orderId, status } = req.body;
   try {
@@ -132,6 +139,7 @@ const adminorderplaced_post = async (req, res) => {
   }
 };
 
+// ADMIN SHIP-ORDER
 const adminordershipped_post = async (req, res) => {
   const { orderId, status } = req.body;
   try {
@@ -144,6 +152,7 @@ const adminordershipped_post = async (req, res) => {
   }
 };
 
+// ADMIN DELIVER-ORDER
 const adminorderdelivered_post = async (req, res) => {
   const { orderId, status } = req.body;
   try {
@@ -158,14 +167,15 @@ const adminorderdelivered_post = async (req, res) => {
   }
 };
 
+// USER CANCEL-ORDER
 const userordercancel_post = async (req, res) => {
   const userData = await global.loggedUser(req.session.email);
 
   try {
-    const { orderId } = req.body;
-    console.log(req.body);
+    const { orderId ,reason} = req.body;
+    console.log(reason);
     await orderHelper
-      .userCancelOrder(orderId, userData._id)
+      .userCancelOrder(orderId, userData._id,reason)
       .then(async (response) => {
         res.json({ updateStatus: true });
       });
@@ -175,6 +185,7 @@ const userordercancel_post = async (req, res) => {
   }
 };
 
+// USER CANCEL-SINGLEPRODUCT
 const userordersingleproductcancel_post = async (req, res) => {
   console.log("WORKED");
   const userData = await global.loggedUser(req.session.email);
@@ -192,6 +203,7 @@ const userordersingleproductcancel_post = async (req, res) => {
   }
 };
 
+// USER RETURN-ORDER
 const userorderreturn_post = async (req, res) => {
   const userData = await global.loggedUser(req.session.email);
 
@@ -211,6 +223,29 @@ const userorderreturn_post = async (req, res) => {
   }
 };
 
+// ADMIN RETURN-REQUESTS
+const adminReturnRequests_get=async (req,res)=>{
+  try{
+    const title="returns"
+    res.render('admin-return',{title})
+  }catch(err){
+    res.status(500).render('500')
+    console.error(err)
+  }
+}
+
+// ADMIN CANCELORDER-LISTS
+const adminCancelorders_get=async(req,res)=>{
+  try{
+    const title="cancels"
+    const orderData=await global.getAllCancelledOrder()
+    const productData=await global.getAllCancelledOrderProduct()
+    var i=0
+    res.render('admin-cancel-orders',{title,orderData,i,productData})
+  }catch(err){
+    res.status(500).render('500')
+  }
+}
 
 
 module.exports = {
@@ -226,4 +261,6 @@ module.exports = {
   userordersingleproductcancel_post,
   verifyPayment,
   userorderreturn_post,
+  adminReturnRequests_get,
+  adminCancelorders_get
 };

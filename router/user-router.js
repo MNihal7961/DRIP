@@ -15,7 +15,7 @@ const whishlistController=require('../controller/wishlistController')
 
 // DEMO PAGE GET
 router.get('/', async (req, res) => {
-    if(req.session.userlogged){
+    if(req.session.userlogged||req.session.adminlogged){
         res.redirect('/user/home')
     }
     const title = "home"
