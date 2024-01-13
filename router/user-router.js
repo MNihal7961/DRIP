@@ -140,5 +140,7 @@ router.delete('/user/wishlist/remove/:id',userAuth.authMiddleware,whishlistContr
 // user-genarate-refferal-code
 router.post('/user/generate/refferalcode/:id',userAuth.authMiddleware,profileController.genarateReffaralCode_post)
 
+// user-drip-coin
+router.get('/user/drip/coins',userAuth.authMiddleware,profileController.dripCoin_get)
 
 module.exports = router

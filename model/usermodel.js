@@ -21,6 +21,9 @@ const userSchema = new mongoose.Schema({
     },
     refferalcode:{
         type:String
+    },
+    dripcoins:{
+        type:Number
     }
 })
 

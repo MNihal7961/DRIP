@@ -132,6 +132,21 @@ const genarateReffaralCode_post=async (req,res)=>{
     }
 }
 
+// user-drip-coin-page
+const dripCoin_get=async(req,res)=>{
+    try{
+        const title="drip-coin"
+        const userData = await users.findOne({ email: req.session.email })
+        const cartNo = await global.cartCount(userData._id)
+        const cartItems = await cart.findOne({ user: userData._id })
+        const wishlistNo=await global.wishlistNo(userData._id)
+        res.render('user-drip-coin',{title,userData,cartNo,cartItems,wishlistNo})
+    }catch(err){
+        res.status(500).render('500')
+        console.error(err)
+    }
+}
+
 module.exports = {
     userprofile_get,
     usereditprofile_get,
@@ -140,5 +155,6 @@ module.exports = {
     userresetpassword_get,
     userresetpassword_post,
     editprofileImage,
-    genarateReffaralCode_post
+    genarateReffaralCode_post,
+    dripCoin_get
 }
