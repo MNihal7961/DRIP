@@ -21,6 +21,7 @@ const order_schema = new mongoose.Schema({
       },
       cancelReason:{type:String, default:null},
       returnReason:{type:String, default:null},
+      rejectReason:{type:String,default:null},
       orderedAt: {
         type: Date,
         default: new Date(),

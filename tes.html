@@ -1,55 +1,51 @@
 <script>
-   $(document).on('click', '.return-order', function () {
-       const orderId = $(this).data('order-id');
-       const orderPrice = $(this).data('order-price');
-       console.log('Order ID:', orderId);
-       console.log('Order Price:', orderPrice);
+    function openRejectModal(rejectBtn) {
+        const orderId = rejectBtn.attr('data-order-id') || rejectBtn.attr('data-order-id');
 
-       Swal.fire({
-           title: 'Are you sure?',
-           text: 'Do you want to return the order?',
-           icon: 'question',
-           showCancelButton: true,
-           confirmButtonColor: '#3085d6',
-           cancelButtonColor: '#d33',
-           confirmButtonText: 'Yes, return it!'
-       }).then((result) => {
-           if (result.isConfirmed) {
-               $.ajax({
-                   type: 'POST',
-                   url: '/user/order/return/' + orderId,
-                   data: {
-                       orderId: orderId,
-                       orderPrice: orderPrice
-                   },
-                   success: (response) => {
-                       console.log('Response:', response);
 
-                       if (response.updateStatus) {
-                           location.reload();
-                       }
+    $('#rejectModal').modal('show');
 
-                       Swal.fire({
-                           icon: 'success',
-                           title: 'Success!',
-                           text: 'Order Returned successfully.',
-                           showConfirmButton: false,
-                           timer: 1500
-                       });
-                   },
-                   error: function (xhr, status, error) {
-                       console.error('Error:', error);
+    $('#confirmRejectBtn').off('click').on('click', function() {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You are about to reject this return request.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, reject it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                submitRejectForm(orderId);
+            }
+        });
+    });
+}
 
-                       Swal.fire({
-                           icon: 'error',
-                           title: 'Error!',
-                           text: 'Failed to return order.',
-                           showConfirmButton: false,
-                           timer: 1500
-                       });
-                   }
-               });
-           }
-       });
-   });
+    function submitRejectForm(orderId) {
+        const reason = $('#reason').val();
+        
+        $.ajax({
+            url: '/admin/order/return/reject',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ orderId, reason }),
+            success: function (response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Request Rejected',
+                    text: 'The return request has been rejected successfully.',
+                });
+
+                $('#rejectModal').modal('hide');
+            },
+            error: function (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong! Please try again.',
+                });
+            }
+        });
+    }
 </script>

@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const auth = require('../middleware/adminAuth')
+const upload = require('../middleware/multer')
 const adminController = require('../controller/adminController')
 const categoryController = require('../controller/categoryController')
 const brandController = require('../controller//brandController')
 const productController = require('../controller/productController')
-const upload = require('../middleware/multer')
 const shippingController = require('../controller/shippingController')
 const paymentController = require('../controller/paymentController')
 const orderController = require('../controller/orderController')
@@ -204,5 +204,10 @@ router.get('/admin/delivered/orders',auth.authMiddleware,orderController.adminDe
 // Admin-confirm-return-order
 router.post('/admin/order/return/approve/:id',auth.authMiddleware,orderController.adminReturnOrderConfirm_post)
 
+// Admin-reject-return-order
+router.post('/admin/order/return/reject',auth.authMiddleware,orderController.adminReturnOrderReject_post)
+
+// Admin-reject-return-order-lists
+router.get('/admin/return/reject',auth.authMiddleware,orderController.adminReturnRejectOrders_get)
 module.exports = router
 

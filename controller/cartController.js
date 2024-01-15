@@ -26,6 +26,7 @@ const cart_get = async (req, res) => {
             console.log(totalDiscount)
             const tax = Math.round(((total * 18) / 100))
             const summary = global.totalAmount(total, tax)
+            console.log(cartItems)
             res.render('user-cart', {totalDiscount,wishlistNo, title, cartItems, userData, relateData, userCart, total, eachTotal, i, tax, cartNo, summary })
         } else {
             res.render('user-cart', {wishlistNo, title, cartItems, userData, relateData, userCart, cartNo })

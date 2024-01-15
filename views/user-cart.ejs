@@ -16,6 +16,12 @@
                                         <div class="row gy-3 mt-3">
                                             <div class="col-lg-5">
                                                 <div class="me-lg-5">
+                                                    <% if (cart.product.varient[0].quantity<=cart.quantity) { %>
+                                                        <strong class="text-center text-danger  mt-0">only <%-cart.product.varient[0].quantity%> qty available now</strong>
+                                                       <% } %>
+                                                       <% if (cart.product.varient[0].quantity-3==cart.quantity) { %>
+                                                        <strong class="text-center text-danger  mt-0">only 3 qty left</strong>
+                                                       <% } %>
                                                     <div class="d-flex">
                                                         <a href="/user/product/details/<%-cart.product._id%>">
                                                             <img src="/<%-cart.product.images[0]%>"
@@ -38,15 +44,15 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                           
                                             <div
                                                 class="col-lg-2 col-sm-6 col-6 d-flex flex-row flex-lg-column flex-xl-row text-nowrap">
                                                 <div class="">
-                                                    <button class="btn btn-primary text-white mb-2" type="button"
+                                                    <% if (cart.product.varient[0].quantity>cart.quantity) { %>
+                                                        <button class="btn btn-primary text-white mb-2" type="button"
                                                         onclick="changeQuantity('<%-cart._id%>','<%-cart.product._id%>','<%-cart.size%>',1)"><i
                                                             class="fa-solid fa-plus btn-increment"></i></button>
-
-
-
+                                                    <% } %>
                                                     <input type="text" value="<%-cart.quantity%>" disabled
                                                         class="border-0 form-control">
 

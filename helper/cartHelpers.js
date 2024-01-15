@@ -38,8 +38,7 @@ const addToCart = async (proId, userId, sizeSelect) => {
 const getCartProducts = (userId) => {
     return new Promise(async (resolve, reject) => {
         try {
-            await cart.aggregate([
-
+            const cartItems = await cart.aggregate([
                 {
                     $match: { user: new ObjectId(userId) }
                 },
@@ -56,27 +55,63 @@ const getCartProducts = (userId) => {
                 {
                     $lookup: {
                         from: 'products',
-                        localField: "item",
-                        foreignField: "_id",
+                        localField: 'item',
+                        foreignField: '_id',
                         as: 'cartItems'
                     }
-                }, {
+                },
+                {
                     $project: {
                         item: 1,
                         quantity: 1,
                         size: 1,
-                        product: { $arrayElemAt: ['$cartItems', 0] }
+                        product: {
+                            $arrayElemAt: ['$cartItems', 0]
+                        }
+                    }
+                },
+                {
+                    $project: {
+                        item: 1,
+                        quantity: 1,
+                        size: 1,
+                        product: {
+                            _id: 1,
+                            title: 1,
+                            brandName: 1,
+                            categoryName: 1,
+                            description: 1,
+                            mrp: 1,
+                            images: 1,
+                            productColor: 1,
+                            status: 1,
+                            createdAt: 1,
+                            updatedAt: 1,
+                            __v: 1,
+                            discountprice: 1,
+                            sellingprice: 1,
+                            categorydiscount: 1,
+                            varient: {
+                                $filter: {
+                                    input: '$product.varient',
+                                    as: 'variant',
+                                    cond: { $eq: ['$$variant.size', '$size'] }
+                                }
+                            }
+                        }
                     }
                 }
+            ]);
 
-            ]).then((cartItems) => {
-                resolve(cartItems)
-            })
+            console.log(cartItems);
+            resolve(cartItems);
         } catch (err) {
-            console.log(err)
+            console.error(err);
+            reject(err);
         }
-    })
-}
+    });
+};
+
 
 const changeProductQuantity = (data) => {
     const count = parseInt(data.count)

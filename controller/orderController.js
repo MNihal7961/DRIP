@@ -281,12 +281,39 @@ const adminReturnOrderConfirm_post=async(req,res)=>{
   try{
     const total=req.body.total
     const id=req.params.id
-    console.log(total)
-    console.log(id)
     const update=await orderHelper.adminConfirmReturn(total,id)
     if(update){
       res.redirect('/admin/return/requests?message=success')
     }
+  }catch(err){
+    console.error(err)
+    res.status(500).render('500')
+  }
+}
+
+// ADMIN RETURNORDER-REJECT
+const adminReturnOrderReject_post=async(req,res)=>{
+  try{
+    const reason=req.body.reason
+    const id=req.body.orderId
+    console.log(reason,"///////////////////////")
+    console.log(id,"////////////////////////////")
+    const update=await orderHelper.adminRejectReturn(id,reason)
+    if(update){
+      res.redirect('/admin/return/requests?message=success')
+    }
+  }catch(err){
+    console.error(err)
+  }
+}
+
+// ADMIN RETURNREJECTORDER-LISTS
+const adminReturnRejectOrders_get=async(req,res)=>{
+  try{
+    const title="Rejected Return"
+    const orderData=await global.getAllReturnRejectOrder()
+    const productData=await global.getAllReturnRejectOrderProduct()
+    res.render('admin-reject-return-orders',{title,orderData,productData})
   }catch(err){
     console.error(err)
     res.status(500).render('500')
@@ -310,5 +337,7 @@ module.exports = {
   adminCancelorders_get,
   adminDeliveredOrders_get,
   adminReturnedOrders_get,
-  adminReturnOrderConfirm_post
+  adminReturnOrderConfirm_post,
+  adminReturnOrderReject_post,
+  adminReturnRejectOrders_get
 };

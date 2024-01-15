@@ -425,6 +425,7 @@ const adminConfirmReturn = async (total, orderId) => {
       {
         $set: {
           "order.$.orderStatus": "Returned",
+          "order.$.paymentStatus":"Refunded"
         },
       }
     );
@@ -465,6 +466,32 @@ const adminConfirmReturn = async (total, orderId) => {
     console.error(err);
   }
 };
+
+const adminRejectReturn=async (orderId,reason)=>{
+  try{
+    const orderReturn = await order.findOne({
+      order: { $elemMatch: { _id: new ObjectId(orderId) } },
+    });
+    const result = await order.updateOne(
+      {
+        user: new ObjectId(orderReturn.user),
+        "order._id": new ObjectId(orderId),
+      },
+      {
+        $set: {
+          "order.$.orderStatus": "Return Rejected",
+          "order.$.rejectReason":reason
+        }
+      }
+    )
+    if(result){
+      return true
+    }
+  }catch(err){
+    console.error(err)
+  }
+}
+
 module.exports = {
   placeOrder,
   generateRazorPay,
@@ -478,4 +505,5 @@ module.exports = {
   userCancelSingleProduct,
   userReturnOrderRequest,
   adminConfirmReturn,
+  adminRejectReturn
 };
