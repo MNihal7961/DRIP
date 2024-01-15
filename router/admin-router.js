@@ -195,5 +195,14 @@ router.delete('/admin/delete/category/offer/:id',auth.authMiddleware,offerContro
 // Admin-cancelled-order 
 router.get('/admin/cancelled/orders',auth.authMiddleware,orderController.adminCancelorders_get)
 
+// Admin-returned-order
+router.get('/admin/returned/orders',auth.authMiddleware,orderController.adminReturnedOrders_get)
+
+// Admin-delivered-order
+router.get('/admin/delivered/orders',auth.authMiddleware,orderController.adminDeliveredOrders_get)
+
+// Admin-confirm-return-order
+router.post('/admin/order/return/approve/:id',auth.authMiddleware,orderController.adminReturnOrderConfirm_post)
+
 module.exports = router
 

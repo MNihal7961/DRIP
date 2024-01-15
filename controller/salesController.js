@@ -26,7 +26,9 @@ const adminsalesreport_get = async (req, res) => {
     const yearlyRevenue = await salesHelper.yearlySales();
     const monthWise = await salesHelper.monthWiseSales();
     const title = "sales-report";
+    const eachDayRevenue=await salesHelper.everydaySales()
     const weeklyRevenue = await salesHelper.weekWiseSales();
+    console.log(eachDayRevenue);
     const currentYear = new Date().getFullYear();
     res.render("admin-sales-report", {
       currentDay,
@@ -38,6 +40,7 @@ const adminsalesreport_get = async (req, res) => {
       yearlyRevenue,
       monthWise,
       weeklyRevenue,
+      eachDayRevenue
     });
   } catch (err) {
     res.status(500).render("500");

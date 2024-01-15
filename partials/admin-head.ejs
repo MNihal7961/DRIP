@@ -13,7 +13,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <!-- Bootstrap JavaScript and dependencies -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha384-oP1+2mxlKOdWbbmGck9jOexzvV4p6AJFJ0PJoVVpDWW2KkLmIq5oqGXsFgj12R7L" crossorigin="anonymous"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/cdbootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Font family -->
@@ -106,17 +107,23 @@
               </div>
               <li>
                 <a href="/admin/order" class="nav-link text-truncate">
-                  <i class="fa-solid fa-cart-flatbed"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Orders</span></a>
+                  <i class="fa-solid fa-cart-flatbed"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Order Management</span></a>
             </li>
-
             <li>
-              <a href="/admin/return/requests" class="nav-link text-truncate">
-                <i class="fa-solid fa-code-pull-request"></i></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Return Requests</span></a>
-             </li>
-
+              <a href="/admin/delivered/orders" class="nav-link text-truncate">
+                <i class="fas fa-shipping-fast"></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Delivered Orders</span></a>
+          </li>
+          <li>
+            <a href="/admin/returned/orders" class="nav-link text-truncate">
+              <i class="fa fa-undo" aria-hidden="true"></i></i><span class="ms-1 d-none d-sm-inline text-success fw-bold"> Returned Orders</span></a>
+        </li>
              <li>
               <a href="/admin/cancelled/orders" class="nav-link text-truncate">
                 <i class="fa fa-times" aria-hidden="true"></i></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Cancelled Orders</span></a>
+             </li>
+             <li>
+              <a href="/admin/return/requests" class="nav-link text-truncate">
+                <i class="fa-solid fa-code-pull-request"></i></i><span class="ms-1 d-none d-sm-inline text-success fw-bold">  Return Requests</span></a>
              </li>
 
               <div class="offcanvas-header">

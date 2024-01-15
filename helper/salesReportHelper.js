@@ -253,11 +253,66 @@ const weekWiseSales = async () => {
     }
 };
 
+const everydaySales = () => {
+    let date = new Date();
+    let thisMonth = date.getMonth();
+
+    return new Promise(async (resolve, reject) => {
+        try {
+            const dailySalesData = await order.aggregate([
+                {
+                    $unwind: "$order",
+                },
+                {
+                    $match: {
+                        "order.orderStatus": "Delivered",
+                        "order.paymentStatus": "Paid",
+                    },
+                },
+                {
+                    $unwind: "$order.productDetails",
+                },
+                {
+                    $match: { "order.productDetails.status": true },
+                },
+                {
+                    $match: {
+                        $expr: {
+                            $eq: [
+                                { $month: "$order.orderedAt" },
+                                thisMonth + 1,
+                            ],
+                        },
+                    },
+                },
+                {
+                    $group: {
+                        _id: { $dateToString: { format: "%d-%b-%Y", date: "$order.orderedAt" } },
+                        total: { $sum: "$order.totalPrice" },
+                        orders: { $sum: "$order.productDetails.quantity" },
+                        totalOrders: { $sum: "$order.totalQuantity" },
+                        count: { $sum: 1 },
+                    },
+                },
+                { $sort: { _id: 1 } }, 
+            ]);
+
+            console.log(dailySalesData);
+            resolve({ status: true, data: dailySalesData });
+        } catch (err) {
+            console.log(err);
+            reject({ status: false, error: err.message });
+        }
+    });
+};
+
+
 
 module.exports = {
     monthlySales,
     dailySales,
     yearlySales,
     monthWiseSales,
-    weekWiseSales
+    weekWiseSales,
+    everydaySales
 };

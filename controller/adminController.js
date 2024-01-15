@@ -41,7 +41,6 @@ const adminhome_get = async (req, res) => {
     const codCount = await global.codCount();
     const onlineCount = await global.onlineCount();
     const weeklyData= await salesHelper.weekWiseSales()
-    console.log(weeklyData);
     res.render("admin-home", {
       yearArray,
       totalValuesArray,

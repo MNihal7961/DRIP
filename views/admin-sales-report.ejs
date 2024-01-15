@@ -1,373 +1,320 @@
 <%- include('../partials/admin-head.ejs') %>
 
-<style>
-  .nav-tabs {
-    border: 0;
-    padding: 15px 0.7rem;
-  }
-
-  @media screen and (max-width: 768px) {
+  <style>
     .nav-tabs {
+      border: 0;
+      padding: 15px 0.7rem;
+    }
+
+    @media screen and (max-width: 768px) {
+      .nav-tabs {
+        display: inline-block;
+        width: 100%;
+        padding-left: 100px;
+        padding-right: 100px;
+        text-align: center;
+      }
+
+      .nav-tabs .nav-item>.nav-link {
+        margin-bottom: 5px;
+      }
+    }
+
+    @font-face {
+      font-family: "Nucleo Outline";
+      src: url("https://github.com/creativetimofficial/now-ui-kit/blob/master/assets/fonts/nucleo-outline.eot");
+      src: url("https://github.com/creativetimofficial/now-ui-kit/blob/master/assets/fonts/nucleo-outline.eot") format("embedded-opentype");
+      src: url("https://raw.githack.com/creativetimofficial/now-ui-kit/master/assets/fonts/nucleo-outline.woff2");
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    .card1 {
+      border-radius: 0.1875rem;
       display: inline-block;
+      position: relative;
       width: 100%;
-      padding-left: 100px;
-      padding-right: 100px;
-      text-align: center;
+      margin-bottom: 30px;
     }
 
-    .nav-tabs .nav-item > .nav-link {
-      margin-bottom: 5px;
+    .card1 .card-header {
+      background-color: transparent;
+      border-bottom: 0;
+      background-color: transparent;
+      border-radius: 0;
+      padding: 0;
     }
-  }
 
-  @font-face {
-    font-family: "Nucleo Outline";
-    src: url("https://github.com/creativetimofficial/now-ui-kit/blob/master/assets/fonts/nucleo-outline.eot");
-    src: url("https://github.com/creativetimofficial/now-ui-kit/blob/master/assets/fonts/nucleo-outline.eot")
-      format("embedded-opentype");
-    src: url("https://raw.githack.com/creativetimofficial/now-ui-kit/master/assets/fonts/nucleo-outline.woff2");
-    font-weight: normal;
-    font-style: normal;
-  }
+    .card1 .nav-tabs {
+      border-top-right-radius: 0.1875rem;
+      border-top-left-radius: 0.1875rem;
+    }
+  </style>
 
-  .card1 {
-    border-radius: 0.1875rem;
-    display: inline-block;
-    position: relative;
-    width: 100%;
-    margin-bottom: 30px;
-  }
+  <div class="container-fluid">
+    <div class="row">
+      <h3 class="mt-3">sales Details</h3>
+      <div class="col min-vh-100 p-4">
+        <button class="btn float-end btn btn-success" data-bs-toggle="offcanvas" data-bs-target="#offcanvas"
+          role="button">
+          MENU
+        </button>
+        <div class="container mt-5">
+          <div class="row">
+            <div class="col-md-12 ml-auto col-xl-12 mr-auto">
+              <!-- Tabs with Background on Card -->
+              <div class="card1">
+                <div class="card-header">
+                  <ul class="nav nav-tabs nav-tabs-neutral justify-content-center" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" data-toggle="tab" href="#home1" role="tab">Daily</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="#weekly1" role="tab">Weekly</a>
+                    </li>
 
-  .card1 .card-header {
-    background-color: transparent;
-    border-bottom: 0;
-    background-color: transparent;
-    border-radius: 0;
-    padding: 0;
-  }
+                    <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="#profile1" role="tab">Monthly</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="#messages1" role="tab">Yearly</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="#settings1" role="tab">Every Month</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="card-body" style="border: 1px solid gray">
+                  <!-- Tab panes -->
+                  <div class="tab-content">
+                    <div class="tab-pane active mt-2 mx-auto" id="home1" role="tabpanel">
+                      <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                          <div class="card-body">
+                            <button
+                              onclick="generateDailyReport('<%= eachDayRevenue?.data[0]?.total %>','<%= eachDayRevenue?.data[0]?.orders %>','<%= eachDayRevenue?.data[0]?.count %> ','<%= eachDayRevenue?.data[0]?._id %>')"
+                              class="btn btn-outline-primary btn-round btn-sm float-right">
+                              <i class="fas fa-download"></i>
+                              <strong> Download Report</strong>
+                            </button>
+                            <h4 class="card-title">Daily Sales</h4>
 
-  .card1 .nav-tabs {
-    border-top-right-radius: 0.1875rem;
-    border-top-left-radius: 0.1875rem;
-  }
-</style>
-
-<div class="container-fluid">
-  <div class="row">
-    <h3 class="mt-3">sales Details</h3>
-    <div class="col min-vh-100 p-4">
-      <button
-        class="btn float-end btn btn-success"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvas"
-        role="button"
-      >
-        MENU
-      </button>
-      <div class="container mt-5">
-        <div class="row">
-          <div class="col-md-12 ml-auto col-xl-12 mr-auto">
-            <!-- Tabs with Background on Card -->
-            <div class="card1">
-              <div class="card-header">
-                <ul
-                  class="nav nav-tabs nav-tabs-neutral justify-content-center"
-                  role="tablist"
-                >
-                  <li class="nav-item">
-                    <a
-                      class="nav-link active"
-                      data-toggle="tab"
-                      href="#home1"
-                      role="tab"
-                      >Daily</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a
-                      class="nav-link"
-                      data-toggle="tab"
-                      href="#weekly1"
-                      role="tab"
-                      >Weekly</a
-                    >
-                  </li>
-
-                  <li class="nav-item">
-                    <a
-                      class="nav-link"
-                      data-toggle="tab"
-                      href="#profile1"
-                      role="tab"
-                      >Monthly</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a
-                      class="nav-link"
-                      data-toggle="tab"
-                      href="#messages1"
-                      role="tab"
-                      >Yearly</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a
-                      class="nav-link"
-                      data-toggle="tab"
-                      href="#settings1"
-                      role="tab"
-                      >Every Month</a
-                    >
-                  </li>
-                </ul>
-              </div>
-              <div class="card-body" style="border: 1px solid gray">
-                <!-- Tab panes -->
-                <div class="tab-content">
-                  <div
-                    class="tab-pane active mt-2 mx-auto"
-                    id="home1"
-                    role="tabpanel"
-                  >
-                    <div class="col-lg-12 grid-margin stretch-card">
-                      <div class="card">
-                        <div class="card-body">
-                          <button
-                            onclick="generateDailyReport('<%= dailyRevenue?.data[0]?.total %>','<%= dailyRevenue?.data[0]?.orders %>','<%= dailyRevenue?.data[0]?.count %> ')"
-                            class="btn btn-outline-primary btn-round btn-sm float-right"
-                          >
-                            <i class="fas fa-download"></i>
-                            <strong> Download Report</strong>
-                          </button>
-                          <h4 class="card-title">Daily Sales</h4>
-
-                          <div class="table-responsive pt-3">
-                            <table class="table table-bordered">
-                              <thead>
-                                <tr>
-                                  <th>#</th>
-                                  <th>Day</th>
-                                  <th>Total Revenue</th>
-                                  <th>No of Product Sold</th>
-                                  <th>No of orders</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <% dailyRevenue.data.forEach((element,index)=> {
-                                %>
-                                <tr>
-                                  <td><%- index+1 %></td>
-                                  <td><%- currentDay %></td>
-                                  <td>Rs.<%-element.total %></td>
-                                  <td><%- element.orders %></td>
-                                  <td><%-element.count %></td>
-                                </tr>
-                                <% })%>
-                              </tbody>
-                            </table>
+                            <div class="table-responsive pt-3">
+                              <table class="table table-bordered">
+                                <thead>
+                                  <tr>
+                                    <th>#</th>
+                                    <th>Day</th>
+                                    <th>Total Revenue</th>
+                                    <th>No of Product Sold</th>
+                                    <th>No of orders</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <% eachDayRevenue.data.forEach((element,index)=> {
+                                    %>
+                                    <tr>
+                                      <td><%- index+1 %></td>
+                                      <td><%- element._id %></td>
+                                      <td>Rs.<%-element.total %></td>
+                                      <td><%- element.orders %></td>
+                                      <td><%-element.count %></td>
+                                    </tr>
+                                    <% })%>
+                                </tbody>
+                              </table>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="tab-pane" id="profile1" role="tabpanel">
-                    <div class="col-lg-12 grid-margin stretch-card">
-                      <div class="card">
-                        <div class="card-body">
-                          <button
-                            onclick="generateMontlyReport('<%= monthlyRevenue?.data[0]?.total %>','<%= monthlyRevenue?.data[0]?.orders %>','<%= monthlyRevenue?.data[0]?.count %>')"
-                            class="btn btn-outline-primary btn-round btn-sm float-right"
-                          >
-                            <i class="fas fa-download"></i>
-                            <strong> Download Report</strong>
-                          </button>
-                          <h4 class="card-title">Monthly Sales</h4>
+                    <div class="tab-pane" id="profile1" role="tabpanel">
+                      <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                          <div class="card-body">
+                            <button
+                              onclick="generateMontlyReport('<%= monthlyRevenue?.data[0]?.total %>','<%= monthlyRevenue?.data[0]?.orders %>','<%= monthlyRevenue?.data[0]?.count %>')"
+                              class="btn btn-outline-primary btn-round btn-sm float-right">
+                              <i class="fas fa-download"></i>
+                              <strong> Download Report</strong>
+                            </button>
+                            <h4 class="card-title">Monthly Sales</h4>
 
-                          <div class="table-responsive pt-3">
-                            <table class="table table-bordered">
-                              <thead>
-                                <tr>
-                                  <th>#</th>
-                                  <th>Month</th>
-                                  <th>Total Revenue</th>
-                                  <th>No of Product Sold</th>
-                                  <th>No of orders</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <% monthlyRevenue.data.forEach((element,index)=>
-                                { %>
-                                <tr>
-                                  <td><%- index+1 %></td>
-                                  <td><%- currentMonth %></td>
-                                  <td>Rs.<%-element.total %></td>
-                                  <td><%- element.orders %></td>
-                                  <td><%-element.count %></td>
-                                </tr>
-                                <% })%>
-                              </tbody>
-                            </table>
+                            <div class="table-responsive pt-3">
+                              <table class="table table-bordered">
+                                <thead>
+                                  <tr>
+                                    <th>#</th>
+                                    <th>Month</th>
+                                    <th>Total Revenue</th>
+                                    <th>No of Product Sold</th>
+                                    <th>No of orders</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <% monthlyRevenue.data.forEach((element,index)=>
+                                    { %>
+                                    <tr>
+                                      <td><%- index+1 %></td>
+                                      <td><%- currentMonth %></td>
+                                      <td>Rs.<%-element.total %></td>
+                                      <td><%- element.orders %></td>
+                                      <td><%-element.count %></td>
+                                    </tr>
+                                    <% })%>
+                                </tbody>
+                              </table>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="tab-pane" id="weekly1" role="tabpanel">
-                    <div class="col-lg-12 grid-margin stretch-card">
-                      <div class="card">
-                        <div class="card-body">
-                          <button
-                            onclick="generateWeeklyReport('<%= weeklyRevenue?.data[0]?.total %>','<%= weeklyRevenue?.data[0]?.orders %>','<%= weeklyRevenue?.data[0]?.count %>')"
-                            class="btn btn-outline-primary btn-round btn-sm float-right"
-                          >
-                            <i class="fas fa-download"></i>
-                            <strong> Download Report</strong>
-                          </button>
-                          <h4 class="card-title">Weekly Sales</h4>
-                          <div class="table-responsive pt-3">
-                            <table class="table table-bordered">
-                              <thead>
-                                <tr>
-                                  <th>#</th>
-                                  <th>Day</th>
-                                  <th>Total Revenue</th>
-                                  <th>No of Product Sold</th>
-                                  <th>No of orders</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <% const daysOfWeek = ["Sun", "Mon", "Tue",
-                                "Wed", "Thu", "Fri", "Sat"]; %> <%
-                                weeklyRevenue.data.forEach((element,index)=> {
-                                %>
-                                <tr>
-                                  <td><%- index+1 %></td>
-                                  <td><%- daysOfWeek[index] %></td>
-                                  <td>Rs.<%-element.total %></td>
-                                  <td><%- element.orders %></td>
-                                  <td><%-element.count %></td>
-                                </tr>
-                                <% })%>
-                              </tbody>
-                            </table>
+                    <div class="tab-pane" id="weekly1" role="tabpanel">
+                      <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                          <div class="card-body">
+                            <button
+                              onclick="generateWeeklyReport('<%= weeklyRevenue?.data[0]?.total %>','<%= weeklyRevenue?.data[0]?.orders %>','<%= weeklyRevenue?.data[0]?.count %>')"
+                              class="btn btn-outline-primary btn-round btn-sm float-right">
+                              <i class="fas fa-download"></i>
+                              <strong> Download Report</strong>
+                            </button>
+                            <h4 class="card-title">Weekly Sales</h4>
+                            <div class="table-responsive pt-3">
+                              <table class="table table-bordered">
+                                <thead>
+                                  <tr>
+                                    <th>#</th>
+                                    <th>Day</th>
+                                    <th>Total Revenue</th>
+                                    <th>No of Product Sold</th>
+                                    <th>No of orders</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <% const daysOfWeek=["Sun", "Mon" , "Tue" , "Wed" , "Thu" , "Fri" , "Sat" ]; %>
+                                    <% weeklyRevenue.data.forEach((element,index)=> {
+                                      %>
+                                      <tr>
+                                        <td><%- index+1 %></td>
+                                        <td><%- daysOfWeek[index] %></td>
+                                        <td>Rs.<%-element.total %></td>
+                                        <td><%- element.orders %></td>
+                                        <td><%-element.count %></td>
+                                      </tr>
+                                      <% })%>
+                                </tbody>
+                              </table>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="tab-pane" id="messages1" role="tabpanel">
-                    <div class="col-lg-12 grid-margin stretch-card">
-                      <div class="card">
-                        <div class="card-body">
-                          <button
-                            onclick="generateYearlyReport('<%= yearlyRevenue?.data[0]?.total %>','<%= yearlyRevenue?.data[0]?.orders %>','<%= yearlyRevenue?.data[0]?.count %>')"
-                            class="btn btn-outline-primary btn-round btn-sm float-right"
-                          >
-                            <i class="fas fa-download"></i>
-                            <strong> Download Report</strong>
-                          </button>
-                          <h4 class="card-title">Yearly Sales</h4>
+                    <div class="tab-pane" id="messages1" role="tabpanel">
+                      <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                          <div class="card-body">
+                            <button
+                              onclick="generateYearlyReport('<%= yearlyRevenue?.data[0]?.total %>','<%= yearlyRevenue?.data[0]?.orders %>','<%= yearlyRevenue?.data[0]?.count %>')"
+                              class="btn btn-outline-primary btn-round btn-sm float-right">
+                              <i class="fas fa-download"></i>
+                              <strong> Download Report</strong>
+                            </button>
+                            <h4 class="card-title">Yearly Sales</h4>
 
-                          <div class="table-responsive pt-3">
-                            <table class="table table-bordered">
-                              <thead>
-                                <tr>
-                                  <th>#</th>
-                                  <th>year</th>
-                                  <th>Total Revenue</th>
-                                  <th>No of Product Sold</th>
-                                  <th>No of orders</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <% yearlyRevenue.data.forEach((element,index)=>
-                                { %>
-                                <tr>
-                                  <td><%- index+1 %></td>
-                                  <td><%- currentYear %></td>
-                                  <td>Rs.<%-element.total %></td>
-                                  <td><%- element.orders %></td>
-                                  <td><%-element.count %></td>
-                                </tr>
-                                <% })%>
-                              </tbody>
-                            </table>
+                            <div class="table-responsive pt-3">
+                              <table class="table table-bordered">
+                                <thead>
+                                  <tr>
+                                    <th>#</th>
+                                    <th>year</th>
+                                    <th>Total Revenue</th>
+                                    <th>No of Product Sold</th>
+                                    <th>No of orders</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <% yearlyRevenue.data.forEach((element,index)=>
+                                    { %>
+                                    <tr>
+                                      <td><%- index+1 %></td>
+                                      <td><%- currentYear %></td>
+                                      <td>Rs.<%-element.total %></td>
+                                      <td><%- element.orders %></td>
+                                      <td><%-element.count %></td>
+                                    </tr>
+                                    <% })%>
+                                </tbody>
+                              </table>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="tab-pane" id="settings1" role="tabpanel">
-                    <div class="col-lg-12 grid-margin stretch-card">
-                      <div class="card">
-                        <div class="card-body">
-                          <button
-                            onclick="everyMonth('<%-monthWise?.data%>')"
-                            class="btn btn-outline-primary btn-round btn-sm float-right"
-                          >
-                            <i class="fas fa-download"></i>
-                            <strong> Download Report</strong>
-                          </button>
-                          <h4 class="card-title">Every Month Sales</h4>
+                    <div class="tab-pane" id="settings1" role="tabpanel">
+                      <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                          <div class="card-body">
+                            <button onclick="everyMonth('<%= monthWise?.data[0]?.total %>','<%= monthWise?.data[0]?.orders %>','<%= monthWise?.data[0]?.count %>')"
+                              class="btn btn-outline-primary btn-round btn-sm float-right">
+                              <i class="fas fa-download"></i>
+                              <strong> Download Report</strong>
+                            </button>
+                            <h4 class="card-title">Every Month Sales</h4>
 
-                          <div class="table-responsive pt-3">
-                            <table class="table table-bordered" id="my-table">
-                              <thead>
-                                <tr>
-                                  <th>Month</th>
-                                  <th>Total Revenue</th>
-                                  <th>No of Product Sold</th>
-                                  <th>No of orders</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <% const monthNames=["Jan", "Feb" , "Mar" ,
-                                "Apr" , "May" , "Jun" , "Jul" , "Aug" , "Sep" ,
-                                "Oct" , "Nov" , "Dec" ]; %> <%
-                                monthWise?.data?.forEach((element, index)=> { %>
-                                <tr>
-                                  <td><%= monthNames[index] %></td>
-                                  <td>Rs.<%- element?.total %></td>
-                                  <td><%- element?.orders %></td>
-                                  <td><%- element?.count %></td>
-                                </tr>
-                                <% })%>
-                              </tbody>
-                            </table>
+                            <div class="table-responsive pt-3">
+                              <table class="table table-bordered" id="my-table">
+                                <thead>
+                                  <tr>
+                                    <th>Month</th>
+                                    <th>Total Revenue</th>
+                                    <th>No of Product Sold</th>
+                                    <th>No of orders</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <% const monthNames=["Jan", "Feb" , "Mar" , "Apr" , "May" , "Jun" , "Jul" , "Aug"
+                                    , "Sep" , "Oct" , "Nov" , "Dec" ]; %>
+                                    <% monthWise?.data?.forEach((element, index)=> { %>
+                                      <tr>
+                                        <td>
+                                          <%= monthNames[index] %>
+                                        </td>
+                                        <td>Rs.<%- element?.total %></td>
+                                        <td><%- element?.orders %></td>
+                                        <td><%- element?.count %></td>
+                                      </tr>
+                                      <% })%>
+                                </tbody>
+                              </table>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="tab-pane" id="Daily" role="tabpanel">
-                    <div class="col-lg-12 grid-margin stretch-card">
-                      <div class="card">
-                        <div class="card-body">
-                          <button
-                            onclick="everyDay()"
-                            class="btn btn-outline-primary btn-round btn-sm float-right"
-                          >
-                            Download PDF
-                          </button>
-                          <h4 class="card-title">Day wise</h4>
+                    <div class="tab-pane" id="Daily" role="tabpanel">
+                      <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                          <div class="card-body">
+                            <button onclick="everyDay()" class="btn btn-outline-primary btn-round btn-sm float-right">
+                              Download PDF
+                            </button>
+                            <h4 class="card-title">Day wise</h4>
 
-                          <div class="table-responsive pt-3">
-                            <table
-                              class="table table-bordered"
-                              id="everyDay-table"
-                            >
-                              <thead>
-                                <tr>
-                                  <th>Day</th>
-                                  <th>Total Revenue</th>
-                                  <th>No of Product Sold</th>
-                                  <th>No of orders</th>
-                                </tr>
-                              </thead>
-                              <tbody></tbody>
-                            </table>
+                            <div class="table-responsive pt-3">
+                              <table class="table table-bordered" id="everyDay-table">
+                                <thead>
+                                  <tr>
+                                    <th>Day</th>
+                                    <th>Total Revenue</th>
+                                    <th>No of Product Sold</th>
+                                    <th>No of orders</th>
+                                  </tr>
+                                </thead>
+                                <tbody></tbody>
+                              </table>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -375,16 +322,17 @@
                   </div>
                 </div>
               </div>
+              <!-- End Tabs on plain Card -->
             </div>
-            <!-- End Tabs on plain Card -->
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
@@ -395,74 +343,100 @@
       $(this).tab("show");
     });
   });
-</script>
-<script>
-  function generateDailyReport(total, orders, count) {
-    var doc = new jsPDF();
 
-    doc.autoTable({
-      head: [["#", "Total Revenue", "No of products sold", "Orders Count"]],
-      body: [["1", total, orders, count]],
+  function showFormatSelection(callback) {
+    swal({
+      title: "Select Download Format",
+      buttons: {
+        pdf: {
+          text: "PDF",
+          value: "pdf",
+        },
+        excel: {
+          text: "Excel",
+          value: "excel",
+        },
+      },
+    }).then((value) => {
+      if (value) {
+        callback(value);
+      }
     });
-    doc.save("Daily Sales Report.pdf");
+  }
+
+  function generateDailyReport(total, orders, count, day) {
+    showFormatSelection((format) => {
+      downloadReport(format, [
+        ["#", "Date", "Total Revenue", "No of products sold", "Orders Count"],
+        [1, day, total, orders, count]
+      ], "Daily_Sales_Report");
+    });
   }
 
   function generateYearlyReport(total, orders, count) {
-    var doc = new jsPDF();
-
-    doc.autoTable({
-      head: [["#", "Total Revenue", "No of products sold", "Orders Count"]],
-      body: [["1", total, orders, count]],
+    showFormatSelection((format) => {
+      downloadReport(format, [
+        ["#", "Total Revenue", "No of products sold", "Orders Count"],
+        [1, total, orders, count]
+      ], "Yearly_Sales_Report");
     });
-    doc.save("Yearly Sales Report.pdf");
   }
 
   function generateMontlyReport(total, orders, count) {
-    doc.autoTable({
-      head: [["#", "Total Revenue", "No of products sold", "Orders Count"]],
-      body: [["1", data.total, data.orders, data.count]],
+    showFormatSelection((format) => {
+      downloadReport(format, [
+        ["#", "Total Revenue", "No of products sold", "Orders Count"],
+        [1, total, orders, count]
+      ], "Current_Monthly_Report");
     });
-    doc.save(" Current Monthly Report.pdf");
   }
 
-  function monthlyReport(data) {
-    doc.autoTable({
-      head: [["#", "Total Revenue", "No of products sold", "Orders Count"]],
-      body: [["1", data.total, data.orders, data.count]],
+  function everyMonth(total, orders, count) {
+    showFormatSelection((format) => {
+      downloadReport(format, [
+        ["Month", "Total Revenue", "No of products sold", "Orders Count"],
+        ["Jan", total, orders, count]
+      ], "Monthly_Report");
     });
-    doc.save("Monthly Report.pdf");
   }
 
-  function everyMonth(data) {
+  function downloadReport(format, data, fileName) {
     var doc = new jsPDF();
+    
+    // PDF
+    if (format === "pdf") {
+      doc.autoTable({
+        head: data.slice(0, 1),
+        body: data.slice(1),
+      });
+      doc.save(`${fileName}.pdf`);
+    }
 
-    doc.autoTable({
-      html: "#my-table",
-    });
-
-    doc.save("Monthly Report.pdf");
+    // Excel
+    else if (format === "excel") {
+      exportToExcel(data, fileName);
+    }
   }
 
-  function everyDay(data) {
-    var doc = new jsPDF();
+  function exportToExcel(data, fileName) {
+    var ws = XLSX.utils.aoa_to_sheet(data);
+    var colWidths = data.reduce(function (acc, row) {
+      return row.map(function (cell, i) {
+        return Math.max(acc[i] || 0, String(cell).length);
+      });
+    }, []);
 
-    doc.autoTable({
-      html: "#everyDay-table",
+    ws['!cols'] = colWidths.map(function (width) {
+      return { width: width + 2 }; 
     });
 
-    doc.save("Every Day Report.pdf");
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet 1");
+    XLSX.writeFile(wb, `${fileName}.xlsx`);
   }
 </script>
-<script>
-  function generateWeeklyReport(total, orders, count) {
-    var doc = new jsPDF();
 
-    doc.autoTable({
-      head: [["#", "Total Revenue", "No of products sold", "Orders Count"]],
-      body: [["1", total, orders, count]],
-    });
-    doc.save("Weekly Sales Report.pdf");
-  }
-</script>
 
-<%- include('../partials/admin-foot.ejs') %>
+
+
+  <%- include('../partials/admin-foot.ejs') %>

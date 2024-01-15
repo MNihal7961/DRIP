@@ -304,18 +304,19 @@ const userCancelOrder = (orderId, userId, reason) => {
       console.log("Cancellation Reason:", reason);
       console.log("id", orderId);
       console.log(orderCancel);
-      const result = await order.updateOne(
-        {
-          "user": new ObjectId(userId),
-          "order._id": new ObjectId(orderId)
-        },
-        {
-          $set: {
-            "order.$.orderStatus": "Cancelled",
-            "order.$.cancelReason": reason
+      const result = await order
+        .updateOne(
+          {
+            user: new ObjectId(userId),
+            "order._id": new ObjectId(orderId),
+          },
+          {
+            $set: {
+              "order.$.orderStatus": "Cancelled",
+              "order.$.cancelReason": reason,
+            },
           }
-        }
-      )
+        )
         .then((response) => {
           resolve({ update: "success" });
         });
@@ -389,36 +390,16 @@ const userCancelSingleProduct = (
   });
 };
 
-const userReturnOrder = (orderId, userId, orderPrice, orderData) => {
+const userReturnOrderRequest = (orderId, userId, reason) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await order.updateOne(
-        { user: userId, "order._id": new ObjectId(orderId) },
-        { $set: { "order.$.orderStatus": "Returned" } }
-      );
-
-      await wallet.updateOne(
-        { user: new ObjectId(userId) },
-        {
-          $inc: { balance: parseInt(orderPrice) },
-          $push: {
-            history: {
-              type: "Credited",
-              amount: parseInt(orderPrice),
-              date: new Date(),
-            },
-          },
-        }
-      );
-      await product
+      await order
         .updateOne(
+          { user: userId, "order._id": new ObjectId(orderId) },
           {
-            title: orderData[0].productDetails.productsName,
-            "varient.size": orderData[0].productDetails.productsName,
-          },
-          {
-            $inc: {
-              "varient.$.quantity": orderData[0].productDetails.quantity,
+            $set: {
+              "order.$.orderStatus": "Returned Request Sented",
+              "order.$.returnReason": reason,
             },
           }
         )
@@ -431,6 +412,59 @@ const userReturnOrder = (orderId, userId, orderPrice, orderData) => {
   });
 };
 
+const adminConfirmReturn = async (total, orderId) => {
+  try {
+    const orderReturn = await order.findOne({
+      order: { $elemMatch: { _id: new ObjectId(orderId) } },
+    });
+    const result = await order.updateOne(
+      {
+        user: new ObjectId(orderReturn.user),
+        "order._id": new ObjectId(orderId),
+      },
+      {
+        $set: {
+          "order.$.orderStatus": "Returned",
+        },
+      }
+    );
+    const existWallet = await wallet.findOne({
+      user: new ObjectId(orderReturn.user),
+    });
+    if (existWallet) {
+      const totalRefundAmount = orderReturn.totalPrice;
+
+      await existWallet.updateOne({
+        $inc: { balance: parseInt(total) },
+        $push: {
+          history: {
+            type: "Credited",
+            amount: parseInt(total),
+            date: new Date(),
+            description: "Order Return Refund",
+          },
+        },
+      });
+      return true;
+    } else {
+      await wallet.create({
+        user: new ObjectId(orderReturn.user),
+        balance: parseInt(total),
+        history: [
+          {
+            type: "Credited",
+            amount: parseInt(total),
+            date: new Date(),
+            description: "Order Return Refund",
+          },
+        ],
+      });
+      return true;
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
 module.exports = {
   placeOrder,
   generateRazorPay,
@@ -442,5 +476,6 @@ module.exports = {
   adminDeliveryOrder,
   userCancelOrder,
   userCancelSingleProduct,
-  userReturnOrder,
+  userReturnOrderRequest,
+  adminConfirmReturn,
 };

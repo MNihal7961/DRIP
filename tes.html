@@ -1,67 +1,55 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <title>Title</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+<script>
+   $(document).on('click', '.return-order', function () {
+       const orderId = $(this).data('order-id');
+       const orderPrice = $(this).data('order-price');
+       console.log('Order ID:', orderId);
+       console.log('Order Price:', orderPrice);
 
-    <!-- Bootstrap CSS v5.2.1 -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      crossorigin="anonymous"
-    />
-  </head>
+       Swal.fire({
+           title: 'Are you sure?',
+           text: 'Do you want to return the order?',
+           icon: 'question',
+           showCancelButton: true,
+           confirmButtonColor: '#3085d6',
+           cancelButtonColor: '#d33',
+           confirmButtonText: 'Yes, return it!'
+       }).then((result) => {
+           if (result.isConfirmed) {
+               $.ajax({
+                   type: 'POST',
+                   url: '/user/order/return/' + orderId,
+                   data: {
+                       orderId: orderId,
+                       orderPrice: orderPrice
+                   },
+                   success: (response) => {
+                       console.log('Response:', response);
 
-  <body>
-    <section class="py-6">
-      <div class="container">
-         <div class="row">
-            <div class="col-xxl-4 col-xl-6 col-lg-12">
-               <div class="card mb-4 mb-xl-0 card-hover border">
-                  <a href="#!">
-                  <img src="../Project/public/images/Coin-Drip.jpg" alt="webinar-1" class="img-fluid rounded-top-3">
-                  </a>
-                  <div class="card-body">
-                     <h3 class="mb-4 text-truncate">
-                        <a href="#!" class="text-decoration-none">My Coins</a>
-                     </h3>
-                     <div class="mb-4">
-                        <div class="mb-3 lh-1">
-                           <span class="me-1">
-                           <i class="bi bi-calendar-check"></i>
-                           </span>
-                           <span>Thu, November 10, 2023</span>
-                        </div>
-                        <div class="lh-1">
-                           <span class="me-1">
-                           <i class="bi bi-clock"></i>
-                           </span>
-                           <span>6:00 PM – 8:00 PM GMT</span>
-                        </div>
-                     </div>
-                     <a href="#!" class="btn btn-light-primary text-primary">Register Now</a>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-   </section>
-    <script
-      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-      crossorigin="anonymous"
-    ></script>
+                       if (response.updateStatus) {
+                           location.reload();
+                       }
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-      crossorigin="anonymous"
-    ></script>
-  </body>
-</html>
+                       Swal.fire({
+                           icon: 'success',
+                           title: 'Success!',
+                           text: 'Order Returned successfully.',
+                           showConfirmButton: false,
+                           timer: 1500
+                       });
+                   },
+                   error: function (xhr, status, error) {
+                       console.error('Error:', error);
+
+                       Swal.fire({
+                           icon: 'error',
+                           title: 'Error!',
+                           text: 'Failed to return order.',
+                           showConfirmButton: false,
+                           timer: 1500
+                       });
+                   }
+               });
+           }
+       });
+   });
+</script>

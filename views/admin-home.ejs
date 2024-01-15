@@ -89,8 +89,8 @@
                 <div class="container mt-5">
                     <div class="row">
                         <div class="col-md-6 p-2">
-                            <h2 class="text-success text-start fw-bold">Revenue Yearly</h2>
-                            <canvas id="yearly-chart"></canvas>
+                            <h2 class="text-success text-start fw-bold">Revenue Daily</h2>
+                            <canvas id="daily-sales-chart"></canvas>
                         </div>
                         <div class="col-md-6 p-2">
                             <h2 class="text-success text-start fw-bold">Revenue Weekly</h2>
@@ -111,7 +111,7 @@
                 labels: ["COD", "Online"],
                 datasets: [{
                     label: "Payment Methods Used",
-                    data: [<%= codCount %>, <%= onlineCount %>],
+                    data: [<%-codCount%>,<%-onlineCount%> ],
                     backgroundColor: ["#FFA07A", "#87CEEB"]
                 }]
             };
@@ -133,7 +133,7 @@
 
             const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
-            const totalValuesArray = [<%=totalValuesArray %>];
+            const totalValuesArray = [<%-totalValuesArray%>];
 
             const revenueData = {
                 labels: labels,
@@ -164,7 +164,7 @@
 <script>
     const labels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-    const weeklyArray = [<%= weeklyData.data.map(entry => entry.total) %>];
+    const weeklyArray = [ <%-weeklyData.data.map(entry => entry.total)%>];
 
     const weeklyDataChart = {
         labels: labels,
@@ -189,7 +189,79 @@
             }
         }
     });
+
+
+
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Check if eachDayRevenue is defined
+        if (typeof eachDayRevenue !== 'undefined' && eachDayRevenue.length > 0) {
+            const labels = eachDayRevenue.map(entry => entry._id);
+            const totalValuesArray = eachDayRevenue.map(entry => entry.total);
+
+            const dailySalesChartData = {
+                labels: labels,
+                datasets: [{
+                    label: 'Daily Sales',
+                    data: totalValuesArray,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            };
+
+            const dailySalesChart = document.getElementById('daily-sales-chart');
+            new Chart(dailySalesChart, {
+                type: 'line',
+                data: dailySalesChartData,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        } else {
+            console.log('eachDayRevenue is not defined or is an empty array.');
+        }
+    });
 </script>
 
 
+
     <%- include('../partials/admin-foot.ejs') %>
+
+    <!-- const dailyChart = document.getElementById('yearly-chart');
+    new Chart(dailyChart, {
+        type: 'doughnut',  
+        data: dailyDataChart,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                title: {
+                    display: true,
+                    text: 'Revenue Daily (Donut Chart)',
+                },
+            },
+        }
+    }); -->
+
+
+   
+
+    //     const dailyDataChart = {
+    //         labels: labels,
+    //         datasets: [{
+    //             label: 'Revenue',
+    //             data: dailyArray,
+    //             backgroundColor: ['#FFA07A', '#87CEEB', '#FFD700', '#ADFF2F', '#00BFFF', '#9932CC', '#FF4500'],
+    //             borderWidth: 1
+    //         }]
+    //     };

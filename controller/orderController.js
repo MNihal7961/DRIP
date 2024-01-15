@@ -102,7 +102,7 @@ const adminorder_get = async (req, res) => {
   var i = 0;
   const productData = await global.getAllOrderProduct();
   const orderData = await global.getAllOrder();
-  console.log(productData);
+
   res.render("admin-order", { title, i, orderData, productData });
  }catch(err){
   res.status(500).render('500')
@@ -208,12 +208,10 @@ const userorderreturn_post = async (req, res) => {
   const userData = await global.loggedUser(req.session.email);
 
   try {
-    const { orderId ,orderPrice} = req.body;
+    const { orderId ,reason} = req.body;
     console.log(req.body);
-    const orderData= await order.findOne({ user: userData._id, "order._id": new ObjectId(orderId) })
-    console.log(orderData);
     await orderHelper
-      .userReturnOrder(orderId, userData._id,orderPrice,orderData)
+      .userReturnOrderRequest(orderId, userData._id,reason)
       .then(async (response) => {
         res.json({ updateStatus: true });
       });
@@ -226,8 +224,11 @@ const userorderreturn_post = async (req, res) => {
 // ADMIN RETURN-REQUESTS
 const adminReturnRequests_get=async (req,res)=>{
   try{
+    const orderData=await global.getAllReturnRequestOrder()
+    const productData=await global.getAllReturnRequestOrderProduct()
+    var i=0
     const title="returns"
-    res.render('admin-return',{title})
+    res.render('admin-return',{title,orderData,productData,i})
   }catch(err){
     res.status(500).render('500')
     console.error(err)
@@ -247,6 +248,50 @@ const adminCancelorders_get=async(req,res)=>{
   }
 }
 
+// ADMIN DELIVEREDORDER-LISTS
+const adminDeliveredOrders_get=async(req,res)=>{
+  try{
+    const title="order-delivered"
+    const orderData=await global.getAllDeliveredOrder()
+    const productData=await global.getAllDeliveredOrderProduct()
+    var i=0
+    res.render('admin-order-delivered',{title,i,orderData,productData})
+  }catch(err){
+    console.error(err)
+    res.status(500).render('500')
+  }
+}
+
+// ADMIN RETURNEDORDER-LISTS
+const adminReturnedOrders_get=async(req,res)=>{
+  try{
+    const title="returned-orders"
+    const orderData=await global.getAllReturnedOrder()
+    const productData=await global.getAllReturnedOrderProduct()
+    var i=0
+    res.render('admin-order-returned',{title,i,orderData,productData})
+  }catch(err){
+    console.error(err)
+    res.status(500).render('500')
+  }
+}
+
+// ADMIN RETURNORDER-CONFIRM
+const adminReturnOrderConfirm_post=async(req,res)=>{
+  try{
+    const total=req.body.total
+    const id=req.params.id
+    console.log(total)
+    console.log(id)
+    const update=await orderHelper.adminConfirmReturn(total,id)
+    if(update){
+      res.redirect('/admin/return/requests?message=success')
+    }
+  }catch(err){
+    console.error(err)
+    res.status(500).render('500')
+  }
+}
 
 module.exports = {
   placeorder_post,
@@ -262,5 +307,8 @@ module.exports = {
   verifyPayment,
   userorderreturn_post,
   adminReturnRequests_get,
-  adminCancelorders_get
+  adminCancelorders_get,
+  adminDeliveredOrders_get,
+  adminReturnedOrders_get,
+  adminReturnOrderConfirm_post
 };

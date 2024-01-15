@@ -178,6 +178,13 @@ const getAllOrder = async () => {
         $unwind: "$order",
       },
       {
+        $match: {
+          "order.orderStatus": {
+            $nin: ["Delivered", "Cancelled", "Returned", "Returned Request Sented"]
+          }
+        },
+      },
+      {
         $project: {
           buyerName: "$order.buyerName",
           totalPrice: "$order.totalPrice",
@@ -205,10 +212,18 @@ const getAllOrder = async () => {
   }
 };
 
+
 const getAllOrderProduct = async () => {
   try {
     const productDetails = await order.aggregate([
       { $unwind: "$order" },
+      {
+        $match: {
+          "order.orderStatus": {
+            $nin: ["Delivered", "Cancelled", "Returned", "Returned Request Sented"]
+          }
+        },
+      },
       { $replaceRoot: { newRoot: "$order" } },
       { $project: { _id: 0, productDetails: 1 } },
     ]);
@@ -474,9 +489,6 @@ const getAllCancelledOrder = async () => {
         $sort: { orderedAt: -1 },
       },
     ])
-
-    console.log(orderData)
-
     return orderData;
   } catch (err) {
     console.log(err);
@@ -502,6 +514,180 @@ const getAllCancelledOrderProduct = async () => {
   }
 };
 
+const getAllReturnRequestOrder=async()=>{
+  try{
+    const orderData = await order.aggregate([
+      {
+        $unwind: "$order",
+      },
+      {
+        $match: {
+          "order.orderStatus": "Returned Request Sented",
+        },
+      },
+      {
+        $project: {
+          buyerName: "$order.buyerName",
+          totalPrice: "$order.totalPrice",
+          paymentMethod: "$order.paymentMethod",
+          shippingMethod: "$order.shippingMethod",
+          orderStatus: "$order.orderStatus",
+          totalQuantity: { $size: "$order.productDetails" },
+          orderedAt: {
+            $dateToString: {
+              date: "$order.orderedAt",
+              format: "%d-%b-%Y",
+            },
+          },
+          reason:"$order.returnReason",
+          _id: "$order._id",
+        },
+      },
+      {
+        $sort: { orderedAt: -1 },
+      },
+    ])
+    return orderData;
+  }catch(err){
+    console.error(err)
+  }
+}
+
+const getAllReturnRequestOrderProduct=async ()=>{
+  try{
+    const productDetails = await order.aggregate([
+      { $unwind: "$order" },
+      {
+        $match:{
+          "order.orderStatus": "Returned Request Sented",
+        }
+      },
+      { $replaceRoot: { newRoot: "$order" } },
+      { $project: { _id: 0, productDetails: 1 } },
+    ]);
+
+    return productDetails.map((item) => item.productDetails);
+  }catch(err){
+    console.error(err)
+  }
+}
+
+const getAllDeliveredOrder=async ()=>{
+  try{
+    const orderData = await order.aggregate([
+      {
+        $unwind: "$order",
+      },
+      {
+        $match: {
+          "order.orderStatus": "Delivered",
+        },
+      },
+      {
+        $project: {
+          buyerName: "$order.buyerName",
+          totalPrice: "$order.totalPrice",
+          paymentMethod: "$order.paymentMethod",
+          shippingMethod: "$order.shippingMethod",
+          orderStatus: "$order.orderStatus",
+          totalQuantity: { $size: "$order.productDetails" },
+          orderedAt: {
+            $dateToString: {
+              date: "$order.orderedAt",
+              format: "%d-%b-%Y",
+            },
+          },
+          reason:"$order.cancelReason",
+          _id: "$order._id",
+        },
+      },
+      {
+        $sort: { orderedAt: -1 },
+      },
+    ])
+    return orderData;
+  }catch(err){
+    console.error(err)
+  }
+}
+
+const getAllDeliveredOrderProduct=async()=>{
+  try{
+    const productDetails = await order.aggregate([
+      { $unwind: "$order" },
+      {
+        $match:{
+          "order.orderStatus": "Delivered",
+        }
+      },
+      { $replaceRoot: { newRoot: "$order" } },
+      { $project: { _id: 0, productDetails: 1 } },
+    ]);
+
+    return productDetails.map((item) => item.productDetails);
+  }catch(err){
+    console.error(err)
+  }
+}
+
+const getAllReturnedOrder=async ()=>{
+  try{
+    const orderData = await order.aggregate([
+      {
+        $unwind: "$order",
+      },
+      {
+        $match: {
+          "order.orderStatus": "Returned",
+        },
+      },
+      {
+        $project: {
+          buyerName: "$order.buyerName",
+          totalPrice: "$order.totalPrice",
+          paymentMethod: "$order.paymentMethod",
+          shippingMethod: "$order.shippingMethod",
+          orderStatus: "$order.orderStatus",
+          totalQuantity: { $size: "$order.productDetails" },
+          orderedAt: {
+            $dateToString: {
+              date: "$order.orderedAt",
+              format: "%d-%b-%Y",
+            },
+          },
+          reason:"$order.cancelReason",
+          _id: "$order._id",
+        },
+      },
+      {
+        $sort: { orderedAt: -1 },
+      },
+    ])
+    return orderData;
+  }catch(err){
+    console.error(err)
+  }
+}
+
+const getAllReturnedOrderProduct=async()=>{
+  try{
+    const productDetails = await order.aggregate([
+      { $unwind: "$order" },
+      {
+        $match:{
+          "order.orderStatus": "Returned",
+        }
+      },
+      { $replaceRoot: { newRoot: "$order" } },
+      { $project: { _id: 0, productDetails: 1 } },
+    ]);
+
+    return productDetails.map((item) => item.productDetails);
+  }catch(err){
+    console.error(err)
+  }
+}
+
 module.exports = {
   loggedUser,
   cartCount,
@@ -525,5 +711,11 @@ module.exports = {
   wishlistData,
   randomGenarator,
   getAllCancelledOrder,
-  getAllCancelledOrderProduct
+  getAllCancelledOrderProduct,
+  getAllReturnRequestOrder,
+  getAllReturnRequestOrderProduct,
+  getAllDeliveredOrder,
+  getAllDeliveredOrderProduct,
+  getAllReturnedOrder,
+  getAllReturnedOrderProduct
 };
