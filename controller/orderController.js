@@ -3,6 +3,8 @@ const orderHelper = require("../helper/orderHelpers");
 const razorpayHelper = require("../helper/razorpayHelpers");
 const {ObjectId}=require('mongodb')
 const order=require('../model/ordermodel')
+const easyInvoice=require('../service/easyInvoice')
+const path = require('path')
 
 // USER PLACE-ORDER
 const placeorder_post = async (req, res) => {
@@ -13,18 +15,25 @@ const placeorder_post = async (req, res) => {
     const orderAddress = await global.selectAddress(userData._id, address);
     const orderPrice = global.overallPrice(summary, orderShipping.charge);
     const orderPayment = req.body.payment;
-    await orderHelper.placeOrder(userData, orderShipping, orderAddress, orderPrice, payment)
+
+    if(payment=="Drip-Wallet"){
+      await orderHelper.placeOrderWallet(userData, orderShipping, orderAddress, orderPrice, payment).then(async (orderId)=>{
+             res.json({wallet:true})
+     })
+    }else{
+      await orderHelper.placeOrder(userData, orderShipping, orderAddress, orderPrice, payment)
       .then(async (orderId) => {
         if (orderPayment == "COD") {
           res.json({ codstatus: true });
-        } else {
+        }else {
           razorpayHelper
             .generateRazorPay(userData._id, orderPrice)
             .then((order) => {
               res.json(order);
-            });
+            })
         }
       });
+    }
   } catch (err) {
     res.status(500).render('500')
     throw err;
@@ -76,7 +85,6 @@ const orderdetails_get = async (req, res) => {
     const count = await global.getOrderProductStatusCount(userData._id);
     const countsArray = count.map(item => item.count)
     const sum = countsArray.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
-    console.log(sum)
     var i = 0;
     const wishlistNo=await global.wishlistNo(userData._id)
     res.render("user-orders", {
@@ -173,7 +181,6 @@ const userordercancel_post = async (req, res) => {
 
   try {
     const { orderId ,reason} = req.body;
-    console.log(reason);
     await orderHelper
       .userCancelOrder(orderId, userData._id,reason)
       .then(async (response) => {
@@ -320,6 +327,33 @@ const adminReturnRejectOrders_get=async(req,res)=>{
   }
 }
 
+const generateInvoices=async(req,res)=>{
+    try {
+      const userData = await global.loggedUser(req.session.email);
+      const { orderId } = req.body
+      const orderData = await orderHelper.orderDataForInvoice(userData._id,orderId)
+      if (orderData) {
+          const invoice = await easyInvoice.generateInvoice(orderData)
+          res.json({ success: true, message: 'Invoice generated successfully' });
+      } else {
+          res.status(500).json({ success: false, message: 'Failed to generate the invoice' });
+      }
+  } catch (err) {
+      console.error(err)
+  }
+}
+
+const downloadInvoice=async (req,res)=>{
+  try {
+    const id = req.params.orderId      
+    const filePath = path.join(__dirname, '../public/pdf', `${id}.pdf`);
+    res.download(filePath,'Drip.pdf')
+  } catch (error) {
+    console.error('Error in downloading the invoice:', error);
+    res.status(500).json({ success: false, message: 'Error in downloading the invoice' });
+  }
+}
+
 module.exports = {
   placeorder_post,
   ordersuccess_get,
@@ -339,5 +373,7 @@ module.exports = {
   adminReturnedOrders_get,
   adminReturnOrderConfirm_post,
   adminReturnOrderReject_post,
-  adminReturnRejectOrders_get
+  adminReturnRejectOrders_get,
+  generateInvoices,
+  downloadInvoice
 };

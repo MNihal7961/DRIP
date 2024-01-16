@@ -143,4 +143,9 @@ router.post('/user/generate/refferalcode/:id',userAuth.authMiddleware,profileCon
 // user-drip-coin
 router.get('/user/drip/coins',userAuth.authMiddleware,profileController.dripCoin_get)
 
+// user-genarate-invoice
+router.post('/downloadinvoice',userAuth.authMiddleware,orderController.generateInvoices)
+
+router.get('/downloadinvoice/:orderId',userAuth.authMiddleware,orderController.downloadInvoice);
+
 module.exports = router

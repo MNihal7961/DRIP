@@ -81,6 +81,7 @@ const checkout_get = async (req, res) => {
     const userData = await global.loggedUser(req.session.email)
     const cartItems = await cartHelper.getCartProducts(userData._id)
     const wishlistNo=await global.wishlistNo(userData._id)
+    const walletData=await global.getWalletData(userData._id)
     try {
         if (cartItems.length > 0) {
             const userCart = await cart.findOne({ user: new ObjectId(userData._id) })
@@ -94,7 +95,7 @@ const checkout_get = async (req, res) => {
             const addressData = await address.findOne({ user: userData._id })
             const paymentData = await payment.find({ status: true })
             var i = 0
-            res.render('user-checkout', {wishlistNo, i, title, cartItems, userData, userCart, total, eachTotal, cartNo, summary, shippingData, addressData, paymentData })
+            res.render('user-checkout', {walletData,wishlistNo, i, title, cartItems, userData, userCart, total, eachTotal, cartNo, summary, shippingData, addressData, paymentData })
         }
     } catch (err) {
         res.status(500).render('500')

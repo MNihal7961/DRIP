@@ -240,6 +240,7 @@
                                                                 data-order-price="<%= order.totalPrice %>">
                                                                 <i class="fas fa-undo-alt"></i> Return Order
                                                             </button>
+                                                            <button class="btn btn-success" onclick="genarateInvoice('<%-order.oid%>')">Download Invoice</button>
 
 
                                                             <% } else if (order.orderStatus==='Cancelled' ) { %>
@@ -399,7 +400,26 @@
                     });
                 });
             </script>
-
+<script>
+   async function genarateInvoice(orderId){
+    try {
+          const response = await fetch('/downloadinvoice', {
+              method: 'POST',
+              headers: {    
+                  'Content-Type': 'application/json', 
+              },
+              body: JSON.stringify({ orderId }) 
+          });
+          if (response.ok) {
+            console.log("inside response");
+              window.location.href = `/downloadinvoice/${orderId}`;
+          }
+      } catch (error) {
+          console.error('Error in downloading the invoice:', error);
+      }
+    }
+    
+</script>
 
 
 

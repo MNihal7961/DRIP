@@ -293,37 +293,80 @@ const adminDeliveryOrder = (orderId, status) => {
   });
 };
 
-const userCancelOrder = (orderId, userId, reason) => {
-  return new Promise(async (resolve, reject) => {
+const userCancelOrder = async (orderId, userId, reason) => {
+  try {
+    // Find the order
     const orderCancel = await order.findOne(
       { user: new ObjectId(userId) },
       { order: { $elemMatch: { _id: new ObjectId(orderId) } } }
     );
+    console.log(orderCancel,'0000000000000')
 
-    try {
-      console.log("Cancellation Reason:", reason);
-      console.log("id", orderId);
-      console.log(orderCancel);
-      const result = await order
-        .updateOne(
-          {
-            user: new ObjectId(userId),
-            "order._id": new ObjectId(orderId),
-          },
-          {
-            $set: {
-              "order.$.orderStatus": "Cancelled",
-              "order.$.cancelReason": reason,
-            },
-          }
-        )
-        .then((response) => {
-          resolve({ update: "success" });
-        });
-    } catch (err) {
-      console.log(err);
+    if (!orderCancel || !orderCancel.order || orderCancel.order.length === 0) {
+      throw { error: 'Order not found.' };
     }
-  });
+
+    const canceledOrder = orderCancel.order[0];
+
+    // Calculate total refund amount
+    let totalRefundAmount = 0;
+
+    if (canceledOrder.paymentStatus =='Paid') {
+      totalRefundAmount = canceledOrder.totalPrice;
+
+      // Update wallet
+      const existWallet = await wallet.findOne({
+        user: new ObjectId(userId),
+      });
+
+      if (existWallet) {
+        await existWallet.updateOne({
+          $inc: { balance: parseInt(totalRefundAmount) },
+          $push: {
+            history: {
+              type: 'Credited',
+              amount: parseInt(totalRefundAmount),
+              date: new Date(),
+              description: 'Order Cancel Refund',
+            },
+          },
+        });
+      } else {
+        await wallet.create({
+          user: new ObjectId(userId),
+          balance: parseInt(totalRefundAmount),
+          history: [
+            {
+              type: 'Credited',
+              amount: parseInt(totalRefundAmount),
+              date: new Date(),
+              description: 'Order Cancel Refund',
+            },
+          ],
+        });
+      }
+    }
+
+    // Update order status and payment status
+    await order.updateOne(
+      {
+        user: new ObjectId(userId),
+        'order._id': new ObjectId(orderId),
+      },
+      {
+        $set: {
+          'order.$.orderStatus': 'Cancelled',
+          'order.$.cancelReason': reason,
+          'order.$.paymentStatus': canceledOrder.paymentStatus === 'Paid' ? 'Refunded' : canceledOrder.paymentStatus,
+        },
+      }
+    );
+
+    return { update: 'success' };
+  } catch (err) {
+    console.error(err);
+    throw { error: 'An error occurred.' };
+  }
 };
 
 const userCancelSingleProduct = (
@@ -492,6 +535,160 @@ const adminRejectReturn=async (orderId,reason)=>{
   }
 }
 
+const placeOrderWallet=async (user, shipping, address, total, payment)=>{
+  return new Promise(async (resolve, reject) => {
+    try {
+      let products = await cart.aggregate([
+        {
+          $match: { user: new ObjectId(user._id) },
+        },
+        {
+          $unwind: "$cartItems",
+        },
+        {
+          $project: {
+            item: "$cartItems.products",
+            quantity: "$cartItems.quantity",
+            size: "$cartItems.size",
+          },
+        },
+        {
+          $lookup: {
+            from: "products",
+            localField: "item",
+            foreignField: "_id",
+            as: "cartItemsRs",
+          },
+        },
+        {
+          $unwind: "$cartItemsRs",
+        },
+        {
+          $project: {
+            _id: "$cartItemsRs._id",
+            quantity: 1,
+            size: 1,
+            productsName: "$cartItemsRs.title",
+            productsPrice: "$cartItemsRs.sellingprice",
+            productImage: "$cartItemsRs.images",
+          },
+        },
+      ]);
+
+      //totalQuatity calculation
+      let totalQuantity = products.reduce(
+        (acc, curr) => acc + curr.quantity,
+        0
+      );
+
+      //address
+      let Address = {
+        fname: address[0].address.fname,
+        lname: address[0].address.lname,
+        street: address[0].address.street,
+        buildingName: address[0].address.buildingName,
+        city: address[0].address.city,
+        state: address[0].address.state,
+        pincode: address[0].address.pincode,
+        mobile: address[0].address.mobile,
+        email: address[0].address.email,
+      };
+
+      // Inventory management - Update product quantities
+      for (let i = 0; i < products.length; i++) {
+        const productId = products[i]._id;
+        const sizeToUpdate = products[i].size;
+        const quantityToUpdate = products[i].quantity;
+
+        await product.updateOne(
+          {
+            _id: productId,
+            "varient.size": sizeToUpdate,
+          },
+          {
+            $inc: { "varient.$.quantity": -quantityToUpdate },
+          }
+        );
+      }
+
+      const mappedProducts = products.map((product) => ({
+        quantity: product.quantity,
+        size: product.size,
+        _id: product._id,
+        productsName: product.productsName,
+        productsPrice: product.productsPrice,
+        productImage: product.productImage,
+        status: true,
+      }));
+
+      let paymentStatus = "";
+      if (payment == "COD") {
+        paymentStatus = "Pending";
+      } else {
+        paymentStatus = "Paid";
+      }
+
+      let orderData = {
+        userId: user._id,
+        buyerName: user.username,
+        shippingAddress: Address,
+        billingAddress: Address,
+        totalPrice: total,
+        paymentMethod: payment,
+        paymentStatus: paymentStatus,
+        totalQuantity: totalQuantity,
+        shippingMethod: shipping.title,
+        productDetails: mappedProducts,
+      };
+
+      const orderExist = await order.findOne({ user: user._id });
+
+      if (orderExist) {
+        await order.updateOne(
+          { user: user._id },
+          { $push: { order: orderData } }
+        );
+        resolve({ order: "success" });
+      } else {
+        const newOrder = new order({
+          user: user._id,
+          order: [orderData],
+        });
+
+        await newOrder.save();
+        resolve({ order: "success" });
+      }
+      await wallet.updateOne(
+        { user: new ObjectId(user._id) },
+        {
+        $inc: { balance: -parseInt(total) },
+        $push: {
+          history: {
+            type: "Debited",
+            amount: parseInt(total),
+            date: new Date(),
+            description: "For Shopping",
+          },
+        },
+        },)
+      cart.deleteMany({ user: new ObjectId(user._id) }).then((response) => {
+        resolve({ order: "success" });
+      });
+    } catch (err) {
+      console.log(err);
+      reject(err);
+    }
+  });
+}
+
+const orderDataForInvoice=async(userId,orderId)=>{
+  const orderCancel = await order.findOne(
+    { user: new ObjectId(userId) },
+    { order: { $elemMatch: { _id: new ObjectId(orderId) } } }
+  );
+return orderCancel
+}
+
 module.exports = {
   placeOrder,
   generateRazorPay,
@@ -505,5 +702,7 @@ module.exports = {
   userCancelSingleProduct,
   userReturnOrderRequest,
   adminConfirmReturn,
-  adminRejectReturn
+  adminRejectReturn,
+  placeOrderWallet,
+  orderDataForInvoice
 };

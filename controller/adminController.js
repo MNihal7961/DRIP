@@ -98,6 +98,9 @@ const adminblock_post = async (req, res) => {
       { _id: id },
       { $set: { status: false } }
     );
+    if(block){
+      req.session.userblocked=true
+    }
     return res.redirect("/admin/user");
   } catch (err) {
     res.status(500).render('500')
@@ -114,6 +117,9 @@ const adminunblock_post = async (req, res) => {
       { _id: id },
       { $set: { status: true } }
     );
+    if(unblock){
+      req.session.userblocked=false
+    }
     return res.redirect("/admin/user");
   } catch (err) {
     res.status(500).render('500')

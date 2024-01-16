@@ -399,6 +399,20 @@ const walletdata = async (userId) => {
         $match: { user: new ObjectId(userId) }
       },
       {
+        $unwind: '$history'
+      },
+      {
+        $sort: { 'history.date': -1 }
+      },
+      {
+        $group: {
+          _id: '$_id',
+          user: { $first: '$user' },
+          balance: { $first: '$balance' },
+          history: { $push: '$history' }
+        }
+      },
+      {
         $set: {
           history: {
             $map: {
@@ -410,7 +424,7 @@ const walletdata = async (userId) => {
                   {
                     date: {
                       $dateToString: {
-                        format: "%d-%b-%Y",
+                        format: '%d-%b-%Y',
                         date: '$$item.date'
                       }
                     }
@@ -424,16 +438,17 @@ const walletdata = async (userId) => {
     ]);
 
     if (!result || result.length === 0) {
-      console.log("No wallet found for user:", userId);
+      console.log('No wallet found for user:', userId);
       return null;
     }
 
     return result[0];
   } catch (err) {
-    console.error("Error while fetching wallet data:", err);
+    console.error('Error while fetching wallet data:', err);
     return null;
   }
 };
+
 
 const wishlistData=async(userId)=>{
   try{
@@ -749,6 +764,15 @@ const getAllReturnRejectOrderProduct=async()=>{
   }
 }
 
+const getWalletData=async(userId)=>{
+  try{
+    const result=await wallet.findOne({user:new ObjectId(userId)})
+    return result
+  }catch(err){
+    console.error(err)
+  }
+}
+
 
 
 module.exports = {
@@ -782,5 +806,6 @@ module.exports = {
   getAllReturnedOrder,
   getAllReturnedOrderProduct,
   getAllReturnRejectOrder,
-  getAllReturnRejectOrderProduct
+  getAllReturnRejectOrderProduct,
+  getWalletData
 };

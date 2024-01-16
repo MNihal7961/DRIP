@@ -40,7 +40,6 @@ const verifyPayment = async (payment, order) => {
             console.log(hmac + "55")
             console.log(payment.razorpay_signature + "55")
             if (hmac === payment.razorpay_signature) {
-                console.log("Succesexxxxxxxxxx")
                 resolve()
             } else {
                 reject("not match")
