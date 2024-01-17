@@ -146,6 +146,10 @@ router.get('/user/drip/coins',userAuth.authMiddleware,profileController.dripCoin
 // user-genarate-invoice
 router.post('/downloadinvoice',userAuth.authMiddleware,orderController.generateInvoices)
 
+// user-download-invoice
 router.get('/downloadinvoice/:orderId',userAuth.authMiddleware,orderController.downloadInvoice);
+
+// user-refer-learnmore
+router.get('/user/refer/learnmore',userAuth.authMiddleware,profileController.referLearnmore_get)
 
 module.exports = router

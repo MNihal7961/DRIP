@@ -23,7 +23,8 @@ const userSchema = new mongoose.Schema({
         type:String
     },
     dripcoins:{
-        type:Number
+        type:Number,
+        default:0
     }
 })
 

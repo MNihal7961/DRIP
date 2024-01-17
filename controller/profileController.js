@@ -147,6 +147,21 @@ const dripCoin_get=async(req,res)=>{
     }
 }
 
+// user-refer-page
+const referLearnmore_get=async(req,res)=>{
+    try{
+        const title="referal"
+        const userData = await users.findOne({ email: req.session.email })
+        const cartNo = await global.cartCount(userData._id)
+        const cartItems = await cart.findOne({ user: userData._id })
+        const wishlistNo=await global.wishlistNo(userData._id)
+        res.render('user-refer-learnmore',{title,userData,cartNo,cartItems,wishlistNo})
+    }catch(err){
+        res.status(500).render('500')
+        console.error(err)
+    }
+}
+
 module.exports = {
     userprofile_get,
     usereditprofile_get,
@@ -156,5 +171,6 @@ module.exports = {
     userresetpassword_post,
     editprofileImage,
     genarateReffaralCode_post,
-    dripCoin_get
+    dripCoin_get,
+    referLearnmore_get
 }

@@ -145,6 +145,7 @@
                                             <% if (!userData.refferalcode) { %>
                                                     <button  class="btn btn-success" onclick="generateRefferalCode('<%-userData._id%>')"><i class="fa-solid fa-plus"></i> Generate Refferalcode</button>
                                             <% } %>
+                                            <a href="/user/refer/learnmore" class="btn btn-success ms-5">Learn more</a>
                                     </div>
                                 </div>
                             </div>
@@ -160,7 +161,15 @@
                                         </div>
                                         <div class="card-body text-center">
                                           <h4 class="card-title font-weight-bold"><strong style="font-family: 'Ravie', sans-serif; color: #014122;">Drip</strong>Coin</h4>
-                                          <h5><strong>Balance:</strong> coins</h5>
+                                          <% if (userData.dripcoins>0) { %>
+                                            <h5><strong>Balance:</strong><%-userData.dripcoins%> coins</h5>
+                                          <% } %>
+
+                                          <% if (userData.dripcoins<=0) { %>
+                                            <h5 style="color: #014122;">Shop Now And Earn Drip Coins</h5>
+                                          <% } %>
+                                          
+                                          
                                           <hr>
                                           <a href="" class="btn text-white" style="background-color: #014122;">Redeem Now</a>
                                           <a href="/user/drip/coins" class="btn text-white" style="background-color: #014122;">Learn More</a>
