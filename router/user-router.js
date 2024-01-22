@@ -152,4 +152,7 @@ router.get('/downloadinvoice/:orderId',userAuth.authMiddleware,orderController.d
 // user-refer-learnmore
 router.get('/user/refer/learnmore',userAuth.authMiddleware,profileController.referLearnmore_get)
 
+// user-topup-wallet
+router.post('/user/topup/wallet',userAuth.authMiddleware,walletController.userwallettTopup_post)
+
 module.exports = router

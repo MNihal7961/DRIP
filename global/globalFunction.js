@@ -773,13 +773,6 @@ const getWalletData=async(userId)=>{
   }
 }
 
-const getWishlist=async (userId)=>{
-  try{
-
-  }catch(err){
-    console.error(err)
-  }
-}
 
 
 
@@ -816,5 +809,4 @@ module.exports = {
   getAllReturnRejectOrder,
   getAllReturnRejectOrderProduct,
   getWalletData,
-  getWishlist
 };

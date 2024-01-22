@@ -1,4 +1,5 @@
 const order=require('../model/ordermodel')
+const wallet=require('../model/walletmodel')
 const { ObjectId } = require('mongodb')
 const Razorpay = require('razorpay')
 require('dotenv').config()
@@ -75,8 +76,29 @@ const changePaymentStatus = (userId, orderId) => {
     })
 }
 
+const generateRazorPayWalletTopUp = async (userId, total) => {
+    const walletDetails = await wallet.find({ user: new ObjectId(userId) })
+    let data = walletDetails._id
+    total = total * 100
+    return new Promise((resolve, reject) => {
+        try {
+            var options = {
+                amount: total,
+                currency: "INR",
+                receipt: "" + data
+            };
+            instance.orders.create(options, function (err, order) {
+                console.log(order+"//////")
+                resolve(order)
+            });
+        } catch (err) {
+            console.Consolelog(err)
+        }
+    })
+}
 module.exports={
     generateRazorPay,
     verifyPayment,
-    changePaymentStatus
+    changePaymentStatus,
+    generateRazorPayWalletTopUp
 }

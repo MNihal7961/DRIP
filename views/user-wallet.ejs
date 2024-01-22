@@ -2,6 +2,9 @@
 <%- include('../partials/user-nav.ejs') %>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 <script>
   function activateWallet() {
@@ -14,7 +17,6 @@
       cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
-        // Submit the form
         document.getElementById("activateWalletForm").submit();
       }
     });
@@ -76,35 +78,38 @@
 
   <div class="balance text-center">Balance: <strong>₹<%-walletData.balance%>.00</strong></div>
 
- <% if (walletData.history.length>0) { %>
+  <% if (walletData) { %>
+  <% if (walletData.history.length>0) { %>
   <h4 class="customh4">Transaction History</h4>
   <ul class="transaction-list" id="transaction-list">
     <% walletData.history.forEach((data) => { %>
-      <li class="transaction-item">
-        <span><%-data.type%></span>
-        <span>
-          <strong class="<%= data.type === 'Credited' ? 'text-success' : 'text-danger' %>">
-            ₹<%- data.amount %>.0
-          </strong>
-        </span>
-        <span><strong><%-data.description%></strong></span>
-        <span><%-data.date%></span>
-      </li>
+    <li class="transaction-item">
+      <span><%-data.type%></span>
+      <span>
+        <strong class="<%= data.type === 'Credited' ? 'text-success' : 'text-danger' %>">
+          ₹<%- data.amount %>.0
+        </strong>
+      </span>
+      <span><strong><%-data.description%></strong></span>
+      <span><%-data.date%></span>
+    </li>
     <% }) %>
   </ul>
 
   <nav aria-label="Page navigation">
     <ul class="pagination" id="pagination"></ul>
   </nav>
- <% } else { %>
+  <% } else { %>
   <h6 class="mt-1 text-danger">No Transaction History Found</h6>
+  <% } %>
+  <button class="btn btn-primary rounded pill" data-toggle="modal" data-target="#topUpModal">Top Up Wallet</button>
   <% } %>
 
   <div class="text-end mt-3">
-   <a href="/user/profile/<%-userData._id%>" class="text-decoration-none fw-bold">
-    <i class="fa-solid fa-left-long"></i>
-    Back to profile?
-   </a>
+    <a href="/user/profile/<%-userData._id%>" class="text-decoration-none fw-bold">
+      <i class="fa-solid fa-left-long"></i>
+      Back to profile?
+    </a>
   </div>
 </div>
 <% } else { %>
@@ -118,4 +123,145 @@
 </div>
 <% } %>
 
+<!-- Modal -->
+<div class="modal fade" id="topUpModal" tabindex="-1" role="dialog" aria-labelledby="topUpModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="topUpModalLabel">Top Up Wallet</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="topUpForm">
+          <div class="form-group">
+            <label for="amount">Amount (minimum ₹100):</label>
+            <input type="number" class="form-control" id="amount" min="100"  name="amount" required>
+          </div>
+          <button type="submit" class="btn btn-primary" >Top Up Wallet</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <%- include('../partials/user-foot.ejs') %>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+  function activateWallet() {
+    Swal.fire({
+      title: "Activate Wallet",
+      text: "Are you sure you want to activate your wallet?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes, activate it!",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById("activateWalletForm").submit();
+      }
+    });
+  }
+
+  $(document).ready(function () {
+    $("#topUpForm").submit((e) => {
+      e.preventDefault();
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to top-up wallet?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, top-up'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          var topUpAmount = $('#amount').val(); // Get the amount entered by the user
+          $.ajax({
+            url: '/user/topup/wallet',
+            method: 'post',
+            data: $('#topUpForm').serialize(),
+            success: (response) => {
+              if (response.status) {
+                console.log(response, "/////////////")
+                razorPay(response, topUpAmount);
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'Failed to initiate top-up. Please try again.',
+                });
+              }
+            },
+            error: (error) => {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong with the top-up. Please try again.',
+              });
+            }
+          });
+        } else {
+          location.reload();
+        }
+      });
+    });
+
+    function razorPay(order, topUpAmount) {
+      var options = {
+        "key": "rzp_test_b17TxK3brF48ub",
+        "amount": topUpAmount * 100, // Convert amount to paisa
+        "currency": "INR",
+        "name": "Drip-Store",
+        "description": "Test Transaction",
+        "image": "https://example.com/your_logo",
+        "order_id": order.id,
+        "handler": function (response) {
+          if (response.razorpay_payment_id) {
+        Swal.fire({
+          title: 'Top-Up Success',
+          text: 'Your wallet has been successfully topped up!',
+          icon: 'success',
+        }).then(() => {
+          location.reload();
+        });
+      } else {
+        Swal.fire({
+          title: 'Top-Up Failed',
+          text: 'Payment failed. Please try again.',
+          icon: 'error',
+        });
+      }
+        },
+        "prefill": {
+          "name": "Gaurav Kumar",
+          "email": "gaurav.kumar@example.com",
+          "contact": "9000090000"
+        },
+        "notes": {
+          "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+          "color": "#3399cc"
+        }
+      };
+
+      var rzp1 = new Razorpay(options);
+      rzp1.open();
+      rzp1.on('payment.failed', function (response) {
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+      });
+    }
+  });
+</script>
