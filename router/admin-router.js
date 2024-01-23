@@ -11,6 +11,8 @@ const paymentController = require('../controller/paymentController')
 const orderController = require('../controller/orderController')
 const salesController = require('../controller/salesController.js')
 const offerController=require('../controller/offerController')
+const bannerController=require('../controller/bannerController.js')
+
 
 // Admin-login
 router.get('/admin/login', adminController.adminlogin_get)
@@ -209,5 +211,8 @@ router.post('/admin/order/return/reject',auth.authMiddleware,orderController.adm
 
 // Admin-reject-return-order-lists
 router.get('/admin/return/reject',auth.authMiddleware,orderController.adminReturnRejectOrders_get)
+
+// Admin-banner-management
+router.get('/admin/banner',auth.authMiddleware,bannerController.adminBanner_get)
 module.exports = router
 
