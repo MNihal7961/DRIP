@@ -3,12 +3,13 @@ const users = require("../model/usermodel");
 const order = require("../model/ordermodel");
 const product = require("../model/productmodel");
 const global = require("../global/globalFunction");
+require('dotenv').config()
 const salesHelper = require("../helper/salesReportHelper");
 
 // Admin Datas
 const adminData = {
-  email: "admin@gmail.com",
-  password: "admin",
+  email: process.env.ADMIN_EMAIL,
+  password: process.env.ADMIN_PASSWORD,
 };
 
 // Adminlogin GET

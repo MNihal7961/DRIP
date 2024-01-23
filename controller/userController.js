@@ -8,6 +8,7 @@ const global = require("../global/globalFunction");
 const sendOTP = require("../global/emailSender");
 const OTPgenerator = require("../global/otpGenerator");
 const wallet = require("../model/walletmodel");
+
 // User-signup GET
 const usersignup_get = (req, res) => {
   try {
@@ -15,7 +16,8 @@ const usersignup_get = (req, res) => {
       res.redirect("/user/home");
     }else{
         const title = "usersignup";
-    res.render("user-signup", { title });
+        const ref=req.query.ref
+    res.render("user-signup", { title,ref });
     }
     
   } catch (err) {

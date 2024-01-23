@@ -108,7 +108,9 @@
                                         </li>
                                         <li class="list-inline-item">
                                             <%productData.varient.forEach((data)=> { %>
-                                                <input name="size" type="radio" value="<%=data.size%>" required>
+                                                <input name="size" type="radio" value="<%=data.size%>" required <% if (data.quantity<=0) { %>
+                                                 disabled
+                                                <% } %>>
                                                 <%=data.size%>
                                                 <% }) %>
                                         </li>
