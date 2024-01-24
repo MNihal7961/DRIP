@@ -12,6 +12,7 @@ const orderController = require('../controller/orderController')
 const salesController = require('../controller/salesController.js')
 const offerController=require('../controller/offerController')
 const bannerController=require('../controller/bannerController.js')
+const {uploads}=require('../middleware/bannerMulter.js')
 
 
 // Admin-login
@@ -214,5 +215,9 @@ router.get('/admin/return/reject',auth.authMiddleware,orderController.adminRetur
 
 // Admin-banner-management
 router.get('/admin/banner',auth.authMiddleware,bannerController.adminBanner_get)
+
+// Admin-add-banner
+router.post('/admin/add/banner',uploads.single('bannerImage'),bannerController.adminAddBanner_post)
+
 module.exports = router
 

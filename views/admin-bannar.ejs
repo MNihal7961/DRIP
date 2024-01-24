@@ -5,7 +5,7 @@
     }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<script>
+<!-- <script>
     document.addEventListener('DOMContentLoaded', function () {
         function handleFileInput() {
             const fileInput = document.getElementById('fileInput');
@@ -36,7 +36,7 @@
 
             const title = document.getElementsByName('title')[0].value;
             const description = document.getElementsByName('description')[0].value;
-            const image = document.getElementsByName('image')[0].value;
+            const image = document.getElementsByName('bannerImage')[0].value;
 
             if (!title || !description || !image) {
                 Swal.fire({
@@ -53,7 +53,7 @@
             }
         });
     });
-</script>
+</script> -->
 
 <div class="container-fluid">
     <div class="row">
@@ -76,7 +76,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form id="bannerForm">
+                            <form id="bannerForm" action="/admin/add/banner" method="POST" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="title" class="mb-3">Enter the title</label>
                                     <input type="text" class="form-control" placeholder="Banner Title" name="title">
@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="image" class="mb-3">Upload the banner</label>
-                                    <input type="file" id="fileInput" class="form-control" placeholder="Upload Image" name="image" accept="image/*">
+                                    <input type="file" id="fileInput" class="form-control" placeholder="Upload Image" name="bannerImage" accept="image/*">
                                 </div>
                                 <div class="image-preview-container">
                                     <div class="image-preview " id="imagePreview"></div>
@@ -112,18 +112,32 @@
                     <div class="col-md-4">
                         <h4>BANNER</h4>
                         <hr class="">
-                        <img src="" alt="Banner" class="img-fluid">
                     </div>
                     <div class="col-md-4">
                         <h4>DESCRIPTION</h4>
                         <hr>
-                        <p></p>
                     </div>
                     <div class="col-md-4">
                         <h4>Manage</h4>
                         <hr>
-                        <button class="btn btn-danger">Manage</button>
                     </div>
+                </div>
+            </div>
+            <div class="container mt-3">
+                <div class="row mt-5">
+                    <% bannerData.forEach(banner => { %>
+                        <div class="col-md-4 mt-3">
+                            <img src="/bannerImages/<%-banner.image%>" alt="" class="img-fluid" style="height: 150px; width: 150px;" >
+                        </div>
+                        <div class="col-md-4 mt-3">
+                            <strong><%-banner.title%></strong><br>
+                            <small><%-banner.description%></small>
+                        </div>
+                        <div class="col-md-4 mt-3">
+                            <button class="btn">Edit</button><button class="btn">Remove</button>
+                        </div>
+                        <hr class="mt-2">
+                    <% }) %>
                 </div>
             </div>
         </div>

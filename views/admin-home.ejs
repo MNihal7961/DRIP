@@ -108,10 +108,10 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const chartData = {
-                labels: ["COD", "Online"],
+                labels: ["COD", "Online","Wallet"],
                 datasets: [{
                     label: "Payment Methods Used",
-                    data: [<%-codCount%>,<%-onlineCount%> ],
+                    data: [<%-codCount%>,<%-onlineCount%>,<%-walletCount%> ],
                     backgroundColor: ["#FFA07A", "#87CEEB"]
                 }]
             };

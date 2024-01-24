@@ -301,3 +301,48 @@ a{
         color: #014122;
         font-family: "ravie";  
   }
+
+  .slider-container {
+    position: relative;
+  }
+
+  .slider-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    text-align: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s linear;
+    border-radius: 10%;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    border-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    z-index: 2;
+  }
+
+  .slider-container:hover .slider-text {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .slider-text h2,
+  .slider-text p {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+
+  .carousel-item img {
+    width: 100%;
+    height: auto;
+    transition: filter 0.5s ease-in-out;
+  }
+
+  .slider-container:hover .carousel-item img {
+    filter: blur(100px) brightness(0%); 
+  }

@@ -11,7 +11,7 @@ const cartHelper = require("../helper/cartHelpers");
 const address = require("../model/addressmodel");
 const wallet=require('../model/walletmodel')
 const wishlist=require('../model/wishlistmodel')
-
+const banner=require('../model/bannermodel')
 
 const loggedUser = async (email) => {
   try {
@@ -773,7 +773,45 @@ const getWalletData=async(userId)=>{
   }
 }
 
+const findBanner=async ()=>{
+  try{
+    const bannerData=await banner.find({})
+    return bannerData
+  }catch(err){
+    console.error(err)
+  }
+}
 
+const walletCount=async ()=>{
+  try{
+    const count = await order.aggregate([
+      {
+        $unwind: "$order",
+      },
+      {
+        $match: {
+          "order.paymentMethod": "Drip-Wallet",
+        },
+      },
+      {
+        $group: {
+          _id: "$_id",
+          orderCount: { $sum: 1 },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalOrderCount: { $sum: "$orderCount" },
+        },
+      },
+    ]);
+
+    return count[0].totalOrderCount;
+  }catch(err){
+    console.error(err)
+  }
+}
 
 
 module.exports = {
@@ -809,4 +847,6 @@ module.exports = {
   getAllReturnRejectOrder,
   getAllReturnRejectOrderProduct,
   getWalletData,
+  findBanner,
+  walletCount
 };
