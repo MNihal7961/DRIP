@@ -11,6 +11,16 @@ const addBanner = async (name, description, image) => {
     }
 }
 
+const removeBanner=async(id)=>{
+    try{
+        const result=await banner.deleteOne({_id:id})
+        return result
+    }catch(err){
+        console.error(err)
+    }
+}
+
 module.exports = {
-    addBanner
+    addBanner,
+    removeBanner
 }

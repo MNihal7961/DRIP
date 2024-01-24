@@ -219,5 +219,11 @@ router.get('/admin/banner',auth.authMiddleware,bannerController.adminBanner_get)
 // Admin-add-banner
 router.post('/admin/add/banner',uploads.single('bannerImage'),bannerController.adminAddBanner_post)
 
+// Admin-remove-banner
+router.delete('/admin/remove/banner/:id',auth.authMiddleware,bannerController.adminRemoveBanner_delete)
+
+// Admin-edit-banner
+router.post('/admin/edit/banner/:id',auth.authMiddleware,bannerController.adminEditBanner_post)
+
 module.exports = router
 

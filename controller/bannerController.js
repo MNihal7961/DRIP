@@ -23,7 +23,28 @@ const adminAddBanner_post=async(req,res)=>{
     }
 }
 
+const adminRemoveBanner_delete=async(req,res)=>{
+    try{
+        const id=req.params.id
+        const update=await bannerHelper.removeBanner(id)
+        res.json({success:true})
+    }catch(err){
+        console.error(err)
+        res.status(500).render('500')
+    }
+}
+
+const adminEditBanner_post=async(req,res)=>{
+    try{
+
+    }catch(err){
+        console.error(err)
+        res.status(500).render('500')
+    }
+}
 module.exports={
     adminBanner_get,
-    adminAddBanner_post
+    adminAddBanner_post,
+    adminRemoveBanner_delete,
+    adminEditBanner_post
 }
