@@ -276,7 +276,7 @@ const onlineCount = async () => {
       },
       {
         $match: {
-          "order.paymentMethod": "Razor Pay",
+          "order.paymentMethod": "Razorpay",
         },
       },
       {

@@ -7,24 +7,14 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 <script>
-  function activateWallet() {
-    Swal.fire({
-      title: "Activate Wallet",
-      text: "Are you sure you want to activate your wallet?",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonText: "Yes, activate it!",
-      cancelButtonText: "Cancel",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        document.getElementById("activateWalletForm").submit();
-      }
-    });
-  }
-
   document.addEventListener("DOMContentLoaded", function () {
     var itemsPerPage = 5;
     var transactionList = document.getElementById("transaction-list");
+    if (!transactionList) {
+      console.error("Element with ID 'transaction-list' not found");
+      return; 
+    }
+
     var pagination = document.getElementById("pagination");
 
     var pageCount = Math.ceil(transactionList.children.length / itemsPerPage);
@@ -69,6 +59,7 @@
     }
   });
 </script>
+
 
 <% if (walletData) { %>
 <div class="wallet-container">

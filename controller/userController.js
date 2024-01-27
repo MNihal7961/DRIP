@@ -85,7 +85,8 @@ const userhome_get = async (req, res) => {
     const cartNo = await global.cartCount(userData._id);
     const wishlistNo = await global.wishlistNo(userData._id);
     const bannerData=await banner.find({})
-    console.log(bannerData)
+    const brandData=await brand.find({})
+    console.log(brandData)
     const productData1 = await product.find({ status: true }).limit(4).skip(4);
     const productData2 = await product.find({ status: true }).limit(4).skip(8);
     res.render("user-home", {
@@ -97,6 +98,7 @@ const userhome_get = async (req, res) => {
       cartNo,
       wishlistNo,
       bannerData,
+      brandData
     });
   } catch (err) {
     res.status(500).render("500");
