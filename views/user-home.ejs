@@ -3,20 +3,25 @@
     <!-- BANNER -->
     <div id="carouselExampleDark" class="carousel carousel-dark slide">
       <div class="carousel-indicators">
-        <% bannerData.forEach((item, index) => { %>
-          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="<%= index %>" class="<%= index === 0 ? 'active' : '' %>" aria-label="Slide <%= index + 1 %>"></button>
-        <% }); %>
+        <% bannerData.forEach((item, index)=> { %>
+          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="<%= index %>"
+            class="<%= index === 0 ? 'active' : '' %>" aria-label="Slide <%= index + 1 %>"></button>
+          <% }); %>
       </div>
       <div class="carousel-inner">
-        <% bannerData.forEach((item, index) => { %>
+        <% bannerData.forEach((item, index)=> { %>
           <div class="carousel-item <%= index === 0 ? 'active' : '' %>" data-bs-interval="10000">
             <img src="/bannerImages/<%= item.image %>" class="d-block w-100" alt="<%= item.title %>">
             <div class="carousel-caption d-none d-md-block">
-              <h3 class="text-white fw-bold"><%= item.title %></h3>
-              <p class="text-white fw-bold"><%= item.description %></p>
+              <h3 class="text-white fw-bold">
+                <%= item.title %>
+              </h3>
+              <p class="text-white fw-bold">
+                <%= item.description %>
+              </p>
             </div>
           </div>
-        <% }); %>
+          <% }); %>
       </div>
       <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -27,27 +32,23 @@
         <span class="visually-hidden">Next</span>
       </button>
     </div>
-    
-    
     <!-- BANNER -->
-
-
 
     <!-- brand -->
     <section style="background-color: #014122;">
       <div class="container-fluid p-0">
         <div class="row  d-flex justify-content-between align-items-cenetr m-0 p-0">
-          <% brandData.forEach(brand => { %>
+          <% brandData.forEach(brand=> { %>
             <div class="col-sm-12 col-md-12 col-lg-2 py-4 text-center border-top border-white ">
               <a href="" class="text-white text-decoration-none brand-font"><%-brand.brand%></a>
             </div>
-          <% }) %>
+            <% }) %>
         </div>
       </div>
     </section>
     <!-- brand -->
 
-    <!-- blackfridaysale -->
+    <!-- shop -->
     <section>
       <div class="py-3 py-md-5 ">
         <div class="container">
@@ -109,7 +110,7 @@
       </div>
       <hr>
     </section>
-    <!-- blackfridaysale -->
+    <!-- shop -->
 
     <!-- topselling -->
     <section>
@@ -173,7 +174,7 @@
     </section>
     <!-- topselling -->
 
-    <!-- newdrop -->
+    <!-- gallery -->
     <section>
       <div class="row">
         <div class="col-md-12 col-sm-4">
@@ -272,18 +273,94 @@
           </div>
         </div>
       </div>
+      <hr>
     </section>
+    <!-- gallery -->
 
-    <!-- newdrop -->
 
-
-    <!-- card -->
-    <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative">
+    <!-- why choose us -->
+    <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative" id="whychooseus">
       <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
       </div>
     </div>
-    <div class="containerfluid bg-dark" style="height: 50px;">
+    <div class="container marketing" >
+      <div class="row">
+        <div class="col-md-12 col-sm-4">
+          <h2 class="text-center mb-5 fw-500" style="color: #014122;">Why Choose Us?</h1>
+        </div>
+        <div class="col-lg-4">
+          <img class="rounded-circle img-fluid" src="/images/new.png" alt="Generic placeholder image" width="140"
+            height="140">
+          <h2 class="custom-h2">New Styles</h2>
+          <p>Welcome to our sneaker paradise, where style meets comfort! Discover the latest trends that will elevate
+            your sneaker game to new heights. Check out our curated collection of multi-branded kicks designed for the
+            fashion-forward, the trendsetters, and the sneaker enthusiasts.</p>
+        </div>
+        <div class="col-lg-4">
+          <img class="rounded-circle img-fluid" src="/images/genuine.png" alt="Generic placeholder image" width="140"
+            height="140">
+          <h2 class="custom-h2">Genuine Products</h2>
+          <p>Discover the real deal! Our collection features only authentic sneakers from top brands, ensuring you get
+            genuine products that showcase style and quality. Step into confidence with every purchase, knowing that
+            each pair is the real deal from trusted names in the sneaker world. Elevate your style with assurance – we
+            bring you the genuine goodness of iconic brands, right to your doorstep.</p>
+        </div>
+        <div class="col-lg-4">
+          <img class="rounded-circle img-fluid" src="/images/secure.png" alt="Generic placeholder image" width="140"
+            height="140">
+          <h2 class="custom-h2">Secure payment</h2>
+          <p>when you buy your favorite sneakers, your payment information is kept safe and protected. We use advanced
+            technology to make sure your credit card or other payment details are encrypted and cannot be easily
+            accessed by anyone else. So, you can shop for your dream sneakers with confidence, knowing that your
+            transactions are secure and your information is well-protected.</p>
+        </div>
+      </div>
+      <!-- START THE FEATURETTES -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading custom-h2">ASICS Collabs with <span class="text-muted">Neo-Vintage EX89.</span>
+          </h2>
+          <p class="lead">Singapore-based Foxtrot Uniform, a brand “born out of the love of vintage sneakers” has
+            unveiled a collaboration with ASICS SportStyle, utilizing the EX89 as the basis for a neo-vintage styled
+            silhouette.</p>
+        </div>
+        <div class="col-md-5">
+          <img class="featurette-image img-fluid mx-auto" src="/images/asicshyp.jpg" alt="Generic placeholder image">
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-7 order-md-2">
+          <h2 class="featurette-heading custom-h2">PUMA Debuts In-Line <span class="text-muted">Suede XL Sneakers.</span></h2>
+          <p class="lead">Following its extra-large Suede collaboration with PLEASURES earlier this month, PUMA Dubbed
+            the “Suede XL,” the remixed sneaker features exaggerated proportions inspired by signature skating footwear
+            in the ’90s and early 2000s.</p>
+        </div>
+        <div class="col-md-5 order-md-1">
+          <img class="featurette-image img-fluid mx-auto" src="/images/pumahyp.jpg" alt="Generic placeholder image">
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette mb-3">
+        <div class="col-md-7">
+          <h2 class="featurette-heading custom-h2">Closer Look at the <span class="text-muted">Travis Scott x Air Jordan.</span>
+          </h2>
+          <p class="lead">To the surprise of no one, Travis Scott and Jordan Brand are gearing up for another big year
+            of collaborative releases.As we await news informing us of release details, another breakdown of the “Black
+            Olive” colorway of the duo’s Air Jordan 1 Low OG has surfaced.</p>
+        </div>
+        <div class="col-md-5">
+          <img class="featurette-image img-fluid mx-auto" src="/images/travishyp.jpg" alt="Generic placeholder image">
+        </div>
+      </div>
 
     </div>
-    <!-- card -->
+    <!-- why choose us -->
     <%- include('../partials/user-foot.ejs') %>

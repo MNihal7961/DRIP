@@ -15,9 +15,12 @@ const whishlistController=require('../controller/wishlistController')
 
 // DEMO PAGE GET
 router.get('/', async (req, res) => {
-    if(req.session.userlogged||req.session.adminlogged){
+    if(req.session.userlogged ){
         res.redirect('/user/home')
+    }else if(req.session.adminlogged){
+        res.redirect('/admin/home')
     }
+
     const title = "home"
     const brandData = await brand.find()
     const productData = await product.find()
@@ -154,5 +157,8 @@ router.get('/user/refer/learnmore',userAuth.authMiddleware,profileController.ref
 
 // user-topup-wallet
 router.post('/user/topup/wallet',userAuth.authMiddleware,walletController.userwallettTopup_post)
+
+// user-about-us
+router.get('/user/aboutus',userAuth.authMiddleware,userController.aboutUsPage_get)
 
 module.exports = router

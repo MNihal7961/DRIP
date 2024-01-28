@@ -385,6 +385,19 @@ const errorPage = async (req, res) => {
   }
 };
 
+const aboutUsPage_get=async (req,res)=>{
+  try{
+    const title="About Us"
+    const userData = await users.findOne({ email: req.session.email });
+    const cartNo = await global.cartCount(userData._id);
+    const wishlistNo = await global.wishlistNo(userData._id);
+    res.render('user-about-us',{title,userData,cartNo,wishlistNo})
+  }catch(err){
+    console.error(err)
+    res.status(500).render('500')
+  }
+}
+
 module.exports = {
   usersignup_get,
   userotp_get,
@@ -402,4 +415,5 @@ module.exports = {
   usernewpassword_post,
   resendOtp,
   errorPage,
+  aboutUsPage_get
 };

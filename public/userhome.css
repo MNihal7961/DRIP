@@ -2,7 +2,7 @@ body {
     overflow-x: hidden;
 }
 
-a{
+a {
     cursor: pointer;
 }
 
@@ -10,6 +10,7 @@ a{
 .custom-a a {
     text-decoration: none;
 }
+
 .custom-card-container {
     width: 12rem;
     height: 16.25rem;
@@ -21,9 +22,29 @@ a{
     filter: blur(10px 30px) blur(42px);
     transition: transform 0.3s;
 }
+
 .custom-card-container:hover {
     transform: scale(1.05);
     box-shadow: 10px 30px 42px rgba(0, 0, 0, 0.2);
+}
+
+.customul li:hover {
+    transform: scale(0.75);
+    transition: transform ease-in-out;
+}
+
+.iconul li:hover {
+    transform: scale(1.25);
+    transition: transform ease-in-out;
+    font-weight: bolder;
+}
+
+.custom-h2 {
+    color: #014122;
+}
+
+.custombtn {
+    background-color: #014122;
 }
 
 .custom-icon-heart,
@@ -60,6 +81,7 @@ a{
 .custom-icon-heart:hover {
     color: red;
 }
+
 /* style for user home page */
 
 /* style for order details page */
@@ -146,6 +168,7 @@ a{
     color: red;
     text-decoration: line-through;
 }
+
 /* style for order details page */
 
 /* style for wallet page */
@@ -203,6 +226,7 @@ a{
     justify-content: center;
     margin-top: 20px;
 }
+
 /* style for wallet page */
 
 
@@ -234,7 +258,7 @@ a{
 
 .add-to-remove:hover {
     border: 1px solid red;
-    color:red;
+    color: red;
     background-color: #fff;
 }
 
@@ -250,37 +274,37 @@ a{
     overflow: hidden;
     border-top-left-radius: .25rem;
     border-top-right-radius: .25rem;
-  }
-  
-  .aqua-gradient {
+}
+
+.aqua-gradient {
     background: radial-gradient(circle at -1% 57.5%, rgb(19, 170, 82) 0%, rgb(0, 102, 43) 90%);
-  }
-  
-  .testimonial-card .avatar {
+}
+
+.testimonial-card .avatar {
     width: 120px;
     margin-top: -60px;
     overflow: hidden;
     border: 5px solid #fff;
     border-radius: 50%;
-  }
+}
 
 
-  .image-wrapper {
+.image-wrapper {
     position: relative;
     overflow: hidden;
-  }
+}
 
-  .image-wrapper img {
+.image-wrapper img {
     border-radius: 10%;
     transition: transform 0.3s;
-  }
+}
 
-  .image-wrapper:hover img {
+.image-wrapper:hover img {
     transform: scale(1.2);
     border-radius: 10%;
-  }
+}
 
-  .overlay {
+.overlay {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -289,60 +313,9 @@ a{
     color: #fff;
     font-size: 24px;
     font-weight: bold;
-  }
+}
 
-  .customp{
-    letter-spacing: 5px;
-  cursor: pointer;
-  text-transform: uppercase;
-  transition: 0.5s;
-  }
-  .customp:hover{
-        color: #014122;
-        font-family: "ravie";  
-  }
-
-  .slider-container {
-    position: relative;
-  }
-
-  .slider-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #fff;
-    text-align: center;
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s, opacity 0.5s linear;
-    border-radius: 10%;
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(0px);
-    -webkit-backdrop-filter: blur(0px);
-    border-radius: 25px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    z-index: 2;
-  }
-
-  .slider-container:hover .slider-text {
-    visibility: visible;
-    opacity: 1;
-  }
-
-  .slider-text h2,
-  .slider-text p {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-  }
-
-  .carousel-item img {
-    width: 100%;
-    height: auto;
-    transition: filter 0.5s ease-in-out;
-  }
-
-  .slider-container:hover .carousel-item img {
-    filter: blur(100px) brightness(0%); 
-  }
+.customp {
+    letter-spacing: 2px;
+    cursor: pointer;
+}
