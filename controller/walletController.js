@@ -10,7 +10,7 @@ const userwallet_get = async (req, res) => {
     const userData = await global.loggedUser(req.session.email);
     const cartNo = await global.cartCount(userData._id);
     const wishlistNo=await global.wishlistNo(userData._id)
-    const walletData = await global.getWalletData(userData._id);
+    const walletData = await global.walletdata(userData._id);
     console.log(walletData)
     res.render("user-wallet", { title, userData, cartNo, walletData,wishlistNo });
   } catch (err) {

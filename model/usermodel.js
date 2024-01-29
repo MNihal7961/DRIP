@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema({
     dripcoins:{
         type:Number,
         default:0
+    },
+    refferalRegister:{
+        refferal:Boolean,
+        refferedUser:String
     }
 })
 

@@ -256,23 +256,13 @@ const userSignUpOTPValidate_post = async (req, res) => {
           username: req.session.userName,
           email: req.session.email,
           password: req.session.hashedPassword,
-        });
-        if (createNewuser) {
-          const update = await wallet.create({
-            user: createNewuser._id,
-            balance: 100,
-            history: [
-              {
-                type: "Credited",
-                amount: 100,
-                date: new Date(),
-                description: "Refferal Bonus",
-              },
-            ],
-          });
-          if (update) {
-            res.redirect("/user/login?success=OTP validated successfully");
+          refferalRegister:{
+            refferal:true,
+            refferedUser:checkCode.username
           }
+        });
+        if (createNewuser) {  
+            res.redirect("/user/login?success=OTP validated successfully");
         }
       } else {
         res.redirect("/user/signup?message=wrong reffaral code");

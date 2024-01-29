@@ -2,7 +2,9 @@ const cart = require("../model/cartmodel");
 const product = require("../model/productmodel");
 const { ObjectId } = require("mongodb");
 const order = require("../model/ordermodel");
+const global=require('../global/globalFunction')
 require("dotenv").config();
+const users=require('../model/usermodel')
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
 const wallet = require("../model/walletmodel");
@@ -127,6 +129,74 @@ const placeOrder = (user, shipping, address, total, payment) => {
         );
         resolve({ order: "success" });
       } else {
+        if(user.refferalRegister){
+          const userWallet=await wallet.findOne({user:new ObjectId(user._id)})
+          const refferedUser=await users.findOne({username:user.refferalRegister.refferedUser})
+          const refferedUserWallet=await wallet.findOne({user:new ObjectId(refferedUser._id)})
+          if(userWallet){
+            await wallet.updateOne(
+              {user:new ObjectId(user._id)},
+              {
+                $inc: { balance: 100 },
+                $push: {
+                  history: {
+                    type: "Credited",
+                    amount: 100,
+                    date: new Date(),
+                    description: "Refferal Bonus",
+                  },
+                },
+            }
+          )
+          }else{
+            await wallet.create(
+              {
+                user:new ObjectId(user._id),
+                balance:100,
+                history: [
+                  {
+                    type: "Credited",
+                    amount: 100,
+                    date: new Date(),
+                    description: "Refferal Bonus",
+                  },
+                ],
+              }
+            )
+          }
+
+          if(refferedUserWallet){
+            await wallet.updateOne(
+              {user:new ObjectId(refferedUser._id)},
+              {
+                $inc: { balance: 100 },
+                $push: {
+                  history: {
+                    type: "Credited",
+                    amount: 100,
+                    date: new Date(),
+                    description: "Refferal Bonus",
+                  },
+                },
+              }
+              )
+          }else{
+            await wallet.create(
+              {
+                user:new ObjectId(refferedUser._id),
+                balance:100,
+                history: [
+                  {
+                    type: "Credited",
+                    amount: 100,
+                    date: new Date(),
+                    description: "Refferal Bonus",
+                  },
+                ],
+              }
+            )
+          }
+        }
         const newOrder = new order({
           user: user._id,
           order: [orderData],
@@ -135,6 +205,8 @@ const placeOrder = (user, shipping, address, total, payment) => {
         await newOrder.save();
         resolve({ order: "success" });
       }
+
+      
 
       cart.deleteMany({ user: new ObjectId(user._id) }).then((response) => {
         resolve({ order: "success" });
