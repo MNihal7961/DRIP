@@ -8,31 +8,37 @@
         </button>
 
         <div class="mx-auto my-3 d-lg-none d-sm-block d-xs-block">
-            <div class="input-group">
-                <span class="border-success input-group-text bg-success text-white"><i
-                        class="fa-solid fa-magnifying-glass"></i></span>
-                <input type="text" class="form-control border-success" style="color:#7a7a7a">
-                <button class="btn btn-success text-white">Search</button>
-            </div>
-        </div>
-        <div class=" collapse navbar-collapse" id="navbarNavDropdown">
-            <div class="ms-auto d-none d-lg-block">
+            <form action="/user/search" method="post" id="searchForm">
                 <div class="input-group">
                     <span class="border-success input-group-text custombtn text-white"><i
                             class="fa-solid fa-magnifying-glass"></i></span>
-                    <input type="text" class="form-control border-success" style="color:#7a7a7a">
-                    <button class="btn  custombtn text-white">Search</button>
+                            <input required type="search" id="Search" class="form-control border-success" style="color:#7a7a7a" name="query" <% if (typeof searchTerm !== 'undefined' && searchTerm !== null) { %>
+                                value="<%-searchTerm%>"
+                            <% } %> >
+                                                     
+                    <button class="btn text-white" style="background-color: #014122;" type="submit" onclick="searchProducts()">Search</button>
                 </div>
+            </form>
+        </div>
+        <div class=" collapse navbar-collapse" id="navbarNavDropdown">
+            <div class="ms-auto d-none d-lg-block">
+                <form action="/user/search" method="post" id="searchForm">
+                    <div class="input-group">
+                        <span class="border-success input-group-text custombtn text-white"><i
+                                class="fa-solid fa-magnifying-glass"></i></span>
+                                <input required type="search" id="Search" class="form-control border-success" style="color:#7a7a7a" name="query" <% if (typeof searchTerm !== 'undefined' && searchTerm !== null) { %>
+                                    value="<%-searchTerm%>"
+                                <% } %> >
+                        <button class="btn text-white" style="background-color: #014122;" type="submit" onclick="searchProducts()">Search</button>
+                    </div>
+                </form>
             </div>
             <ul class="navbar-nav ms-auto customul">
                 <li class="nav-item">
-                    <a class="nav-link mx-2 text-uppercase " aria-current="page" href="#">Shop</a>
+                    <a class="nav-link mx-2 text-uppercase " aria-current="page" href="/user/shop">Shop</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link mx-2 text-uppercase " aria-current="page" href="/user/aboutus">ABOUT US</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link mx-2 text-uppercase " aria-current="page" href="#whychooseus">WHY CHOOSE US?</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto iconul">
@@ -70,3 +76,34 @@
         </div>
     </div>
 </nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const searchForm = document.getElementById('searchForm');
+  
+      searchForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+  
+        const searchInput = document.getElementById('search');
+        const searchTerm = searchInput.value.trim();
+        console.log(searchTerm, 'searchitem');
+  
+        if (searchTerm !== '') {
+          fetch('/user/search', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `query=${encodeURIComponent(searchTerm)}`,
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+        }
+      });
+    });
+  </script>

@@ -398,6 +398,86 @@ const aboutUsPage_get=async (req,res)=>{
   }
 }
 
+const userShopPage_get=async (req,res)=>{
+  try{
+    const title="shop"
+    const userData = await users.findOne({ email: req.session.email });
+    const cartNo = await global.cartCount(userData._id);
+    const wishlistNo = await global.wishlistNo(userData._id);
+    const categoryData=await category.find({status:true})
+    const productData=await product.find({status:true})
+    console.log(productData)
+    res.render('user-shop',{title,categoryData,productData,userData,cartNo,wishlistNo})
+  }catch(err){
+    console.error(err)
+    res.status(500).render('500')
+  }
+}
+
+const ProductFilter = async (req, res) => {
+  try {
+    const categoryId = req.body.category;
+    const categoryFilter = await category.findById(categoryId);
+    const title="shop"
+    const userData = await users.findOne({ email: req.session.email });
+    const cartNo = await global.cartCount(userData._id);
+    const wishlistNo = await global.wishlistNo(userData._id);
+    const categoryData=await category.find({status:true})
+    
+    let productData
+
+    let sortOption = {}; 
+
+    if (req.body.priceSort) {
+      sortOption = { mrp: req.body.priceSort === 'highToLow' ? -1 : 1 };
+      productData = await product.find({}).sort(sortOption).exec();
+      console.log("Works")
+    }
+
+    if(categoryFilter){
+      productData = await product.find({
+        categoryName:categoryFilter.category
+     })
+     console.log('2222222')
+    }
+
+    if(categoryFilter&&req.body.priceSort){
+      productData = await product.find({
+        categoryName:categoryFilter.category
+     }).sort(sortOption).exec();
+     console.log('333333')
+    }
+
+
+    const allCategories = await category.find({status: true }).exec();
+
+    res.render('user-filter-shop', { categoryData,productData, categoryFilter, allCategories,title,userData,cartNo,wishlistNo });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+}
+
+const searchproduct = async (req, res) => {
+  try {
+    const title="shop"
+    const userData = await users.findOne({ email: req.session.email });
+    const cartNo = await global.cartCount(userData._id);
+    const wishlistNo = await global.wishlistNo(userData._id);
+    const searchTerm = req.body.query;
+    const categoryData = await category.find({});
+    console.log('searchTerm', searchTerm);
+
+    const productData = await product.find({ title: { $regex: new RegExp(searchTerm, 'i') } });
+    res.render('user-product-search', {searchTerm,categoryData,productData, searchTerm,title,userData,cartNo,wishlistNo });
+  } catch (error) {
+    console.error(error);
+    res.status(500).render('500')
+  }
+};
+
+
 module.exports = {
   usersignup_get,
   userotp_get,
@@ -415,5 +495,8 @@ module.exports = {
   usernewpassword_post,
   resendOtp,
   errorPage,
-  aboutUsPage_get
+  aboutUsPage_get,
+  userShopPage_get,
+  ProductFilter,
+  searchproduct
 };

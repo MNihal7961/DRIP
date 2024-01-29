@@ -74,14 +74,14 @@
                         style="height: 190px; width: 210px;">
                     </a>
                     <div class="custom-additional-info ">
-                      <a href="/user/product/details/<%-data.id%>">
-                        <p>
+                      <a href="/user/product/details/<%-data.id%>" >
+                        <p class="fw-bold"> 
                           <%=data.title%>
                         </p>
                       </a>
                       <p class="custom-p">
                         <% if (data.sellingprice==data.mrp) { %>
-                          <strong>₹<%=data.mrp%></strong>
+                          <strong class="fw-bold">₹<%=data.mrp%></strong>
                           <% } %>
                             <% if (data.sellingprice<data.mrp) { %>
                               <strong><strike class="text-danger"><%-data.mrp%></strike> <strong
@@ -104,7 +104,7 @@
       </div>
       <div class=" d-flex justify-content-center  align-items-cenetr">
         <form>
-          <a href="#" class="btn rounded-pill  border-success text-success text-center px-5">View
+          <a href="/user/shop" class="btn rounded-pill  border-success text-success text-center px-5">View
             All</a>
         </form>
       </div>
@@ -165,11 +165,7 @@
           </div>
         </div>
       </div>
-      <div class=" d-flex justify-content-center  align-items-cenetr">
-        <form action="" method="post">
-          <button class="btn rounded-pill  border-success text-success text-center px-5">View All</button>
-        </form>
-      </div>
+      
       <hr>
     </section>
     <!-- topselling -->

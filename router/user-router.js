@@ -161,4 +161,12 @@ router.post('/user/topup/wallet',userAuth.authMiddleware,walletController.userwa
 // user-about-us
 router.get('/user/aboutus',userAuth.authMiddleware,userController.aboutUsPage_get)
 
+// user-shop-page
+router.get('/user/shop',userAuth.authMiddleware,userController.userShopPage_get)
+
+// user-filter
+router.post('/user/productsfilter',userAuth.authMiddleware,userController.ProductFilter)
+
+// user-search
+router.post('/user/search',userAuth.authMiddleware,userController.searchproduct)
 module.exports = router

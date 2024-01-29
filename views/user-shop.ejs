@@ -1,0 +1,109 @@
+<%- include('../partials/user-head.ejs') %>
+  <%- include('../partials/user-nav.ejs') %>
+    <div class="container-fluid mb-3">
+
+        <button id="filterButton" class="mt-3" style="width: 101px; border: 0; border-radius: 5px;">Filter</button>
+        <div class="filter-div">
+            <h6 style="font-weight: 600;" class="mb-3">Select Category</h6>
+                <% categoryData.forEach(data => { %>
+                    <form action="/user/productsfilter" method="post">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="<%=data._id%>" name="category">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        <%=data.category%>
+                    </label>
+                </div>
+                <% }) %>
+                <h6 class="mb-3 mt-3">Sort by Price:</h6>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="priceSort" id="priceHighToLow" value="highToLow">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Price High to Low
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="priceSort" id="priceLowToHigh" value="lowToHigh">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Price Low to High
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary">apply </button>
+            </div>
+        </form>
+            
+    </div>
+        <div class="row mb-5">
+            <% if (productData.length > 0) { %>
+                <div class="row custom-a">
+                    <% productData.forEach((data)=> { %>
+      
+                      <div class="col d-flex justify-content-around flex-wrap col-lg-3">
+                        <div class="custom-card-container ms-5 mt-5 position-relative">
+                          <form action="/user/wishlist/add/<%-data._id%>" method="post" class="position-relative">
+                            <button aria-hidden="false" type="submit"
+                              class="border-0 custom-icon-heart position-absolute top-0 end-0 py-2 px-2"
+                              aria-label="Add to Wishlist">
+                              <i class="fa-regular fa-heart"></i>
+                            </button>
+                          </form>
+                          <a href="/user/product/details/<%-data.id%>">
+                            <img class="img-fluid card-img-top" src="/<%=data.images[0]%>" alt="Card image cap"
+                              style="height: 190px; width: 210px;">
+                          </a>
+                          <div class="custom-additional-info ">
+                            <a href="/user/product/details/<%-data.id%>">
+                              <p>
+                                <%=data.title%>
+                              </p>
+                            </a>
+                            <p class="custom-p">
+                              <% if (data.sellingprice==data.mrp) { %>
+                                <strong>₹<%=data.mrp%></strong>
+                                <% } %>
+                                  <% if (data.sellingprice<data.mrp) { %>
+                                    <strong><strike class="text-danger"><%-data.mrp%></strike> <strong
+                                        class="text-success"><%-data.sellingprice%></strong></strong>
+                                    <% } %>
+                                      <% if (data.sellingprice < data.mrp) { %>
+                                        | <span class="text-success fw-bold">Offer</span>
+                                        <% } %>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+      
+      
+                      <% }) %>
+                  </div>
+                        <% } else { %>
+                            <div class="col-md-12 ms-5" style="margin-left: 200px;">
+                                <p style="font-weight: bolder; font-size: xx-large; margin-left: 200px;" class="mt-5">No products found.</p>
+                            </div>
+                        <% } %>
+        </div>
+    </div>
+
+    <SCript>
+            document.addEventListener('DOMContentLoaded', function () {
+              
+              const filterButton = document.getElementById('filterButton');
+              const filterDiv = document.querySelector('.filter-div');
+
+              filterButton.addEventListener('click', function () {
+                  filterDiv.classList.toggle('show-filter');
+              });
+             }); 
+    </SCript>
+
+    <script>
+let category = []
+    const categoriescheckbox = document.querySelectorAll("input[name=category]")
+
+
+    categoriescheckbox.forEach((input) => {
+        { input.addEventListener('change', updateProductList) }
+    })
+    </script>
+
+
+<%- include('../partials/user-foot.ejs') %>
