@@ -4,9 +4,9 @@ const brand = require("../model/brandmodel");
 const category = require("../model/categorymodel");
 const product = require("../model/productmodel");
 const cart = require("../model/cartmodel");
-const global = require("../global/globalFunction");
-const sendOTP = require("../global/emailSender");
-const OTPgenerator = require("../global/otpGenerator");
+const global = require("../global/globalfunction");
+const sendOTP = require("../global/emailsender");
+const OTPgenerator = require("../global/otpgenerator");
 const wallet = require("../model/walletmodel");
 const banner=require('../model/bannermodel')
 

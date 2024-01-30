@@ -2,7 +2,7 @@ const cart = require("../model/cartmodel");
 const product = require("../model/productmodel");
 const { ObjectId } = require("mongodb");
 const order = require("../model/ordermodel");
-const global=require('../global/globalFunction')
+const global=require('../global/globalfunction')
 require("dotenv").config();
 const users=require('../model/usermodel')
 const Razorpay = require("razorpay");

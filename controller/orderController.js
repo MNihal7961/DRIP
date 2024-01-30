@@ -1,6 +1,6 @@
-const global = require("../global/globalFunction");
-const orderHelper = require("../helper/orderHelpers");
-const razorpayHelper = require("../helper/razorpayHelpers");
+const global = require("../global/globalfunction");
+const orderHelper = require("../helper/orderhelpers");
+const razorpayHelper = require("../helper/razorpayhelpers");
 const {ObjectId}=require('mongodb')
 const order=require('../model/ordermodel')
 const easyInvoice=require('../service/easyInvoice')

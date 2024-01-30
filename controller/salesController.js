@@ -1,4 +1,4 @@
-const salesHelper = require("../helper/salesReportHelper");
+const salesHelper = require("../helper/salesreporthelper");
 
 // Admin sales-report GET
 const adminsalesreport_get = async (req, res) => {

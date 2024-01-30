@@ -2,7 +2,7 @@ const users = require('../model/usermodel')
 const bcrypt = require('bcrypt')
 const cart = require('../model/cartmodel')
 const{ObjectId}=require('mongodb')
-const global = require('../global/globalFunction')
+const global = require('../global/globalfunction')
 
 // User-profile GET
 const userprofile_get = async (req, res) => {

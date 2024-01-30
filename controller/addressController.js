@@ -3,7 +3,7 @@ const address = require("../model/addressmodel");
 const { ObjectId } = require("mongodb");
 const userHelper = require("../helper/userHelpers");
 const cart = require("../model/cartmodel");
-const global = require("../global/globalFunction");
+const global = require("../global/globalfunction");
 
 // User-address-book GET
 const addressbook_get = async (req, res) => {

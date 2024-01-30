@@ -1,5 +1,5 @@
 const product=require('../model/productmodel')
-const offerHelper=require('../helper/offerHelpers')
+const offerHelper=require('../helper/offerhelpers')
 
 const adminProductOffers_get=async(req,res)=>{
     try{

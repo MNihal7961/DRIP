@@ -1,5 +1,5 @@
-const global = require("../global/globalFunction");
-const wishlistHelper = require("../helper/wishlistHelper");
+const global = require("../global/globalfunction");
+const wishlistHelper = require("../helper/wishlisthelper");
 
 // user-whishlist GET
 const userwhishlist_get = async (req, res) => {

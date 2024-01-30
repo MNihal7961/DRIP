@@ -2,7 +2,7 @@ const session = require("express-session");
 const users = require("../model/usermodel");
 const order = require("../model/ordermodel");
 const product = require("../model/productmodel");
-const global = require("../global/globalFunction");
+const global = require("../global/globalfunction");
 require('dotenv').config()
 const salesHelper = require("../helper/salesReportHelper");
 

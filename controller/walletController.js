@@ -1,8 +1,8 @@
 const wallet = require("../model/walletmodel");
-const global = require("../global/globalFunction");
+const global = require("../global/globalfunction");
 const { ObjectId } = require("mongodb");
-const razorpayHelper=require('../helper/razorpayHelpers')
-const walletHelper=require('../helper/walletHelpers')
+const razorpayHelper=require('../helper/razorpayhelpers')
+const walletHelper=require('../helper/wallethelpers')
 
 const userwallet_get = async (req, res) => {
   try {

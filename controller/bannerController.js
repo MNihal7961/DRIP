@@ -1,4 +1,4 @@
-const global=require('../global/globalFunction')
+const global=require('../global/globalfunction')
 const bannerHelper=require('../helper/bannerHelpers')
 
 const adminBanner_get=async(req,res)=>{
